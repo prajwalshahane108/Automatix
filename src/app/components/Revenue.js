@@ -105,7 +105,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    color: '#FF9E2C',
+    color: '#E87811',
     fontSize: '2rem',
     zIndex: 2,
   },
@@ -188,7 +188,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: '5px',
   },
   codeKeyword: {
-    color: '#FF9E2C',
+    color: '#E87811',
   },
   codeComment: {
     color: '#6A9955',
@@ -223,7 +223,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'rgba(255, 158, 44, 0.1)',
     padding: '10px 15px',
     borderRadius: '10px',
-    color: '#FF9E2C',
+    color: '#E87811',
     width: 'fit-content',
     marginTop: '10px',
   },
@@ -237,7 +237,7 @@ const useStyles = makeStyles((theme) => ({
   },
   smallServiceIcon: {
     backgroundColor: 'rgba(255, 158, 44, 0.1)',
-    color: '#FF9E2C',
+    color: '#E87811',
     borderRadius: '10px',
     padding: '8px',
     marginRight: '12px',

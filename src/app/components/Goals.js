@@ -142,13 +142,13 @@ const useStyles = makeStyles((theme) => ({
     borderTopRightRadius: '4px',
   },
   barHighlight: {
-    backgroundColor: '#FF9E2C',
+    backgroundColor: '#E87811',
   },
   percentLabel: {
     position: 'absolute',
     top: '30px',
     right: '30px',
-    backgroundColor: '#FF9E2C',
+    backgroundColor: '#E87811',
     color: 'white',
     padding: '5px 10px',
     borderRadius: '20px',
@@ -275,12 +275,12 @@ function WorksSection() {
                 }}
               />
               
-              <Box className={classes.logoOverlay}>
+              {/* <Box className={classes.logoOverlay}>
                 <GraphoLogoPlaceholder />
                 <Typography className={classes.graphoText}>
                   Grapho
                 </Typography>
-              </Box>
+              </Box> */}
               
               
               <Box className={classes.statsBar}>

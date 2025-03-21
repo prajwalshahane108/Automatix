@@ -20,9 +20,9 @@ const useStyles = makeStyles((theme) => ({
     color: "rgba(255, 255, 255, 0.5)",
 
     backgroundColor: "rgba(0, 0, 0, 0.05)",
-    border: "1px solid rgba(255, 255, 255, 0.1)",
+    border: "1.5px solid rgba(255, 255, 255, 0.77)",
     borderRadius: "50px",
-    padding: "8px 20px",
+    padding: "4px 20px",
     fontSize: "14px",
     marginBottom: "30px",
     display: "inline-block",
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "2.8rem",
     fontWeight: "600",
     textAlign: "center",
-    marginBottom: "20px",
+    marginBottom: "90px",
     "@media (max-width: 768px)": {
       fontSize: "2.5rem",
     },
@@ -97,40 +97,40 @@ function TeamSection() {
 
   const teamMembers = [
     {
-      name: "Diem",
-      role: "Impact Venture Fund",
-      image: "/firstb.png",
+      name: "Haya",
+      role: "Chairwoman & Co-Founder",
+      image: "https://framerusercontent.com/images/ECp9gdFuk3dUagZzDSRN8LTpBdw.jpeg",
     },
     {
-      name: "Gabrielle",
-      role: "AI Consultant",
-      image: "/secb.png",
+      name: "Katerina Hayes",
+      role: "CEO & Co-Founder",
+      image: "https://framerusercontent.com/images/sEqN2EnA26uT8C0qz2LeO6RQI.png",
     },
     {
-      name: "Rajesh",
-      role: "Web3 Consultant",
-      image: "/threeb.png",
+      name: "Abdul Rasheed Mohammad",
+      role: "Chief Growth Offices",
+      image: "https://framerusercontent.com/images/2gN8IoNAOZFMzwH3PrivG3JS4A.jpg",
     },
     {
-      name: "Mark",
-      role: "Marketing",
+      name: "Radu Klojen",
+      role: "CTO",
       image: "/fourb.png",
     },
   ];
 
   return (
     <Box className={classes.root}>
-      {/* <Typography variant="body1" className={classes.sectionTag}>
-        Our Creative Minds
-      </Typography> */}
+      <Typography variant="body1" className={classes.sectionTag}>
+        Our Team
+      </Typography>
 
       <Typography variant="h2" className={classes.sectionTitle}>
-        Advisory Board
+      The People Behind the Community
       </Typography>
 
-      <Typography variant="h2" className={classes.sectionTitleB}>
+      {/* <Typography variant="h2" className={classes.sectionTitleB}>
         Meet our talented team turning ideas into exceptional results.
-      </Typography>
+      </Typography> */}
 
       <Box className={classes.teamContainer}>
         {teamMembers.map((member, index) => (

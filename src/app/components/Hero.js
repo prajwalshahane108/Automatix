@@ -1,5 +1,5 @@
-import Head from "next/head";
-import { Box, Typography, Button } from "@mui/material";
+import Image from "next/image";
+import { Box, Typography, Button, Divider, Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
@@ -33,9 +33,9 @@ const useStyles = makeStyles(() => ({
     backgroundColor: "#050505",
     backgroundSize: "20px 20px",
     margin: "15px 20px",
-    padding: "0 50px",
+    padding: "0 50px 0px 50px",
     height: "65px",
-    width: "calc(66% - 40px)",
+    width: "calc(82% - 40px)",
     position: "fixed",
     top: 5,
     zIndex: 100,
@@ -44,29 +44,28 @@ const useStyles = makeStyles(() => ({
     color: "#E87811",
     fontWeight: 600,
     fontSize: "1.2rem",
-    flex: "1",
+    marginRight: "auto", // This pushes other content to the right
   },
   navItems: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "center",
-    flex: "2",
-    
+    justifyContent: "flex-start", // Changed from center to flex-start for left alignment
+    flex: "1",
+    marginLeft: "20px", // Added some space on the left
   },
   navLink: {
     color: "white",
     margin: "0 12px",
-    fontSize: "14px",
+    fontSize: "17px",
     cursor: "pointer",
     "&:hover": {
-      color: "#FF9E2C",
+      color: "#E87811",
     },
   },
   navButtonContainer: {
     display: "flex",
     alignItems: "center",
-    flex: "1",
-    justifyContent: "flex-end",
+    marginLeft: "auto", // This pushes the button to the right
   },
   expandIcon: {
     color: "white",
@@ -78,9 +77,9 @@ const useStyles = makeStyles(() => ({
     color: "white",
     border: "1px solid rgba(255, 255, 255, 0.1)",
     borderRadius: "8px",
-    padding: "5px 12px",
+    padding: "3px 22px",
     textTransform: "none",
-    fontSize: "14px",
+    fontSize: "15px",
     marginLeft: "12px",
     "&:hover": {
       backgroundColor: "rgba(255, 255, 255, 0.05)",
@@ -101,7 +100,7 @@ const useStyles = makeStyles(() => ({
     width: "100%",
     maxWidth: "1200px",
     position: "relative", // Add position relative
-    paddingBottom: "160px", // Add padding at the bottom to make room for footer
+    // paddingBottom: "160px", // Add padding at the bottom to make room for footer
   },
   availabilityBadge: {
     display: "flex",
@@ -127,11 +126,11 @@ const useStyles = makeStyles(() => ({
     fontWeight: "400",
   },
   heading1: {
-    color: "#FF9E2C",
-    fontSize: "5rem",
+    color: "#E87811",
+    fontSize: "4rem",
     fontWeight: "400",
-    lineHeight: 1.1,
-    margin: 0,
+    lineHeight: 1,
+    marginTop: 20,
     marginBottom: "10px",
     "@media (max-width: 900px)": {
       fontSize: "4rem",
@@ -142,23 +141,25 @@ const useStyles = makeStyles(() => ({
   },
   heading2: {
     color: "white",
-    fontSize: "5rem",
+    fontSize: "2.5rem",
     fontWeight: "400",
+    width: "80%",
     lineHeight: 1.1,
     margin: 0,
-    marginBottom: "10px",
-    display: "flex",
+    marginBottom: 70,
+    // display: "flex",
     alignItems: "center",
     justifyContent: "center",
     "@media (max-width: 900px)": {
-      fontSize: "4rem",
+      fontSize: "3rem",
     },
     "@media (max-width: 600px)": {
-      fontSize: "3rem",
+      fontSize: "2rem",
     },
   },
   diamond: {
-    fontSize: "3.5rem",
+    fontSize: "2.5rem",
+    color: "#FF5B23",
     margin: "0 15px",
     "@media (max-width: 600px)": {
       fontSize: "2.5rem",
@@ -166,7 +167,7 @@ const useStyles = makeStyles(() => ({
     },
   },
   heading3: {
-    color: "#FF9E2C",
+    color: "#E87811",
     fontSize: "5rem",
     fontWeight: "400",
     lineHeight: 1.1,
@@ -180,12 +181,16 @@ const useStyles = makeStyles(() => ({
     },
   },
   description: {
-    color: "rgba(255, 255, 255, 0.7)",
-    fontSize: "1.25rem",
+    color: "rgb(255, 255, 255)",
+    width: "100%",
+    fontSize: "1.5rem",
     fontWeight: "400",
-    maxWidth: "700px",
+    maxWidth: "850px",
     marginBottom: "40px",
     lineHeight: "1.6",
+  },
+  highlightedText: {
+    color: "#FF5B23",
   },
   learnMoreButton: {
     backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -205,6 +210,39 @@ const useStyles = makeStyles(() => ({
   buttonIcon: {
     marginLeft: "5px",
     fontSize: "20px",
+  },
+  statsSection: {
+    width: "100%",
+    backgroundColor: "#000",
+    backgroundImage:
+      "radial-gradient(circle, rgba(75, 75, 75, 0.3) 1px, transparent 1.5px)",
+    backgroundSize: "10px 10px",
+    padding: "40px 0",
+    marginTop: "60px",
+    borderTop: "1px solid rgba(255, 255, 255, 0.05)",
+    borderBottom: "1px solid rgba(255, 255, 255, 0.05)",
+  },
+  statsContainer: {
+    display: "flex",
+    justifyContent: "space-around",
+    maxWidth: "1200px",
+    margin: "0 auto",
+    padding: "0 20px",
+  },
+  statItem: {
+    textAlign: "center",
+    padding: "0 15px",
+  },
+  statNumber: {
+    color: "white",
+    fontSize: "3.5rem",
+    fontWeight: "600",
+    marginBottom: "8px",
+  },
+  statLabel: {
+    color: "rgba(255, 255, 255, 0.7)",
+    fontSize: "1.2rem",
+    fontWeight: "400",
   },
   footerSection: {
     display: "flex",
@@ -251,51 +289,39 @@ export default function Home() {
 
   return (
     <>
-      <Head>
-        <title>Automatix - Automation Agency</title>
-        <meta
-          name="description"
-          content="Design services at your fingertips. Pause or cancel anytime."
-        />
-        <link rel="icon" href="/favicon.ico" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-      </Head>
-
       <Box
         sx={{ minHeight: "120vh", overflow: "hidden", position: "relative" }}
         className={classes.root}
       >
         {/* Navbar */}
         <Box className={classes.navbar}>
+          {/* Navigation items now start from the left */}
           <Typography variant="h6" className={classes.logo}>
             Automatix
           </Typography>
-
           <Box className={classes.navItems}>
             <Typography variant="body2" className={classes.navLink}>
-              Why Us
+              Founders <ExpandMoreIcon className={classes.expandIcon} />
             </Typography>
             <Typography variant="body2" className={classes.navLink}>
-              Mission
+              Investors <ExpandMoreIcon className={classes.expandIcon} />
             </Typography>
             <Typography variant="body2" className={classes.navLink}>
-              Works
+              Partners <ExpandMoreIcon className={classes.expandIcon} />
             </Typography>
             <Typography variant="body2" className={classes.navLink}>
-              Services
+              Our Ecosystem <ExpandMoreIcon className={classes.expandIcon} />
             </Typography>
             <Typography
               variant="body2"
               className={classes.navLink}
               sx={{ display: "flex", alignItems: "center" }}
             >
-              Pages <ExpandMoreIcon className={classes.expandIcon} />
+              About Us <ExpandMoreIcon className={classes.expandIcon} />
             </Typography>
           </Box>
 
+          {/* Button pushed to the right */}
           <Box className={classes.navButtonContainer}>
             <Button
               href="/pages/join"
@@ -303,7 +329,7 @@ export default function Home() {
               disableRipple
               endIcon={<ArrowOutwardIcon className={classes.arrowIcon} />}
             >
-              Let's Talk
+              Join
             </Button>
           </Box>
         </Box>
@@ -313,74 +339,76 @@ export default function Home() {
           <Box className={classes.availabilityBadge}>
             <FiberManualRecordIcon className={classes.greenDot} />
             <Typography className={classes.availabilityText}>
-              Available now, only 3 spots left
+              1000+ startups joined, 1500+ investors database globally
             </Typography>
           </Box>
 
-          <Typography variant="h1" className={classes.heading1}>
-            Automation Agency
-          </Typography>
+          <Box className={classes.heading1}>
+            <img
+              src="https://framerusercontent.com/images/UDSUes4B94lfLzzemyBwC6LQeEA.png?scale-down-to=1024"
+              alt="MyFounders.Club"
+              width={600}
+              height={70}
+              priority
+            />
+          </Box>
 
+          <br />
+          <br />
+          <br />
           <Typography variant="h2" className={classes.heading2}>
-            Beyond <span className={classes.diamond}>✦</span> Limits.
-          </Typography>
-
-          <Typography variant="h3" className={classes.heading3}>
-            Amplified With AI.
+            Join ambitious Community of <br />
+            <span className={classes.highlightedText}>Founders</span>, Venture{" "}
+            <span className={classes.highlightedText}>Partners</span>, and{" "}
+            <span className={classes.highlightedText}>Investors</span> to break
+            new ground, expand into emerging markets, and build game-changing
+            ventures across borders in{" "}
+            <span className={classes.highlightedText}>Saudi Arabia</span>.
           </Typography>
 
           <Typography variant="body1" className={classes.description}>
-            Design services at your fingertips. Pause or cancel anytime.
+            Our AI & Web3-powered ecosystem connects visionaries with the
+            resources they need, positioning Riyadh as the world's
+            entrepreneurial capital and accelerating Vision 2030.
           </Typography>
 
-          <Button
-            variant="contained"
-            className={classes.learnMoreButton}
-            endIcon={<KeyboardArrowDownIcon className={classes.buttonIcon} />}
-            disableRipple
-          >
-            Learn More
-          </Button>
-
-          {/* Footer */}
-          <Box className={classes.footerSection}>
-            <Typography className={classes.footerText}>
-              Our services are featured on
-            </Typography>
-
-            <Box className={classes.partnerLogos}>
-              <Typography className={classes.logoItem}>
-                <Box component="span" sx={{ marginRight: "5px" }}>
-                  ●
-                </Box>{" "}
-                Optimal
-              </Typography>
-              <Typography className={classes.logoItem}>
-                <Box component="span" sx={{ marginRight: "5px" }}>
-                  ⚡
-                </Box>{" "}
-                Zapfast
-              </Typography>
-              <Typography className={classes.logoItem}>
-                <Box component="span" sx={{ marginRight: "5px" }}>
-                  ◑
-                </Box>{" "}
-                Grapho
-              </Typography>
-              <Typography className={classes.logoItem}>
-                <Box component="span" sx={{ marginRight: "5px" }}>
-                  ◯
-                </Box>{" "}
-                Signum.
-              </Typography>
-              <Typography className={classes.logoItem}>
-                <Box component="span" sx={{ marginRight: "5px" }}>
-                  ◍
-                </Box>{" "}
-                Vectr
-              </Typography>
+          {/* Stats Section */}
+          {/* <Box className={classes.statsSection}>
+            <Box className={classes.statsContainer}>
+              <Box className={classes.statItem}>
+                <Typography variant="h3" className={classes.statNumber}>
+                  1000+
+                </Typography>
+                <Typography variant="body1" className={classes.statLabel}>
+                  Active Founders
+                </Typography>
+              </Box>
+              <Box className={classes.statItem}>
+                <Typography variant="h3" className={classes.statNumber}>
+                  1500+
+                </Typography>
+                <Typography variant="body1" className={classes.statLabel}>
+                  Investors
+                </Typography>
+              </Box>
+              <Box className={classes.statItem}>
+                <Typography variant="h3" className={classes.statNumber}>
+                  100+
+                </Typography>
+                <Typography variant="body1" className={classes.statLabel}>
+                  Partners
+                </Typography>
+              </Box>
+              <Box className={classes.statItem}>
+                <Typography variant="h3" className={classes.statNumber}>
+                  $1.5B
+                </Typography>
+                <Typography variant="body1" className={classes.statLabel}>
+                  Saudi Arabia funding
+                </Typography>
+              </Box>
             </Box>
-          </Box>
+          </Box> */}
         </Box>
       </Box>
     </>

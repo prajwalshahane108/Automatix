@@ -5,7 +5,6 @@ import { makeStyles } from "@mui/styles";
 import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 
 const useStyles = makeStyles(() => ({
-
   boot: {
     backgroundColor: "#000",
     // backgroundSize: "20px 20px",
@@ -49,7 +48,7 @@ const useStyles = makeStyles(() => ({
     maxWidth: "800px",
   },
   brandName: {
-    color: "#FF9E2C",
+    color: "#E87811",
     fontSize: "1.2rem",
     fontWeight: "500",
     marginBottom: "20px",
@@ -57,7 +56,7 @@ const useStyles = makeStyles(() => ({
   title: {
     color: "white",
     fontSize: "4rem",
-    fontWeight: "600",
+    fontWeight: "400",
     lineHeight: 1.2,
     marginBottom: "20px",
     "@media (max-width: 768px)": {
@@ -71,12 +70,12 @@ const useStyles = makeStyles(() => ({
     color: "rgba(255, 255, 255, 0.7)",
     fontSize: "1.1rem",
     marginBottom: "40px",
-    maxWidth: "600px",
+    maxWidth: "500px",
     lineHeight: 1.6,
   },
   callButton: {
-    color: "#FF9E2C",
-    border: "1px solid #FF9E2C",
+    color: "#E87811",
+    border: "1px solid #E87811",
     borderRadius: "50px",
     padding: "10px 24px",
     fontSize: "1rem",
@@ -107,7 +106,7 @@ const useStyles = makeStyles(() => ({
   },
   copyright: {
     color: "rgba(255, 255, 255, 0.5)",
-    fontSize: "0.9rem",
+    fontSize: "1.1rem",
   },
 }));
 
@@ -126,19 +125,27 @@ function FooterSection() {
     <Box className={classes.boot}>
       <Box className={classes.root}>
         <Container className={classes.container}>
-          <Typography variant="h6" className={classes.brandName}>
+          {/* <Typography variant="h6" className={classes.brandName}>
             Automatix
-          </Typography>
-
+          </Typography> */}
+          <Box  sx={{mb: 7, mt: 1}} className={classes.heading1}>
+            <img
+              objectFit="contain"
+              src="https://framerusercontent.com/images/UDSUes4B94lfLzzemyBwC6LQeEA.png?scale-down-to=1024"
+              alt="MyFounders.Club"
+              width={400}
+              height={50}
+              priority
+            />
+          </Box>
           <Typography variant="h1" className={classes.title}>
-            Let's Turn Your
+            Building the Future
             <br />
-            Dream Into Reality
+            in Saudi Arabia
           </Typography>
 
           <Typography variant="body1" className={classes.subtitle}>
-            We bring your vision to life with creativity and precision. Let's
-            make it happen.
+          Join ambitious founders, partners, and investors to break new ground, expand into emerging markets, and build game-changing ventures across borders in Saudi Arabia.
           </Typography>
 
           <Button
@@ -147,7 +154,7 @@ function FooterSection() {
             endIcon={<ArrowOutwardIcon className={classes.buttonIcon} />}
             disableRipple
           >
-            Book A Call
+            Explore
           </Button>
 
           <Box className={classes.navigation}>
@@ -164,7 +171,7 @@ function FooterSection() {
           </Box>
 
           <Typography variant="body2" className={classes.copyright}>
-            Copyright Automatix. All right reserved.
+          Copyright MyFoundersClub .Kingdom of Saudi Arabia, 2025.  All right reserved.
           </Typography>
         </Container>
       </Box>

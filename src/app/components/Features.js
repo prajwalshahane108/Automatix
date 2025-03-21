@@ -87,7 +87,7 @@ const useStyles = makeStyles(() => ({
 },  
 
   iconContainer: {
-    backgroundColor: '#FF9E2C',
+    backgroundColor: '#E87811',
     borderRadius: '50%',
     width: '80px',
     height: '80px',
@@ -116,7 +116,7 @@ const useStyles = makeStyles(() => ({
     padding: '0 10px',
   },
   pricingButton: {
-    backgroundColor: '#FF9E2C',
+    backgroundColor: '#E87811',
     color: 'white',
     borderRadius: '10px',
     padding: '12px 28px',

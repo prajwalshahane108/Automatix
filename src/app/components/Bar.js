@@ -18,8 +18,8 @@ const useStyles = makeStyles((theme) => ({
   },
   sectionTag: {
     color: "white",
-    backgroundColor: "rgba(255, 255, 255, 0.05)",
-    border: "1px solid rgba(255, 255, 255, 0.1)",
+    backgroundColor: "rgba(255, 255, 255, 0)",
+    border: "1px solid rgba(255, 255, 255, 0.77)",
     borderRadius: "50px",
     padding: "4px 20px",
     fontSize: "14px",
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   pricingContainer: {
     display: "flex",
     width: "100%",
-    maxWidth: "1200px",
+    maxWidth: "1400px",
     justifyContent: "center",
     gap: "30px",
     flexWrap: "wrap",
@@ -50,8 +50,8 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "20px",
     padding: "40px",
     width: "100%",
-    maxWidth: "350px", // Smaller width for standard plan
-    minHeight: "480px", // Smaller height for standard plan
+    maxWidth: "490px", // Smaller width for standard plan
+    minHeight: "670px", // Smaller height for standard plan
     display: "flex",
     flexDirection: "column",
     transition: "transform 0.3s ease",
@@ -67,12 +67,13 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#111111",
     borderRadius: "20px",
     paddingTop: "40px",
+    marginTop: "40px",
     paddingLeft: "40px",
     paddingRight: "40px",
     paddingBottom: "16px",
     width: "100%",
-    maxWidth: "450px", // Larger width for pro plan
-    minHeight: "420px", // Larger height for pro plan
+    maxWidth: "460px", // Larger width for pro plan
+    minHeight: "480px", // Larger height for pro plan
     display: "flex",
     flexDirection: "column",
     position: "relative", // For the popular badge positioning
@@ -87,7 +88,7 @@ const useStyles = makeStyles((theme) => ({
   },
   proTag: {
     backgroundColor: "rgba(255, 158, 44, 0.2)",
-    color: "#FF9E2C",
+    color: "#E87811",
     fontSize: "0.8rem",
     padding: "4px 10px",
     borderRadius: "50px",
@@ -100,7 +101,7 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
     top: -15,
     right: 30,
-    backgroundColor: "#FF9E2C",
+    backgroundColor: "#E87811",
     color: "black",
     fontSize: "0.8rem",
     fontWeight: "bold",
@@ -135,7 +136,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "normal",
   },
   getStartedButtonStandard: {
-    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    backgroundColor: "#E87811",
     color: "white",
     borderRadius: "10px",
     padding: "12px 20px",
@@ -149,7 +150,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   getStartedButtonPro: {
-    backgroundColor: "#FF9E2C",
+    backgroundColor: "#E87811",
     color: "white",
     borderRadius: "10px",
     padding: "12px 20px",
@@ -177,7 +178,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "1.2rem",
   },
   featureIconPro: {
-    color: "#FF9E2C",
+    color: "#E87811",
     marginRight: "10px",
     fontSize: "1.2rem",
   },
@@ -192,12 +193,7 @@ const useStyles = makeStyles((theme) => ({
   featuresDoubleColumn: {
     display: "flex",
     flexWrap: "wrap",
-    "& > div": {
-      width: "50%",
-      "@media (max-width: 480px)": {
-        width: "100%",
-      },
-    },
+    
   },
   buttonIcon: {
     marginLeft: "5px",
@@ -206,7 +202,7 @@ const useStyles = makeStyles((theme) => ({
   starIcon: {
     fontSize: "16px",
     marginRight: "4px",
-    color: "#FF9E2C",
+    color: "#E87811",
   },
 }))
 
@@ -216,22 +212,22 @@ function PricingSection() {
   const pricingPlans = [
     {
       title: "Standard",
-      description: "Ideal for small teams and startups.",
-      price: "$900",
+      description: "Quoterly Membership",
+      price: "SAR 900",
       popular: false,
-      features: ["Up to 10 users", "Basic support", "Standard features",],
+      features: ["Step-by-Step Investment Guide", "Exclusive Founder Benefits and Co-founder match making", "Access to Closed WhatsApp Community. Connect with a like-minded entrepreneur community", "Monthly Pitch Roaster & Investor Exposure. Opportunity to present at Quarterly Demo Days", "Weekly In-Person Events in Riyadh"],
     },
     {
       title: "Pro",
-      description: "Designed for expanding teams and advanced needs.",
-      price: "$1,600",
+      description: "Annual Mmbership Everything in the Quarterly Membership, PLUS:",
+      price: "SAR 3600",
       popular: true,
       features: [
-        "Up to 50 users",
-        "Priority support",
-        "Enhanced Security",
-        "Advanced Analytics",
-        "Custom workflows",
+        "Investors Selection and Matchmaking",
+        "Priority Pitching Slots at Demo Days",
+        "Exclusive Workshops & Masterclasses with Industry Leaders",
+        "VIP Networking Sessions with Investors & Venture Builders",
+        "Annual Founder Awards Recognition",
         
       ],
     },
@@ -244,7 +240,7 @@ function PricingSection() {
       </Typography>
 
       <Typography variant="h2" className={classes.sectionTitle}>
-        Transparent Pricing Plans
+      Founders
       </Typography>
 
       <Box className={classes.pricingContainer}>
@@ -260,7 +256,7 @@ function PricingSection() {
 
           <Typography variant="h3" className={classes.priceAmount}>
             {pricingPlans[0].price}
-            <span className={classes.priceUnit}>/month</span>
+            <span className={classes.priceUnit}>{" "}/every 3 month</span>
           </Typography>
 
           <Button
@@ -290,17 +286,17 @@ function PricingSection() {
 
         {/* Pro Plan */}
         <Box className={classes.pricingCardPro}>
-          {pricingPlans[1].popular && (
+          {/* {pricingPlans[1].popular && (
             <Box className={classes.popularBadge}>
               <StarIcon className={classes.starIcon} />
               Most Popular
             </Box>
-          )}
+          )} */}
 
           <Typography variant="h4" className={classes.planTitle}>
             {pricingPlans[1].title}
             <Typography component="span" className={classes.proTag}>
-              Pro
+            Popular
             </Typography>
           </Typography>
 
@@ -310,7 +306,7 @@ function PricingSection() {
 
           <Typography variant="h3" className={classes.priceAmount}>
             {pricingPlans[1].price}
-            <span className={classes.priceUnit}>/month</span>
+            <span className={classes.priceUnit}>/yearly</span>
           </Typography>
 
           <Button

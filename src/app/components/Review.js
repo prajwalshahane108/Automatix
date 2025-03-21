@@ -8,6 +8,7 @@ import {
   Avatar,
   Rating,
 } from "@mui/material";
+import StarIcon from "@mui/icons-material/Star";
 import { makeStyles } from "@mui/styles";
 import BoltIcon from "@mui/icons-material/Bolt";
 
@@ -25,9 +26,9 @@ const useStyles = makeStyles((theme) => ({
     padding: "60px 20px",
   },
   sectionTag: {
-    color: "white",
+    color: "#AFAFAF",
     backgroundColor: "rgb(0, 0, 0)",
-    border: "1px solid rgba(255, 255, 255, 0.1)",
+    border: "1px solid rgba(202, 186, 186, 0.8)",
     borderRadius: "50px",
     padding: "4px 20px",
     fontSize: "14px",
@@ -35,9 +36,9 @@ const useStyles = makeStyles((theme) => ({
     display: "inline-block",
   },
   sectionTitle: {
-    color: "white",
+    color: "#AFAFAF",
     fontSize: "2.9rem",
-    fontWeight: "400",
+    fontWeight: "600",
     textAlign: "center",
     marginBottom: "60px",
     "@media (max-width: 768px)": {
@@ -80,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "20px",
   },
   logoIcon: {
-    backgroundColor: "#FF9E2C",
+    backgroundColor: "#E87811",
     borderRadius: "50%",
     width: "40px",
     height: "40px",
@@ -96,9 +97,9 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "500",
   },
   testimonyText: {
-    color: "white",
-    fontSize: "1.8rem",
-    fontWeight: "400",
+    color: "#AFAFAF",
+    fontSize: "2rem",
+    fontWeight: "500",
     marginBottom: "30px",
     lineHeight: 1.4,
     "@media (max-width: 768px)": {
@@ -108,6 +109,10 @@ const useStyles = makeStyles((theme) => ({
   personInfo: {
     marginBottom: "40px",
     borderTop: "20px",
+    display: "flex",
+    justifyContent: "flex-start",
+    alignContent: "center ",
+    gap: "20px",
   },
   personName: {
     color: "white",
@@ -117,7 +122,7 @@ const useStyles = makeStyles((theme) => ({
   personTitle: {
     color: "rgba(255, 255, 255, 0.7)",
     fontSize: "1rem",
-
+marginTop:"3px"
   },
   statsContainer: {
     display: "flex",
@@ -195,7 +200,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
   },
   cardPersonName: {
-    color: "white",
+    color: "#ff5B23",
     fontSize: "1.1rem",
     fontWeight: "500",
   },
@@ -232,7 +237,7 @@ function TestimonialsSection() {
   const cardTestimonials = [
     {
       company: "CreativEdge",
-      rating: 5,
+      rating: <StarIcon />,
       testimony:
         '"The creativity and AI expertise from Automatix set a new benchmark for our industry. Highly recommended!"',
       personName: "Agus Blimbing",
@@ -240,7 +245,7 @@ function TestimonialsSection() {
     },
     {
       company: "BrightNest",
-      rating: 5,
+      rating: <StarIcon />,
       testimony:
         '"Automatix\'s revolutionary AI approach and creative solutions elevated our project. Stellar performance!"',
       personName: "Steve Kebalen",
@@ -248,7 +253,7 @@ function TestimonialsSection() {
     },
     {
       company: "PrimeCore",
-      rating: 5,
+      rating: <StarIcon />,
       testimony:
         '"The blend of AI and creativity at Automatix transformed our vision into reality. Exceptional support!"',
       personName: "John Kepanjen",
@@ -284,11 +289,13 @@ function TestimonialsSection() {
   return (
     <Box className={classes.root}>
       <Typography variant="body1" className={classes.sectionTag}>
-        What Our Users Say
+        Insider
       </Typography>
 
       <Typography variant="h2" className={classes.sectionTitle}>
-        Trusted By Businesses Like Yours
+        Shape the future of investment.
+        <br />
+        Join MyFounders.Club today!
       </Typography>
 
       {/* Featured Testimonial */}
@@ -316,7 +323,7 @@ function TestimonialsSection() {
             <Typography variant="h5" className={classes.personName}>
               {featuredTestimonial.personName}
             </Typography>
-            <Typography variant="body2" className={classes.personTitle}>
+            <Typography variant="h5" className={classes.personTitle}>
               {featuredTestimonial.personTitle}
             </Typography>
           </Box>
@@ -345,7 +352,13 @@ function TestimonialsSection() {
             </Typography>
 
             <Box className={classes.ratingContainer}>
-              <Rating value={testimonial.rating} readOnly />
+              <Typography sx={{ color: "#FF5B23" }} variant="h6">
+                {testimonial.rating}
+                <StarIcon />
+                <StarIcon />
+                <StarIcon />
+                <StarIcon />
+              </Typography>
             </Box>
 
             <Typography variant="body1" className={classes.cardTestimony}>

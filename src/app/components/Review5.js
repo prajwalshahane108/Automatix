@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: '20px',
   },
   logoIcon: {
-    backgroundColor: '#FF9E2C',
+    backgroundColor: '#E87811',
     borderRadius: '50%',
     width: '40px',
     height: '40px',

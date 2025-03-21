@@ -7,6 +7,7 @@ import Goals from "./components/Goals";
 import Revenue from "./components/Revenue";
 import Review from "./components/Review";
 import Review2 from "./components/Review2";
+import Review25 from "./components/Review25";
 import Review3 from "./components/Review3";
 // import Review4 from "./components/Review4";
 // import Review5 from "./components/Review5";
@@ -24,6 +25,7 @@ export default function Home() {
       <Revenue />
       <Bar />
       <Review />
+      <Review25 />
       <Review2 />
       <Review3 />
       {/* <Review4 /> */}

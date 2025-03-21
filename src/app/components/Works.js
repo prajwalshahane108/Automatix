@@ -31,12 +31,12 @@ const useStyles = makeStyles(() => ({
   },
   headingContainer: {
     textAlign: 'center',
-    maxWidth: '1200px',
+    maxWidth: '1100px',
     marginBottom: '40px',
   },
   headingLine: {
-    fontSize: '4rem',
-    fontWeight: '400',
+    fontSize: '2.6rem',
+    fontWeight: '600',
     lineHeight: 1.2,
     '@media (max-width: 900px)': {
       fontSize: '3rem',
@@ -49,10 +49,10 @@ const useStyles = makeStyles(() => ({
     color: 'white',
   },
   orangeText: {
-    color: '#FF9E2C',
+    color: '#E87811',
   },
   periodText: {
-    color: '#FF9E2C',
+    color: '#E87811',
   },
   description: {
     color: 'rgba(255, 255, 255, 0.7)',
@@ -64,8 +64,8 @@ const useStyles = makeStyles(() => ({
     lineHeight: 1.6,
   },
   callButton: {
-    color: '#FF9E2C',
-    // border: '1px solid #FF9E2C',
+    color: '#E87811',
+    // border: '1px solid #E87811',
     borderRadius: '50px',
     fontWeight: '400',
     padding: '10px 24px',
@@ -82,7 +82,7 @@ const useStyles = makeStyles(() => ({
   arrowDown: {
     position: 'absolute',
     bottom: '40px',
-    color: '#FF9E2C',
+    color: '#E87811',
     fontSize: '40px',
   },
 }));
@@ -92,26 +92,40 @@ function MissionSection() {
 
   return (
     <Box sx={{ height: '120vh',}} className={classes.root}>
-      <Typography variant="body1" className={classes.missionTag}>
+      {/* <Typography variant="body1" className={classes.missionTag}>
         Our Mission
-      </Typography>
+      </Typography> */}
       
       <Box className={classes.headingContainer}>
         <Typography variant="h1" className={`${classes.headingLine} ${classes.whiteText}`}>
-          We Drive <span className={classes.orangeText}>Businesses</span>
+           <span className={classes.orangeText}>Why Join?</span>
         </Typography>
         
         <Typography variant="h1" className={`${classes.headingLine} ${classes.whiteText}`}>
-          To The <span className={classes.orangeText}>Forefront</span> Of The Industries
+        Are you Starting a business or Looking for a 
+        <br />
+         Co-founder 
         </Typography>
-        
+        <br />
+        <br />
+        <br />
         <Typography variant="h1" className={`${classes.headingLine} ${classes.whiteText}`}>
-          Through Comprehensive
+        Are you Building an MVP/Prototype or Looking for Venture 
+        <br />
+        Builder?
         </Typography>
-        
+        <br />
+        <br />
+        <br />
         <Typography variant="h1" className={`${classes.headingLine} ${classes.whiteText}`}>
+        Are you Raising Investment or Learning how to bootstrap 
+        <br />
+        effectively?
+        </Typography>
+
+        {/* <Typography variant="h1" className={`${classes.headingLine} ${classes.whiteText}`}>
           AI <span className={classes.orangeText}>Automation</span><span className={classes.periodText}>.</span>
-        </Typography>
+        </Typography> */}
       </Box>
       
       <Typography variant="body1" className={classes.description}>
