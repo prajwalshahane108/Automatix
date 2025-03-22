@@ -1,6 +1,6 @@
 // components/TeamSection.js
 import React from "react";
-import { Box, Typography, Grid, Container } from "@mui/material";
+import { Box, Typography, Grid, Container, useMediaQuery, useTheme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -15,10 +15,22 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     padding: "60px 20px",
+    '@media (max-width: 960px)': {
+      padding: "50px 15px",
+    },
+    '@media (max-width: 600px)': {
+      padding: "40px 15px",
+    },
+  },
+  contentContainer: {
+    width: "100%",
+    maxWidth: "1200px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   sectionTag: {
     color: "rgba(255, 255, 255, 0.5)",
-
     backgroundColor: "rgba(0, 0, 0, 0.05)",
     border: "1.5px solid rgba(255, 255, 255, 0.77)",
     borderRadius: "50px",
@@ -26,6 +38,16 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "14px",
     marginBottom: "30px",
     display: "inline-block",
+    '@media (max-width: 768px)': {
+      fontSize: "13px",
+      padding: "4px 16px",
+      marginBottom: "25px",
+    },
+    '@media (max-width: 480px)': {
+      fontSize: "12px",
+      padding: "3px 14px",
+      marginBottom: "20px",
+    },
   },
   sectionTitle: {
     color: "#DEDEDE",
@@ -33,8 +55,18 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "600",
     textAlign: "center",
     marginBottom: "90px",
-    "@media (max-width: 768px)": {
-      fontSize: "2.5rem",
+    '@media (max-width: 960px)': {
+      fontSize: "2.6rem",
+      marginBottom: "70px",
+    },
+    '@media (max-width: 768px)': {
+      fontSize: "2.2rem",
+      marginBottom: "50px",
+    },
+    '@media (max-width: 480px)': {
+      fontSize: "1.8rem",
+      marginBottom: "40px",
+      lineHeight: 1.3,
     },
   },
   sectionTitleB: {
@@ -43,26 +75,47 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "400",
     textAlign: "center",
     marginBottom: "30px",
-    "@media (max-width: 768px)": {
+    maxWidth: "800px",
+    '@media (max-width: 768px)': {
       fontSize: "1rem",
+      marginBottom: "25px",
+    },
+    '@media (max-width: 480px)': {
+      fontSize: "0.95rem",
+      marginBottom: "20px",
     },
   },
   teamContainer: {
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "center",
-    gap: "20px",
-    maxWidth: "1200px",
+    gap: "30px",
     width: "100%",
+    '@media (max-width: 960px)': {
+      gap: "25px",
+    },
+    '@media (max-width: 480px)': {
+      gap: "35px",
+    },
   },
   teamMemberCard: {
-    width: "100%",
-    maxWidth: "270px",
+    width: "calc(25% - 30px)",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    "@media (max-width: 600px)": {
-      maxWidth: "100%",
+    transition: "transform 0.3s ease",
+    '&:hover': {
+      transform: "translateY(-5px)",
+    },
+    '@media (max-width: 1100px)': {
+      width: "calc(33.33% - 25px)",
+    },
+    '@media (max-width: 860px)': {
+      width: "calc(50% - 15px)",
+    },
+    '@media (max-width: 480px)': {
+      width: "100%",
+      maxWidth: "320px",
     },
   },
   teamMemberImage: {
@@ -72,10 +125,26 @@ const useStyles = makeStyles((theme) => ({
     overflow: "hidden",
     marginBottom: "20px",
     backgroundColor: "#222", // Placeholder background
+    boxShadow: "0 10px 30px rgba(0, 0, 0, 0.3)",
     "& img": {
       width: "100%",
       height: "100%",
       objectFit: "cover",
+      transition: "transform 0.5s ease",
+      "&:hover": {
+        transform: "scale(1.05)",
+      },
+    },
+    '@media (max-width: 960px)': {
+      height: "320px",
+      marginBottom: "15px",
+    },
+    '@media (max-width: 768px)': {
+      height: "300px",
+    },
+    '@media (max-width: 480px)': {
+      height: "350px",
+      borderRadius: "12px",
     },
   },
   teamMemberName: {
@@ -84,16 +153,32 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "600",
     marginBottom: "5px",
     textAlign: "center",
+    '@media (max-width: 768px)': {
+      fontSize: "1.1rem",
+    },
+    '@media (max-width: 480px)': {
+      fontSize: "1.15rem",
+    },
   },
   teamMemberRole: {
     color: "rgba(255, 255, 255, 0.6)",
     fontSize: "1rem",
     textAlign: "center",
+    '@media (max-width: 768px)': {
+      fontSize: "0.95rem",
+    },
+    '@media (max-width: 480px)': {
+      fontSize: "0.9rem",
+    },
   },
 }));
 
 function TeamSection() {
   const classes = useStyles();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.down('md'));
+  const isLargeTablet = useMediaQuery('(max-width:1100px)');
 
   const teamMembers = [
     {
@@ -108,7 +193,7 @@ function TeamSection() {
     },
     {
       name: "Abdul Rasheed Mohammad",
-      role: "Chief Growth Offices",
+      role: "Chief Growth Officer",
       image: "https://framerusercontent.com/images/2gN8IoNAOZFMzwH3PrivG3JS4A.jpg",
     },
     {
@@ -120,43 +205,45 @@ function TeamSection() {
 
   return (
     <Box className={classes.root}>
-      <Typography variant="body1" className={classes.sectionTag}>
-        Our Team
-      </Typography>
+      <Container maxWidth="lg" className={classes.contentContainer}>
+        <Typography variant="body1" className={classes.sectionTag}>
+          Our Team
+        </Typography>
 
-      <Typography variant="h2" className={classes.sectionTitle}>
-      The People Behind the Community
-      </Typography>
+        <Typography variant="h2" className={classes.sectionTitle}>
+          The People Behind the Community
+        </Typography>
 
-      {/* <Typography variant="h2" className={classes.sectionTitleB}>
-        Meet our talented team turning ideas into exceptional results.
-      </Typography> */}
+        {/* This commented section is kept as it was in the original code */}
+        {/* <Typography variant="h2" className={classes.sectionTitleB}>
+          Meet our talented team turning ideas into exceptional results.
+        </Typography> */}
 
-      <Box className={classes.teamContainer}>
-        {teamMembers.map((member, index) => (
-          <Box key={index} className={classes.teamMemberCard}>
-            <Box className={classes.teamMemberImage}>
-              {/* Note: In production, replace with actual images */}
-              <Box
-                component="img"
-                src={member.image}
-                alt={member.name}
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src =
-                    "https://via.placeholder.com/270x340?text=Team+Member";
-                }}
-              />
+        <Box className={classes.teamContainer}>
+          {teamMembers.map((member, index) => (
+            <Box key={index} className={classes.teamMemberCard}>
+              <Box className={classes.teamMemberImage}>
+                <Box
+                  component="img"
+                  src={member.image}
+                  alt={member.name}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src =
+                      "https://via.placeholder.com/270x340?text=Team+Member";
+                  }}
+                />
+              </Box>
+              <Typography variant="h5" className={classes.teamMemberName}>
+                {member.name}
+              </Typography>
+              <Typography variant="body1" className={classes.teamMemberRole}>
+                {member.role}
+              </Typography>
             </Box>
-            <Typography variant="h5" className={classes.teamMemberName}>
-              {member.name}
-            </Typography>
-            <Typography variant="body1" className={classes.teamMemberRole}>
-              {member.role}
-            </Typography>
-          </Box>
-        ))}
-      </Box>
+          ))}
+        </Box>
+      </Container>
     </Box>
   );
 }

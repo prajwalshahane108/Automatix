@@ -1,5 +1,4 @@
 "use client";
-// import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Features from "./components/Features";
 import Works from "./components/Works";
@@ -17,7 +16,6 @@ import Footer from "./components/Footer";
 export default function Home() {
   return (
     <div>
-      {/* <Navbar/> */}
       <Hero  />
       <Features />
       <Works />
@@ -28,8 +26,6 @@ export default function Home() {
       <Review25 />
       <Review2 />
       <Review3 />
-      {/* <Review4 /> */}
-      {/* <Review5 /> */}
       <Footer />
     </div>
   );

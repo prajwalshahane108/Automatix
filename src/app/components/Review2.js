@@ -120,9 +120,7 @@ function TeamSection() {
 
   return (
     <Box className={classes.root}>
-      {/* <Typography variant="body1" className={classes.sectionTag}>
-        Our Creative Minds
-      </Typography> */}
+      
 
       <Typography variant="h2" className={classes.sectionTitle}>
         Advisory Board
