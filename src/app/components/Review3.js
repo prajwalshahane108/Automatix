@@ -1,5 +1,5 @@
 // components/FAQSection.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -10,6 +10,16 @@ import {
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { motion, useAnimation } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+
+// Create motion components
+const MotionBox = motion(Box);
+const MotionTypography = motion(Typography);
+const MotionAccordion = motion(Accordion);
+const MotionAccordionSummary = motion(AccordionSummary);
+const MotionAccordionDetails = motion(AccordionDetails);
+const MotionExpandMoreIcon = motion(ExpandMoreIcon);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,10 +36,8 @@ const useStyles = makeStyles((theme) => ({
   },
   sectionTag: {
     color: "rgba(255, 255, 255, 0.5)",
-
     backgroundColor: "rgb(0, 0, 0)",
     border: "1px solid rgba(255, 255, 255, 0.1)",
-
     borderRadius: "50px",
     padding: "4px 20px",
     fontSize: "14px",
@@ -85,9 +93,77 @@ const useStyles = makeStyles((theme) => ({
 function FAQSection() {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
+  
+  // Animation controls
+  const controls = useAnimation();
+  const [ref, inView] = useInView({
+    threshold: 0.1,
+    triggerOnce: true,
+  });
+  
+  // Animate when section comes into view
+  useEffect(() => {
+    if (inView) {
+      controls.start("visible");
+    }
+  }, [controls, inView]);
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
+  };
+
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const accordionVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: 0.3 + (i * 0.1),
+        duration: 0.5,
+        ease: "easeOut",
+      },
+    }),
+  };
+
+  const expandIconVariants = {
+    collapsed: { rotate: 0 },
+    expanded: { rotate: 180 },
+  };
+
+  const answerVariants = {
+    collapsed: { opacity: 0, height: 0 },
+    expanded: { 
+      opacity: 1, 
+      height: "auto",
+      transition: {
+        duration: 0.3,
+        ease: "easeOut"
+      }
+    },
   };
 
   const faqItems = [
@@ -145,18 +221,35 @@ This transforms MyFounders.Club from a community into an intelligent, trusted in
   ];
 
   return (
-    <Box className={classes.root}>
-      <Typography variant="body1" className={classes.sectionTag}>
+    <MotionBox 
+      ref={ref}
+      className={classes.root}
+      initial="hidden"
+      animate={controls}
+      variants={containerVariants}
+    >
+      <MotionTypography 
+        variant="body1" 
+        className={classes.sectionTag}
+        variants={itemVariants}
+      >
         Need to Know
-      </Typography>
+      </MotionTypography>
 
-      <Typography variant="h2" className={classes.sectionTitle}>
+      <MotionTypography 
+        variant="h2" 
+        className={classes.sectionTitle}
+        variants={itemVariants}
+      >
         Frequently Asked Questions
-      </Typography>
+      </MotionTypography>
 
-      <Box className={classes.faqContainer}>
+      <MotionBox 
+        className={classes.faqContainer}
+        variants={containerVariants}
+      >
         {faqItems.map((item, index) => (
-          <Accordion
+          <MotionAccordion
             key={item.id}
             expanded={expanded === item.id}
             onChange={handleChange(item.id)}
@@ -166,24 +259,51 @@ This transforms MyFounders.Club from a community into an intelligent, trusted in
             className={classes.accordionBorder}
             disableGutters
             elevation={0}
+            custom={index}
+            variants={accordionVariants}
+            initial="hidden"
+            animate="visible"
+            whileHover={{ 
+              backgroundColor: "rgba(255, 255, 255, 0.03)",
+              transition: { duration: 0.2 } 
+            }}
           >
             <AccordionSummary
-              expandIcon={<ExpandMoreIcon className={classes.expandIcon} />}
+              expandIcon={
+                <MotionExpandMoreIcon 
+                  className={classes.expandIcon}
+                  animate={expanded === item.id ? "expanded" : "collapsed"}
+                  variants={expandIconVariants}
+                  transition={{ duration: 0.3 }}
+                />
+              }
               aria-controls={`${item.id}-content`}
               id={`${item.id}-header`}
               className={classes.accordionSummary}
             >
-              <Typography className={classes.question}>
+              <MotionTypography 
+                className={classes.question}
+                animate={{ 
+                  color: expanded === item.id ? "#FF5B23" : "rgba(255, 255, 255, 0.7)" 
+                }}
+                transition={{ duration: 0.3 }}
+              >
                 {item.question}
-              </Typography>
+              </MotionTypography>
             </AccordionSummary>
             <AccordionDetails>
-              <Typography className={classes.answer}>{item.answer}</Typography>
+              <motion.div
+                initial="collapsed"
+                animate={expanded === item.id ? "expanded" : "collapsed"}
+                variants={answerVariants}
+              >
+                <Typography className={classes.answer}>{item.answer}</Typography>
+              </motion.div>
             </AccordionDetails>
-          </Accordion>
+          </MotionAccordion>
         ))}
-      </Box>
-    </Box>
+      </MotionBox>
+    </MotionBox>
   );
 }
 

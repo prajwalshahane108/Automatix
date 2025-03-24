@@ -1,7 +1,14 @@
 // components/TeamSection.js
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Typography, Grid, Container, useMediaQuery, useTheme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import { motion, useAnimation } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+
+// Create motion components
+const MotionBox = motion(Box);
+const MotionTypography = motion(Typography);
+const MotionContainer = motion(Container);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -103,10 +110,6 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    transition: "transform 0.3s ease",
-    '&:hover': {
-      transform: "translateY(-5px)",
-    },
     '@media (max-width: 1100px)': {
       width: "calc(33.33% - 25px)",
     },
@@ -130,10 +133,6 @@ const useStyles = makeStyles((theme) => ({
       width: "100%",
       height: "100%",
       objectFit: "cover",
-      transition: "transform 0.5s ease",
-      "&:hover": {
-        transform: "scale(1.05)",
-      },
     },
     '@media (max-width: 960px)': {
       height: "320px",
@@ -179,6 +178,77 @@ function TeamSection() {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isTablet = useMediaQuery(theme.breakpoints.down('md'));
   const isLargeTablet = useMediaQuery('(max-width:1100px)');
+  
+  // Animation controls
+  const controls = useAnimation();
+  const [ref, inView] = useInView({
+    threshold: 0.1,
+    triggerOnce: true,
+  });
+  
+  // Animate when section comes into view
+  useEffect(() => {
+    if (inView) {
+      controls.start("visible");
+    }
+  }, [controls, inView]);
+
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const memberCardVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: 0.3 + (i * 0.15),
+        duration: 0.7,
+        ease: "easeOut",
+      },
+    }),
+  };
+
+  const imageHoverVariants = {
+    hover: {
+      scale: 1.05,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const cardHoverVariants = {
+    hover: {
+      y: -10,
+      transition: {
+        duration: 0.3,
+        ease: "easeOut",
+      },
+    },
+  };
 
   const teamMembers = [
     {
@@ -204,26 +274,53 @@ function TeamSection() {
   ];
 
   return (
-    <Box className={classes.root}>
-      <Container maxWidth="lg" className={classes.contentContainer}>
-        <Typography variant="body1" className={classes.sectionTag}>
+    <MotionBox 
+      ref={ref}
+      className={classes.root}
+      initial="hidden"
+      animate={controls}
+      variants={containerVariants}
+    >
+      <MotionContainer 
+        maxWidth="lg" 
+        className={classes.contentContainer}
+        variants={containerVariants}
+      >
+        <MotionTypography 
+          variant="body1" 
+          className={classes.sectionTag}
+          variants={itemVariants}
+        >
           Our Team
-        </Typography>
+        </MotionTypography>
 
-        <Typography variant="h2" className={classes.sectionTitle}>
+        <MotionTypography 
+          variant="h2" 
+          className={classes.sectionTitle}
+          variants={itemVariants}
+        >
           The People Behind the Community
-        </Typography>
+        </MotionTypography>
 
-        {/* This commented section is kept as it was in the original code */}
-        {/* <Typography variant="h2" className={classes.sectionTitleB}>
-          Meet our talented team turning ideas into exceptional results.
-        </Typography> */}
-
-        <Box className={classes.teamContainer}>
+        <MotionBox 
+          className={classes.teamContainer}
+          variants={containerVariants}
+        >
           {teamMembers.map((member, index) => (
-            <Box key={index} className={classes.teamMemberCard}>
-              <Box className={classes.teamMemberImage}>
-                <Box
+            <MotionBox 
+              key={index} 
+              className={classes.teamMemberCard}
+              custom={index}
+              variants={memberCardVariants}
+              whileHover="hover"
+              whileTap={{ scale: 0.98 }}
+              // variants={cardHoverVariants}
+            >
+              <MotionBox 
+                className={classes.teamMemberImage}
+                whileHover="hover"
+              >
+                <MotionBox
                   component="img"
                   src={member.image}
                   alt={member.name}
@@ -232,19 +329,47 @@ function TeamSection() {
                     e.target.src =
                       "https://via.placeholder.com/270x340?text=Team+Member";
                   }}
+                  variants={imageHoverVariants}
+                  initial={{ scale: 1.1, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ 
+                    duration: 0.7, 
+                    delay: 0.4 + (index * 0.15),
+                    ease: "easeOut" 
+                  }}
                 />
-              </Box>
-              <Typography variant="h5" className={classes.teamMemberName}>
+              </MotionBox>
+              <MotionTypography 
+                variant="h5" 
+                className={classes.teamMemberName}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ 
+                  duration: 0.5, 
+                  delay: 0.6 + (index * 0.15),
+                  ease: "easeOut" 
+                }}
+              >
                 {member.name}
-              </Typography>
-              <Typography variant="body1" className={classes.teamMemberRole}>
+              </MotionTypography>
+              <MotionTypography 
+                variant="body1" 
+                className={classes.teamMemberRole}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ 
+                  duration: 0.5, 
+                  delay: 0.7 + (index * 0.15),
+                  ease: "easeOut" 
+                }}
+              >
                 {member.role}
-              </Typography>
-            </Box>
+              </MotionTypography>
+            </MotionBox>
           ))}
-        </Box>
-      </Container>
-    </Box>
+        </MotionBox>
+      </MotionContainer>
+    </MotionBox>
   );
 }
 

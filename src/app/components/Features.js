@@ -1,11 +1,18 @@
 // components/BenefitsSection.js
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Typography, Button, Grid, Container } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import PsychologyIcon from '@mui/icons-material/Psychology';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import GroupsIcon from '@mui/icons-material/Groups';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import { motion, useAnimation } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+
+// Create motion components
+const MotionBox = motion(Box);
+const MotionTypography = motion(Typography);
+const MotionButton = motion(Button);
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -18,7 +25,7 @@ const useStyles = makeStyles(() => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: '60px 20px',
+    padding: '60px 20px 180px 20px',
   },
   sectionTag: {
     color: 'white',
@@ -46,7 +53,7 @@ const useStyles = makeStyles(() => ({
     color: 'rgba(255, 255, 255, 0.7)',
     fontSize: '1.2rem',
     textAlign: 'center',
-    marginBottom: '60px',
+    marginBottom: '50px',
     maxWidth: '600px',
   },
   cardContainer: {
@@ -54,7 +61,7 @@ const useStyles = makeStyles(() => ({
     flexWrap: 'wrap',
     justifyContent: 'center',
     gap: '20px',
-    marginBottom: '60px',
+    marginBottom: '50px',
     width: '100%',
     maxWidth: '1200px',
   },
@@ -84,8 +91,7 @@ const useStyles = makeStyles(() => ({
     overflow: 'hidden',
     backgroundImage: 'linear-gradient(to bottom right, rgba(255, 255, 255, 0.05) 1px, transparent 1px)',
     backgroundSize: '20px 20px',
-},  
-
+  },  
   iconContainer: {
     backgroundColor: '#E87811',
     borderRadius: '50%',
@@ -135,6 +141,92 @@ const useStyles = makeStyles(() => ({
 
 function BenefitsSection() {
   const classes = useStyles();
+  const controls = useAnimation();
+  const [ref, inView] = useInView({
+    threshold: 0.2, // Trigger animation when 20% of the component is visible
+    triggerOnce: true, // Only trigger once
+  });
+
+  useEffect(() => {
+    if (inView) {
+      controls.start('visible');
+    }
+  }, [controls, inView]);
+
+  // Animation variants
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const tagVariants = {
+    hidden: { opacity: 0, y: -20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { 
+        duration: 0.6,
+        ease: "easeOut" 
+      }
+    },
+  };
+
+  const titleVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { 
+        duration: 0.8,
+        ease: "easeOut" 
+      }
+    },
+  };
+
+  const subtitleVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { 
+        duration: 1,
+        delay: 0.3
+      }
+    },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { 
+        duration: 0.8,
+        ease: "easeOut" 
+      }
+    },
+  };
+
+  const buttonVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: { 
+      opacity: 1, 
+      scale: 1,
+      transition: { 
+        duration: 0.5,
+        delay: 0.8
+      }
+    },
+    hover: {
+      scale: 1.05,
+      transition: { 
+        duration: 0.2
+      }
+    }
+  };
 
   const benefits = [
     {
@@ -155,48 +247,104 @@ function BenefitsSection() {
   ];
 
   return (
-    <Box className={classes.root}>
-      <Typography variant="body1" className={classes.sectionTag}>
+    <MotionBox 
+      ref={ref}
+      className={classes.root}
+      initial="hidden"
+      animate={controls}
+      variants={containerVariants}
+    >
+      <MotionTypography 
+        variant="body1" 
+        className={classes.sectionTag}
+        variants={tagVariants}
+      >
         Why Us
-      </Typography>
+      </MotionTypography>
       
-      <Typography variant="h2" className={classes.sectionTitle}>
+      <MotionTypography 
+        variant="h2" 
+        className={classes.sectionTitle}
+        variants={titleVariants}
+      >
         Experience The Benefits
         <br />
         Of Our Expertise
-      </Typography>
+      </MotionTypography>
       
-      <Typography variant="body1" className={classes.sectionSubtitle}>
+      <MotionTypography 
+        variant="body1" 
+        className={classes.sectionSubtitle}
+        variants={subtitleVariants}
+      >
         That drives impactful gain powerful results
-      </Typography>
+      </MotionTypography>
       
-      <Box className={classes.cardContainer}>
+      <MotionBox 
+        className={classes.cardContainer}
+        variants={containerVariants}
+      >
         {benefits.map((benefit, index) => (
-          <Box key={index} className={classes.card}>
+          <MotionBox 
+            key={index} 
+            className={classes.card}
+            variants={cardVariants}
+            custom={index}
+            // whileHover={{ 
+            //   y: -1,
+            //   boxShadow: '0 10px 25px rgba(232, 120, 17, 0.2)',
+            //   transition: { duration: 0.3 }
+            // }}
+          >
             <Box className={classes.cardInner}>
-              <Box className={classes.iconContainer}>
+              <MotionBox 
+                className={classes.iconContainer}
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ 
+                  delay: 0.5 + (index * 0.2),
+                  duration: 0.5,
+                  type: "spring",
+                  stiffness: 200
+                }}
+              >
                 {benefit.icon}
-              </Box>
+              </MotionBox>
             </Box>
-            <Typography variant="h5" className={classes.cardTitle}>
+            <MotionTypography 
+              variant="h5" 
+              className={classes.cardTitle}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.7 + (index * 0.2), duration: 0.5 }}
+            >
               {benefit.title}
-            </Typography>
-            <Typography variant="body2" className={classes.cardDescription}>
+            </MotionTypography>
+            <MotionTypography 
+              variant="body2" 
+              className={classes.cardDescription}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.9 + (index * 0.2), duration: 0.5 }}
+            >
               {benefit.description}
-            </Typography>
-          </Box>
+            </MotionTypography>
+          </MotionBox>
         ))}
-      </Box>
+      </MotionBox>
       
-      <Button 
+      <MotionButton 
         variant="contained" 
         className={classes.pricingButton}
         endIcon={<KeyboardArrowRightIcon className={classes.buttonIcon} />}
         disableElevation
+        variants={buttonVariants}
+        whileHover="hover"
+        whileTap={{ scale: 0.95 }}
       >
         See Pricing
-      </Button>
-    </Box>
+      </MotionButton>
+    </MotionBox>
   );
 }
 

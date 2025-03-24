@@ -1,7 +1,14 @@
 // components/WorksSection.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Typography, Grid, Divider, Container, useMediaQuery, useTheme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import { motion, useAnimation, AnimatePresence } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+
+// Create motion components
+const MotionBox = motion(Box);
+const MotionTypography = motion(Typography);
+const MotionContainer = motion(Container);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -93,18 +100,36 @@ const useStyles = makeStyles((theme) => ({
   workItem: {
     padding: '30px 0',
     borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+    cursor: 'pointer',
+    position: 'relative',
+    transition: 'background-color 0.3s ease',
+    paddingLeft: '20px', // Add padding to accommodate the border
     '&:first-child': {
       paddingTop: 0,
     },
     '&:last-child': {
       borderBottom: 'none',
     },
+    '&:hover': {
+      backgroundColor: 'rgba(255, 255, 255, 0.03)',
+    },
     '@media (max-width: 768px)': {
-      padding: '25px 0',
+      padding: '25px 0 25px 20px',
     },
     '@media (max-width: 480px)': {
-      padding: '20px 0',
+      padding: '20px 0 20px 15px',
     },
+  },
+  selectedWorkItem: {
+    borderLeft: '0.5px solid #E87811',
+    backgroundColor: 'rgba(232, 120, 17, 0.05)',
+  },
+  workItemBorder: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    bottom: 0,
+    width: '1px',
   },
   companyName: {
     color: 'white',
@@ -331,33 +356,207 @@ function WorksSection() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isTablet = useMediaQuery(theme.breakpoints.down('md'));
+  
+  // State for selected work item
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  
+  // Animation controls
+  const controls = useAnimation();
+  const [ref, inView] = useInView({
+    threshold: 0.1,
+    triggerOnce: true,
+  });
+  
+  // Animate when section comes into view
+  useEffect(() => {
+    if (inView) {
+      controls.start('visible');
+    }
+  }, [controls, inView]);
 
   const workItems = [
     {
       name: 'Grapho AI',
       description: "That's Why We Leverage AI to Create Impactful, Lasting Experiences that Engage, and Transform Every Interaction.",
       image: '/grapho.png',
-      percentage: 80
+      percentage: 80,
+      logo: 'grapho'
     },
     {
       name: 'VectraOps',
       result: '34% increase in online sales.',
+      image: '/ops.png',
+      percentage: 60,
+      logo: 'vectraops'
     },
     {
       name: 'Signum',
       result: '47% increase in new customers.',
+      image: '/signum.png',
+      percentage: 70,
+      logo: 'signum'
     },
   ];
 
   const stats = [
-    { value: '150k+', label: 'Active Users' },
-    { value: '4.9', label: 'Rating out of 5' },
+    { value: `150k+`, label: 'Active Users' },
+    { value: '4.9',  label: 'Rating out of 5' },
     { value: '99k+', label: 'Positive Reviews' },
     { value: '85k+', label: 'Users Satisfied' },
   ];
 
-  // Placeholder for Grapho logo - replace with actual SVG or image
-  const GraphoLogoPlaceholder = () => (
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const imageVariants = {
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.8,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const workItemVariants = {
+    hidden: { opacity: 0, x: -30 },
+    visible: (i) => ({
+      opacity: 1,
+      x: 0,
+      transition: {
+        delay: i * 0.2,
+        duration: 0.6,
+        ease: "easeOut",
+      },
+    }),
+  };
+
+  const statItemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: 0.8 + (i * 0.1),
+        duration: 0.5,
+        ease: "easeOut",
+      },
+    }),
+  };
+
+  const barVariants = {
+    hidden: { height: 0 },
+    visible: (height) => ({
+      height: `${height}%`,
+      transition: {
+        duration: 1,
+        delay: 0.4,
+        ease: "easeOut",
+      },
+    }),
+  };
+
+  const selectedBorderVariants = {
+    initial: { height: 0, opacity: 0 },
+    animate: { 
+      height: '100%', 
+      opacity: 1,
+      transition: { duration: 0.3, ease: "easeOut" }
+    },
+    exit: { 
+      height: 0, 
+      opacity: 0,
+      transition: { duration: 0.2, ease: "easeIn" }
+    }
+  };
+
+  const imageTransitionVariants = {
+    initial: { opacity: 0, scale: 0.95 },
+    animate: { 
+      opacity: 1, 
+      scale: 1,
+      transition: { 
+        duration: 0.6,
+        ease: "easeOut"
+      }
+    },
+    exit: { 
+      opacity: 0,
+      scale: 0.9,
+      transition: { 
+        duration: 0.3,
+        ease: "easeIn"
+      }
+    }
+  };
+
+  // Counter animation for statistics
+  const Counter = ({ value, className }) => {
+    // If value contains '+', separate it
+    const hasPlus = value.includes('k','+');
+    const numericValue = hasPlus ? parseFloat(value.replace('+', '')) : parseFloat(value);
+    const suffix = hasPlus ? 'k+' : '';
+    
+    const [count, setCount] = useState(0);
+    
+    useEffect(() => {
+      if (inView) {
+        let start = 0;
+        const duration = 2000; // 2 seconds
+        const increment = numericValue / (duration / 16); // 60fps
+        const timer = setInterval(() => {
+          start += increment;
+          if (start >= numericValue) {
+            setCount(numericValue);
+            clearInterval(timer);
+          } else {
+            setCount(start);
+          }
+        }, 16);
+        
+        return () => clearInterval(timer);
+      }
+    }, [inView, numericValue]);
+    
+    return (
+      <MotionTypography
+        variant="h3"
+        className={className}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      >
+        {typeof count === 'number' && count % 1 !== 0 
+          ? count.toFixed(1) 
+          : Math.floor(count)}{suffix}
+      </MotionTypography>
+    );
+  };
+
+  // Logo components - replace with actual SVGs or images
+  const GraphoLogo = () => (
     <Box className={classes.graphoLogo}>
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M14 28C21.732 28 28 21.732 28 14C28 6.26801 21.732 0 14 0C6.26801 0 0 6.26801 0 14C0 21.732 6.26801 28 14 28Z" fill="transparent" stroke="white" strokeWidth="3"/>
@@ -366,79 +565,230 @@ function WorksSection() {
     </Box>
   );
 
+  const VectraOpsLogo = () => (
+    <Box className={classes.graphoLogo}>
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4" y="4" width="20" height="20" rx="2" stroke="white" strokeWidth="3"/>
+        <path d="M10 14L13 17L18 10" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+    </Box>
+  );
+
+  const SignumLogo = () => (
+    <Box className={classes.graphoLogo}>
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 4L4 14L14 24L24 14L14 4Z" stroke="white" strokeWidth="3"/>
+        <circle cx="14" cy="14" r="3" fill="white"/>
+      </svg>
+    </Box>
+  );
+
+  // Get logo based on company name
+  const getLogo = (logoName) => {
+    switch(logoName) {
+      case 'grapho':
+        return <GraphoLogo />;
+      case 'vectraops':
+        return <VectraOpsLogo />;
+      case 'signum':
+        return <SignumLogo />;
+      default:
+        return <GraphoLogo />;
+    }
+  };
+
   return (
-    <Box className={classes.root}>
-      <Container maxWidth="lg" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <Typography variant="body1" className={classes.sectionTag}>
+    <MotionBox 
+      ref={ref}
+      className={classes.root}
+      initial="hidden"
+      animate={controls}
+      variants={containerVariants}
+    >
+      <MotionContainer 
+        maxWidth="lg" 
+        sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+        variants={containerVariants}
+      >
+        <MotionTypography 
+          variant="body1" 
+          className={classes.sectionTag}
+          variants={itemVariants}
+        >
           Work That Make Us Proud
-        </Typography>
+        </MotionTypography>
         
-        <Typography variant="h2" className={classes.sectionTitle}>
+        <MotionTypography 
+          variant="h2" 
+          className={classes.sectionTitle}
+          variants={itemVariants}
+        >
           Recent Works, Notable Impact
-        </Typography>
+        </MotionTypography>
         
-        <Box className={classes.contentContainer}>
-          <Box className={classes.leftPanel}>
+        <MotionBox 
+          className={classes.contentContainer}
+          variants={containerVariants}
+        >
+          <MotionBox 
+            className={classes.leftPanel}
+            variants={containerVariants}
+          >
             {workItems.map((item, index) => (
-              <Box key={index} className={classes.workItem}>
-                <Typography variant="h4" className={classes.companyName}>
+              <MotionBox 
+                key={index} 
+                className={`${classes.workItem} ${selectedIndex === index ? classes.selectedWorkItem : ''}`}
+                custom={index}
+                variants={workItemVariants}
+                onClick={() => setSelectedIndex(index)}
+                whileHover={{ 
+                  backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                  transition: { duration: 0.2 }
+                }}
+              >
+                {selectedIndex === index && (
+                  <MotionBox
+                    className={classes.workItemBorder}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    variants={selectedBorderVariants}
+                    style={{ backgroundColor: '#E87811' }}
+                  />
+                )}
+                <MotionTypography 
+                  variant="h4" 
+                  className={classes.companyName}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.1 * index, duration: 0.5 }}
+                >
                   {item.name}
-                </Typography>
+                </MotionTypography>
                 {item.description && (
-                  <Typography variant="body1" className={classes.companyDescription}>
+                  <MotionTypography 
+                    variant="body1" 
+                    className={classes.companyDescription}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.2 + (0.1 * index), duration: 0.5 }}
+                  >
                     {item.description}
-                  </Typography>
+                  </MotionTypography>
                 )}
                 {item.result && (
-                  <Typography variant="body2" className={classes.caseResult}>
+                  <MotionTypography 
+                    variant="body2" 
+                    className={classes.caseResult}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.2 + (0.1 * index), duration: 0.5 }}
+                  >
                     {item.result}
-                  </Typography>
+                  </MotionTypography>
                 )}
-              </Box>
+              </MotionBox>
             ))}
-          </Box>
+          </MotionBox>
           
-          <Box className={classes.rightPanel}>
-            <Box className={classes.imageContainer}>
+          <MotionBox 
+            className={classes.rightPanel}
+            variants={imageVariants}
+          >
+            <MotionBox 
+              className={classes.imageContainer}
+              whileHover={{ boxShadow: "0px 0px 20px rgba(232, 120, 17, 0.2)" }}
+              transition={{ duration: 0.3 }}
+            >
               <Box className={classes.innerImageContainer}>
-                {/* Use an actual image in production */}
-                <Box 
-                  component="img" 
-                  src="/grapho.png" // Replace with actual image path
-                  alt="Team working together"
-                  className={classes.projectImage}
-                  sx={{
-                    filter: 'brightness(0.8)',
-                    // If no actual image is available, use a background color
-                    backgroundColor: '#222',
-                    height: isMobile ? '250px' : isTablet ? '350px' : '400px'
-                  }}
-                />
+                <AnimatePresence mode="wait">
+                  <MotionBox 
+                    key={`image-${selectedIndex}`}
+                    component="img" 
+                    src={workItems[selectedIndex].image} // Image based on selection
+                    alt={workItems[selectedIndex].name}
+                    className={classes.projectImage}
+                    sx={{
+                      filter: 'brightness(0.8)',
+                      backgroundColor: '#222',
+                      height: isMobile ? '250px' : isTablet ? '350px' : '400px'
+                    }}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    variants={imageTransitionVariants}
+                  />
+                </AnimatePresence>
                 
-                <Box className={classes.statsBar}>
-                  <Box className={classes.barItem} sx={{ height: '30%' }}></Box>
-                  <Box className={classes.barItem} sx={{ height: '60%' }}></Box>
-                  <Box className={`${classes.barItem} ${classes.barHighlight}`} sx={{ height: '80%' }}></Box>
-                </Box>
+                <MotionBox 
+                  className={classes.statsBar}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                >
+                
+                </MotionBox>
+                
+                <AnimatePresence mode="wait">
+                  {/* <MotionBox
+                    key={`percent-${selectedIndex}`}
+                    className={classes.percentLabel}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.3, delay: 0.6 }}
+                  >
+                    {workItems[selectedIndex].percentage}%
+                  </MotionBox> */}
+                </AnimatePresence>
+                
+                <AnimatePresence mode="wait">
+                  <MotionBox
+                    key={`logo-${selectedIndex}`}
+                    className={classes.logoOverlay}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -10 }}
+                    transition={{ duration: 0.3, delay: 0.7 }}
+                  >
+                    {/* {getLogo(workItems[selectedIndex].logo)} */}
+                    <Typography className={classes.graphoText}>
+                      {/* {workItems[selectedIndex].name} */}
+                    </Typography>
+                  </MotionBox>
+                </AnimatePresence>
               </Box>
-            </Box>
-          </Box>
-        </Box>
+            </MotionBox>
+          </MotionBox>
+        </MotionBox>
         
-        <Box className={classes.statsContainer}>
+        <MotionBox 
+          className={classes.statsContainer}
+          variants={containerVariants}
+         >
           {stats.map((stat, index) => (
-            <Box key={index} className={classes.statItem}>
-              <Typography variant="h3" className={classes.statValue}>
-                {stat.value}
-              </Typography>
-              <Typography variant="body2" className={classes.statLabel}>
+            <MotionBox 
+              key={index} 
+              className={classes.statItem}
+              custom={index}
+              variants={statItemVariants}
+            >
+              <Counter key={index} value={String(stat.value)} className={classes.statValue} />
+
+              <MotionTypography 
+                variant="body2" 
+                className={classes.statLabel}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.0 + (index * 0.1), duration: 0.5 }}
+              >
                 {stat.label}
-              </Typography>
-            </Box>
+              </MotionTypography>
+            </MotionBox>
           ))}
-        </Box>
-      </Container>
-    </Box>
+        </MotionBox>
+      </MotionContainer>
+    </MotionBox>
   );
 }
 

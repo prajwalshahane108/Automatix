@@ -1,305 +1,605 @@
 'use client';
-import React from 'react';
-import { 
-  Box, 
-  Typography, 
-  TextField, 
-  Button, 
-  Checkbox, 
-  FormControlLabel, 
-  Link,
-  ThemeProvider,
-  createTheme
-} from '@mui/material';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import Image from "next/image";
+import {
+  Box,
+  Typography,
+  Button,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
+import MenuIcon from "@mui/icons-material/Menu";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import Footer from "../../components/Footer";
+import Review3 from "../../components/Review3";
+import { Reviews } from "@mui/icons-material";
 
-// Create a custom theme
-const theme = createTheme({
-  palette: {
-    mode: 'dark',
-    primary: {
-      main: '#6C50F7',
+const useStyles = makeStyles((theme) => ({
+  root: {
+    backgroundColor: "#000",
+    minHeight: "100vh",
+    width: "100%",
+    position: "relative",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    boxShadow:
+      "inset 150px 0 155px -5px rgba(0, 0, 0, 0.8), inset -100px 0 205px -5px rgba(0, 0, 0, 0.8), inset 0 50px 105px -5px rgba(2, 0, 0, 0.8)",
+    overflow: "hidden",
+  },
+  navbar: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderRadius: "50px",
+    border: "1px solid rgba(255, 255, 255, 0.1)",
+    backgroundColor: "#050505",
+    backgroundSize: "20px 20px",
+    margin: "15px 20px",
+    padding: "0 20px 0px 20px",
+    height: "65px",
+    width: "calc(75% - 40px)",
+    position: "fixed",
+    top: 5,
+    zIndex: 100,
+    "@media (max-width: 1200px)": {
+      width: "calc(95% - 40px)",
+      padding: "0 15px",
     },
-    background: {
-      default: '#000000',
-      paper: '#131313',
-    },
-    text: {
-      primary: '#ffffff',
-      secondary: 'rgba(255, 255, 255, 0.7)',
+    "@media (max-width: 600px)": {
+      width: "calc(90% - 20px)",
+      padding: "0 10px",
+      margin: "10px",
     },
   },
-  components: {
-    MuiTextField: {
-      styleOverrides: {
-        root: {
-          marginBottom: '20px',
-          '& .MuiOutlinedInput-root': {
-            borderRadius: '4px',
-            backgroundColor: 'rgba(25, 25, 25, 0.6)',
-            '& fieldset': {
-              borderColor: 'rgba(255, 255, 255, 0.2)',
-            },
-            '&:hover fieldset': {
-              borderColor: 'rgba(255, 255, 255, 0.3)',
-            },
-            '&.Mui-focused fieldset': {
-              borderColor: '#6C50F7',
-            },
-          },
-          '& .MuiInputLabel-root': {
-            color: 'rgba(255, 255, 255, 0.7)',
-          },
-          '& .MuiInputBase-input': {
-            color: 'white',
-          },
-        },
-      },
-    },
-    MuiCheckbox: {
-      styleOverrides: {
-        root: {
-          color: 'rgba(255, 255, 255, 0.7)',
-          '&.Mui-checked': {
-            color: '#6C50F7',
-          },
-        },
-      },
-    },
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          textTransform: 'none',
-        },
-      },
+  logo: {
+    color: "#E87811",
+    fontWeight: 600,
+    fontSize: "1.2rem",
+    marginRight: "auto",
+    "@media (max-width: 600px)": {
+      fontSize: "1rem",
     },
   },
-});
+  navItems: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    flex: "1",
+    marginLeft: "20px",
+    "@media (max-width: 1024px)": {
+      display: "none",
+    },
+  },
+  mobileMenu: {
+    display: "none",
+    "@media (max-width: 1024px)": {
+      display: "flex",
+      alignItems: "center",
+      marginLeft: "10px",
+    },
+  },
+  mobileMenuIcon: {
+    color: "white",
+    fontSize: "24px",
+    cursor: "pointer",
+  },
+  navButtonContainer: {
+    display: "flex",
+    alignItems: "center",
+    marginLeft: "auto",
+  },
+  talkButton: {
+    backgroundColor: "#161616",
+    color: "white",
+    border: "1px solid rgba(253, 245, 245, 0.87)",
+    borderRadius: "8px",
+    padding: "3px 22px",
+    textTransform: "none",
+    fontSize: "15px",
+    whiteSpace: "nowrap",
+    marginRight: "10px",
+    "&:hover": {
+      backgroundColor: "rgba(255, 255, 255, 0.05)",
+    },
+    "@media (max-width: 600px)": {
+      padding: "3px 12px",
+      fontSize: "14px",
+      marginRight: "5px",
+    },
+  },
+  arrowIcon: {
+    fontSize: "14px",
+    marginLeft: "4px",
+    "@media (max-width: 600px)": {
+      fontSize: "12px",
+    },
+  },
+  content: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    textAlign: "center",
+    justifyContent: "flex-start",
+    minHeight: "100vh",
+    paddingTop: "230px",
+    width: "100%",
+    maxWidth: "1200px",
+    position: "relative",
+    padding: "0 20px",
+    "@media (max-width: 600px)": {
+      paddingTop: "80px",
+      padding: "0 15px",
+    },
+  },
+  slideUpContainer: {
+    borderRadius: "8px",
+    padding: "15px 25px",
+    marginBottom: "20px",
+    // backgroundColor: "rgba(22, 22, 22, 0.5)",
+    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+    "@media (max-width: 600px)": {
+      padding: "10px 15px",
+    },
+  },
+  heading3: {
+      
+    color: "white",
+    fontSize: "3rem",
+    fontWeight: "400",
+    lineHeight: 1.1,
+    margin: 0,
+    marginBottom: "20px",
+    "@media (max-width: 900px)": {
+      fontSize: "2.5rem",
+    },
+    "@media (max-width: 600px)": {
+      fontSize: "2rem",
+    },
+    "@media (max-width: 480px)": {
+      fontSize: "1.8rem",
+    },
+  },
+  description: {
+    color: "#AFAFAF",
+    width: "100%",
+    fontSize: "1.2rem",
+    fontWeight: "400",
+    maxWidth: "850px",
+    marginBottom: "50px",
+    lineHeight: "1.6",
+    "@media (max-width: 900px)": {
+      fontSize: "1.1rem",
+      maxWidth: "90%",
+    },
+    "@media (max-width: 600px)": {
+      fontSize: "1rem",
+      marginBottom: "40px",
+    },
+    "@media (max-width: 480px)": {
+      fontSize: "0.9rem",
+      lineHeight: "1.5",
+    },
+  },
+  formContainer: {
+    backgroundColor: "#1A1A1A",
+    borderRadius: "10px",
+    padding: "40px",
+    maxWidth: "800px",
+    width: "100%",
+    marginBottom: "60px",
+    "@media (max-width: 768px)": {
+      padding: "30px 20px",
+    },
+  },
+  formRow: {
+    display: "flex",
+    justifyContent: "space-between",
+    gap: "20px",
+    marginBottom: "20px",
+    "@media (max-width: 768px)": {
+      flexDirection: "column",
+      gap: "15px",
+    },
+  },
+  formField: {
+    flex: "1",
+    width: "100%",
+  },
+  inputLabel: {
+    color: "white",
+    fontSize: "0.9rem",
+    marginBottom: "8px",
+    display: "block",
+    textAlign: "left",
+  },
+  inputField: {
+    width: "100%",
+    padding: "12px 15px",
+    backgroundColor: "#222222",
+    border: "none",
+    borderRadius: "5px",
+    color: "white",
+    fontSize: "0.9rem",
+  },
+  selectField: {
+    width: "100%",
+    padding: "12px 15px",
+    backgroundColor: "#222222",
+    border: "none",
+    borderRadius: "5px",
+    color: "#999",
+    fontSize: "0.9rem",
+    appearance: "none",
+    backgroundImage: "url('data:image/svg+xml;utf8,<svg fill=\"%23999\" height=\"24\" viewBox=\"0 0 24 24\" width=\"24\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M7 10l5 5 5-5z\"/></svg>')",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "right 10px center",
+  },
+  textArea: {
+    width: "100%",
+    padding: "12px 15px",
+    backgroundColor: "#222222",
+    border: "none",
+    borderRadius: "5px",
+    color: "white",
+    fontSize: "0.9rem",
+    resize: "vertical",
+    minHeight: "100px",
+  },
+  submitButton: {
+    padding: "10px 25px",
+    backgroundColor: "#E87811",
+    color: "white",
+    border: "none",
+    borderRadius: "5px",
+    fontSize: "1rem",
+    fontWeight: "500",
+    cursor: "pointer",
+    transition: "background-color 0.3s",
+    "&:hover": {
+      backgroundColor: "#D16700",
+    },
+  },
+  submitContainer: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: "30px",
+  },
+  contactNote: {
+    color: "#AFAFAF",
+    fontSize: "0.9rem",
+    textAlign: "right",
+    "@media (max-width: 768px)": {
+      textAlign: "left",
+      marginTop: "15px",
+    },
+  },
+  contactInfoSection: {
+    display: "flex",
+    justifyContent: "space-around",
+    width: "100%",
+    maxWidth: "800px",
+    marginTop: "40px",
+    marginBottom: "60px",
+    "@media (max-width: 768px)": {
+      flexDirection: "column",
+      gap: "30px",
+      alignItems: "center",
+    },
+  },
+  contactInfoItem: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    color: "white",
+  },
+  contactIcon: {
+    backgroundColor: "#222",
+    width: "50px",
+    height: "50px",
+    borderRadius: "50%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: "15px",
+  },
+  contactTitle: {
+    color: "white",
+    fontSize: "1.1rem",
+    marginBottom: "10px",
+  },
+  contactDetail: {
+    color: "#AFAFAF",
+    fontSize: "0.9rem",
+    textAlign: "center",
+  },
+}));
 
-export default function NewsletterSignup() {
+// Animation variants for Framer Motion
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 1 } }
+};
+
+const slideUp = {
+  hidden: { y: 50, opacity: 0 },
+  visible: (custom) => ({ 
+    y: 0, 
+    opacity: 1, 
+    transition: { 
+      type: "spring", 
+      damping: 15, 
+      stiffness: 100, 
+      duration: 0.8,
+      delay: custom * 0.2
+    } 
+  })
+};
+
+const navbarAnimation = {
+  hidden: { y: -100, opacity: 0 },
+  visible: { 
+    y: 0, 
+    opacity: 1, 
+    transition: { 
+      type: "spring", 
+      damping: 20, 
+      stiffness: 100, 
+      delay: 0.2 
+    } 
+  }
+};
+
+const buttonHover = {
+  rest: { scale: 1 },
+  hover: { scale: 1.05, transition: { duration: 0.2 } }
+};
+
+export default function Home() {
+  const classes = useStyles();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
   return (
-    <ThemeProvider theme={theme}>
-      <Box 
-        sx={{
-          backgroundColor: 'black',
-          minHeight: '100vh',
-          width: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'flex-start',
-          position: 'relative',
-        }}
-      >
-        {/* Full Width Image Section */}
-        <Box 
-          sx={{
-            width: '100%',
-            height: '220px',
-            overflow: 'hidden',
-            position: 'relative',
-          }}
+    <>
+      <div className={classes.root}>
+        {/* Navbar */}
+        <motion.div 
+          className={classes.navbar}
+          variants={navbarAnimation}
+          initial="hidden"
+          animate="visible"
         >
-          <Box
-            component="img"
-            src="https://storage.tally.so/391feb34-80fa-43b7-8f05-b2e0e8639a56/MyFoundersClub-not-for-sharing-4-.pdf.png" 
-            alt="Header Image"
-            sx={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              display: 'block',
-            }}
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = '/fallback-image.jpg'; // Provide a fallback image
-            }}
-          />
-        </Box>
-
-        {/* Form Section */}
-        <Box 
-          sx={{
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'flex-start',
-            paddingLeft: '5%',
-          }}
-        >
-          <Box 
-            sx={{
-              marginTop: '80px',
-              marginBottom: '80px',
-              width: '100%',
-              maxWidth: '600px',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'flex-start',
-              paddingLeft: {
-                xs: '5%',  // smaller padding on mobile
-                sm: '10%', // medium padding on tablet
-                md: '20%'  // larger padding on desktop
-              },
-              boxSizing: 'border-box',
-            }}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4, duration: 0.5 }}
           >
-            <Typography 
-              variant="h3" 
-              sx={{
-                color: 'white',
-                fontSize: '2.5rem',
-                fontWeight: 'bold',
-                marginBottom: '40px',
-                textAlign: 'left',
-                width: '100%',
+            <Typography
+              variant="h6"
+              style={{
+                background: "linear-gradient(90deg, #E87811 0%, white 200%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                color: "transparent",
+                fontWeight: 600,
+                fontSize: "1.2rem",
+                marginRight: "auto",
               }}
             >
-              Newsletter sign-up
+              MyFounders.Club
             </Typography>
+          </motion.div>
 
-            <Box sx={{ width: '100%', position: 'relative' }}>
-              <TextField 
-                variant="outlined"
-                label="Name"
-                fullWidth
-                InputProps={{
-                  style: { color: 'white' }
-                }}
-              />
-              <Typography 
-                sx={{
-                  color: 'white',
-                  position: 'absolute',
-                  right: '10px',
-                  top: '15px',
-                }}
-              >
-                *
-              </Typography>
-            </Box>
-
-            <Box sx={{ width: '100%', position: 'relative' }}>
-              <TextField 
-                variant="outlined"
-                label="Email"
-                fullWidth
-                InputProps={{
-                  style: { color: 'white' }
-                }}
-              />
-              <Typography 
-                sx={{
-                  color: 'white',
-                  position: 'absolute',
-                  right: '10px',
-                  top: '15px',
-                }}
-              >
-                *
-              </Typography>
-            </Box>
-
-            <Box sx={{ width: '100%', display: 'flex', alignItems: 'flex-start', marginBottom: '10px' }}>
-              <FormControlLabel
-                control={
-                  <Checkbox 
-                    sx={{ 
-                      color: 'rgba(255, 255, 255, 0.7)',
-                      '&.Mui-checked': {
-                        color: '#6C50F7',
-                      },
-                    }}
-                  />
-                }
-                label={
-                  <Typography 
-                    sx={{
-                      color: 'white',
-                      fontSize: '0.9rem',
-                    }}
-                  >
-                    Yes I would like to sign up for the weekly newsletter <span style={{ color: 'white' }}>*</span>
-                  </Typography>
-                }
-              />
-            </Box>
-
-            <Typography 
-              sx={{
-                color: 'rgba(255, 255, 255, 0.7)',
-                fontSize: '0.9rem',
-                marginTop: '20px',
-                textAlign: 'left',
-                width: '100%',
-              }}
+          {/* Button on right side */}
+          <motion.div 
+            className={classes.navButtonContainer}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.5, duration: 0.5 }}
+            whileHover="hover"
+            variants={buttonHover}
+          >
+            <Button
+              href="/pages/talk"
+              className={classes.talkButton}
+              disableRipple
+              endIcon={<ArrowOutwardIcon className={classes.arrowIcon} />}
             >
-              For information about our privacy practices and commitment to protecting your privacy,
-              check out our{' '}
-              <Link 
-                sx={{
-                  color: '#6C50F7',
-                  textDecoration: 'underline',
-                  cursor: 'pointer',
-                }}
-              >
-                Privacy Policy
-              </Link>.
-            </Typography>
-
-            <Button 
-              variant="contained" 
-              sx={{
-                backgroundColor: '#6C50F7',
-                color: 'white',
-                padding: '8px 20px',
-                borderRadius: '4px',
-                fontSize: '1rem',
-                marginTop: '20px',
-                alignSelf: 'flex-start',
-                '&:hover': {
-                  backgroundColor: '#5b43d6',
-                },
-              }}
-              endIcon={<ArrowForwardIcon />}
-            >
-              Sign up
+              Let's Talk
             </Button>
-          </Box>
-        </Box>
+            
+            <Button
+              href="/pages/join"
+              className={classes.talkButton}
+              disableRipple
+              endIcon={<ArrowOutwardIcon className={classes.arrowIcon} />}
+            >
+              Join
+            </Button>
+            
+            {/* Mobile Menu Icon */}
+            <Box className={classes.mobileMenu}>
+              <motion.div
+                whileHover={{ rotate: 180 }}
+                transition={{ duration: 0.3 }}
+              >
+                <MenuIcon 
+                  className={classes.mobileMenuIcon} 
+                  onClick={toggleMenu} 
+                />
+              </motion.div>
+            </Box>
+          </motion.div>
+        </motion.div>
 
-        {/* Footer */}
-        <Box 
-          sx={{
-            position: 'fixed', // Changed from absolute to fixed
-            bottom: '20px',
-            right: '20px',
-            display: 'flex',
-            alignItems: 'center',
-            color: 'white',
-            backgroundColor: 'rgba(0,0,0,0.7)', // Added background for better visibility
-            padding: '5px 10px',
-            borderRadius: '4px',
-            zIndex: 10,
-          }}
-        >
-          {/* <Typography 
-            sx={{
-              marginRight: '5px',
-              fontSize: '0.9rem',
-            }}
+        {/* Main Content */}
+        <Box className={classes.content}>
+          
+          <motion.div 
+            initial="hidden"
+            animate="visible"
+            variants={slideUp}
+            custom={0.5}
+            className={classes.slideUpContainer}
           >
-            Made with
-          </Typography>
-          <Typography 
-            sx={{
-              color: '#6C50F7',
-              fontWeight: 'bold',
-            }}
+            <Typography 
+              variant="body1" 
+              style={{
+                color: "#AFAFAF",
+                fontSize: "1rem",
+                marginBottom: "5px"
+              }}
+            >
+              Let's Talk
+            </Typography>
+            
+            <Typography variant="h2" className={classes.heading3} style={{ marginBottom: 0 }}>
+              We're Here To Help
+            </Typography>
+            
+            <Typography variant="body1" className={classes.description} style={{ marginTop: "20px", marginBottom: "10px" }}>
+              Our team is ready to support you with expert advice & solutions.
+            </Typography>
+          </motion.div>
+
+
+
+          {/* Contact Form */}
+          <motion.div 
+            initial="hidden"
+            animate="visible"
+            variants={slideUp}
+            custom={3}
+            className={classes.formContainer}
           >
-            Tally
-          </Typography> */}
+            <form>
+              <div className={classes.formRow}>
+                <div className={classes.formField}>
+                  <label className={classes.inputLabel}>Name *</label>
+                  <input 
+                    type="text" 
+                    className={classes.inputField} 
+                    placeholder="David Johnson" 
+                  />
+                </div>
+                <div className={classes.formField}>
+                  <label className={classes.inputLabel}>Email *</label>
+                  <input 
+                    type="email" 
+                    className={classes.inputField} 
+                    placeholder="example@mail.com" 
+                  />
+                </div>
+              </div>
+
+              <div className={classes.formRow}>
+                <div className={classes.formField}>
+                  <label className={classes.inputLabel}>Company Name *</label>
+                  <input 
+                    type="text" 
+                    className={classes.inputField} 
+                    placeholder="Ex. StaticMania" 
+                  />
+                </div>
+              </div>
+
+              <div className={classes.formRow}>
+                <div className={classes.formField}>
+                  <label className={classes.inputLabel}>Select Service *</label>
+                  <select className={classes.selectField}>
+                    <option value="">Select Your Service</option>
+                    <option value="web">Web Development</option>
+                    <option value="app">App Development</option>
+                    <option value="design">UI/UX Design</option>
+                  </select>
+                </div>
+                <div className={classes.formField}>
+                  <label className={classes.inputLabel}>Project Budget *</label>
+                  <select className={classes.selectField}>
+                    <option value="">Select Your Range</option>
+                    <option value="small">$5,000 - $10,000</option>
+                    <option value="medium">$10,000 - $50,000</option>
+                    <option value="large">$50,000+</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className={classes.formRow}>
+                <div className={classes.formField}>
+                  <label className={classes.inputLabel}>Project Details</label>
+                  <textarea 
+                    className={classes.textArea} 
+                    placeholder="Tell us more about your project" 
+                  />
+                </div>
+              </div>
+
+              <div className={classes.submitContainer}>
+                <button className={classes.submitButton}>
+                  Submit <ArrowOutwardIcon style={{ fontSize: 16, marginLeft: 4 }} />
+                </button>
+                <div className={classes.contactNote}>
+                  We will contact you within 24 business hours.
+                </div>
+              </div>
+            </form>
+          </motion.div>
+
+          {/* Contact Information */}
+          <motion.div 
+            initial="hidden"
+            animate="visible"
+            variants={slideUp}
+            custom={4}
+            className={classes.contactInfoSection}
+          >
+            <div className={classes.contactInfoItem}>
+              <div className={classes.contactIcon}>
+                <span style={{ fontSize: "20px" }}>🏢</span>
+              </div>
+              <h3 className={classes.contactTitle}>Head Office</h3>
+              <p className={classes.contactDetail}>
+                5899 Alexys Highway Suite<br />
+                678, NR, Nevada, USA
+              </p>
+            </div>
+
+            <div className={classes.contactInfoItem}>
+              <div className={classes.contactIcon}>
+                <span style={{ fontSize: "20px" }}>📞</span>
+              </div>
+              <h3 className={classes.contactTitle}>Phone</h3>
+              <p className={classes.contactDetail}>
+                +1 234 567 890<br />
+                +1 234 567 890
+              </p>
+            </div>
+
+            <div className={classes.contactInfoItem}>
+              <div className={classes.contactIcon}>
+                <span style={{ fontSize: "20px" }}>✉️</span>
+              </div>
+              <h3 className={classes.contactTitle}>Email</h3>
+              <p className={classes.contactDetail}>
+                customer@automx.com<br />
+                client@automx.com
+              </p>
+            </div>
+          </motion.div>
         </Box>
-      </Box>
-    </ThemeProvider>
+        <Review3/>
+        <Footer/>
+      </div>
+    </>
   );
 }

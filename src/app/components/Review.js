@@ -1,5 +1,5 @@
 // components/TestimonialsSection.js
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Typography,
@@ -13,6 +13,14 @@ import {
 import StarIcon from "@mui/icons-material/Star";
 import { makeStyles } from "@mui/styles";
 import BoltIcon from "@mui/icons-material/Bolt";
+import { motion, useAnimation } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+
+// Create motion components
+const MotionBox = motion(Box);
+const MotionTypography = motion(Typography);
+const MotionContainer = motion(Container);
+const MotionStarIcon = motion(StarIcon);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -226,7 +234,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "10px",
   },
   statValue: {
-    color: "white",
+    color: "#fff",
     fontSize: "2rem",
     fontWeight: "600",
     '@media (max-width: 768px)': {
@@ -346,6 +354,108 @@ function TestimonialsSection() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isTablet = useMediaQuery(theme.breakpoints.down('md'));
+  
+  // Animation controls
+  const controls = useAnimation();
+  const [ref, inView] = useInView({
+    threshold: 0.1,
+    triggerOnce: true,
+  });
+  
+  // Animate when section comes into view
+  useEffect(() => {
+    if (inView) {
+      controls.start("visible");
+    }
+  }, [controls, inView]);
+
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const imageVariants = {
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.8,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const textVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: 0.3 + (i * 0.2),
+        duration: 0.8,
+        ease: "easeOut",
+      },
+    }),
+  };
+
+  const starVariants = {
+    hidden: { opacity: 0, scale: 0 },
+    visible: (i) => ({
+      opacity: 1,
+      scale: 1,
+      transition: {
+        delay: 0.6 + (i * 0.1),
+        duration: 0.4,
+        type: "spring",
+        stiffness: 300,
+        damping: 10,
+      },
+    }),
+  };
+
+  const statNumberVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: 0.5 + (i * 0.1),
+        duration: 0.5,
+      },
+    }),
+  };
 
   // Featured testimonial data
   const featuredTestimonial = {
@@ -401,116 +511,296 @@ function TestimonialsSection() {
     switch (company) {
       case "Zapfast":
         return (
-          <Box className={classes.companyLogo}>
-            <Box className={classes.logoIcon}>
+          <MotionBox 
+            className={classes.companyLogo}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+          >
+            <MotionBox 
+              className={classes.logoIcon}
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ 
+                delay: 0.4, 
+                duration: 0.5, 
+                type: "spring",
+                stiffness: 200,
+                damping: 10 
+              }}
+            >
               <BoltIcon />
-            </Box>
+            </MotionBox>
             <Typography className={classes.companyName}>Zapfast</Typography>
-          </Box>
+          </MotionBox>
         );
       default:
         return (
-          <Box className={classes.companyLogo}>
-            <Box className={classes.logoIcon}>
+          <MotionBox 
+            className={classes.companyLogo}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+          >
+            <MotionBox 
+              className={classes.logoIcon}
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ 
+                delay: 0.4, 
+                duration: 0.5, 
+                type: "spring",
+                stiffness: 200,
+                damping: 10 
+              }}
+            >
               <BoltIcon />
-            </Box>
+            </MotionBox>
             <Typography className={classes.companyName}>{company}</Typography>
-          </Box>
+          </MotionBox>
         );
     }
   };
 
-  return (
-    <Box className={classes.root}>
-      <Container maxWidth="lg" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <Typography variant="body1" className={classes.sectionTag}>
-          Insider
-        </Typography>
+  // Counter for statistics
+  const StatCounter = ({ value, className, index }) => {
+    // Parse numeric part from string like "73%" or "5X"
+    const getNumericValue = () => {
+      if (value.includes('%')) {
+        return parseFloat(value);
+      } else if (value.includes('X')) {
+        return parseFloat(value);
+      }
+      return parseFloat(value);
+    };
 
-        <Typography variant="h2" className={classes.sectionTitle}>
+    const numericValue = getNumericValue();
+    const suffix = value.includes('%') ? '%' : value.includes('X') ? 'X' : '';
+    
+    return (
+      <MotionTypography 
+        variant="h4" 
+        className={className}
+        custom={index}
+        variants={statNumberVariants}
+      >
+        {value}
+      </MotionTypography>
+    );
+  };
+
+  return (
+    <MotionBox 
+      ref={ref}
+      className={classes.root}
+      initial="hidden"
+      animate={controls}
+      variants={containerVariants}
+    >
+      <MotionContainer 
+        maxWidth="lg" 
+        sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+        variants={containerVariants}
+      >
+        <MotionTypography 
+          variant="body1" 
+          className={classes.sectionTag}
+          variants={itemVariants}
+        >
+          Insider
+        </MotionTypography>
+
+        <MotionTypography 
+          variant="h2" 
+          className={classes.sectionTitle}
+          variants={itemVariants}
+        >
           Shape the future of investment.
           {!isMobile && <br />}
           Join MyFounders.Club today!
-        </Typography>
+        </MotionTypography>
 
         {/* Featured Testimonial */}
-        <Box className={classes.featuredTestimonial}>
-          <Box
+        <MotionBox 
+          className={classes.featuredTestimonial}
+          variants={containerVariants}
+        >
+          <MotionBox
             className={classes.testimonialImage}
             component="img"
             src={featuredTestimonial.image}
             alt={featuredTestimonial.personName}
             sx={{
               objectFit: "cover",
-              // Fallback background if image fails to load
               backgroundColor: "#333",
+            }}
+            variants={imageVariants}
+            whileHover={{ 
+              scale: 1.02, 
+              transition: { duration: 0.3 } 
             }}
           />
 
-          <Box className={classes.testimonialContent}>
+          <MotionBox 
+            className={classes.testimonialContent}
+            variants={containerVariants}
+          >
             <CompanyLogo company={featuredTestimonial.company} />
 
-            <Typography variant="h3" className={classes.testimonyText}>
+            <MotionTypography 
+              variant="h3" 
+              className={classes.testimonyText}
+              variants={textVariants}
+            >
               {featuredTestimonial.testimony}
-            </Typography>
+            </MotionTypography>
 
-            <Box className={classes.personInfo}>
-              <Typography variant="h5" className={classes.personName}>
+            <MotionBox 
+              className={classes.personInfo}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6, duration: 0.6 }}
+            >
+              <MotionTypography 
+                variant="h5" 
+                className={classes.personName}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.7, duration: 0.5 }}
+              >
                 {featuredTestimonial.personName}
-              </Typography>
-              <Typography variant="h5" className={classes.personTitle}>
+              </MotionTypography>
+              <MotionTypography 
+                variant="h5" 
+                className={classes.personTitle}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8, duration: 0.5 }}
+              >
                 {featuredTestimonial.personTitle}
-              </Typography>
-            </Box>
+              </MotionTypography>
+            </MotionBox>
 
-            <Box className={classes.statsContainer}>
+            <MotionBox 
+              className={classes.statsContainer}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8, duration: 0.5 }}
+            >
               {featuredTestimonial.stats.map((stat, index) => (
-                <Box key={index} className={classes.statItem}>
-                  <Typography variant="h4" className={classes.statValue}>
+                <MotionBox 
+                  key={index} 
+                  className={classes.statItem}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.9 + (index * 0.1), duration: 0.5 }}
+                >
+                  <Typography 
+                    value={stat.value} 
+                    className={classes.statValue} 
+                    index={index}
+                  >
                     {stat.value}
-                  </Typography>
-                  <Typography variant="body2" className={classes.statLabel}>
+                  </Typography> 
+                  <MotionTypography 
+                    variant="body2" 
+                    className={classes.statLabel}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1.0 + (index * 0.1), duration: 0.5 }}
+                  >
                     {stat.label}
-                  </Typography>
-                </Box>
+                  </MotionTypography>
+                </MotionBox>
               ))}
-            </Box>
-          </Box>
-        </Box>
+            </MotionBox>
+          </MotionBox>
+        </MotionBox>
 
         {/* Testimonial Cards */}
-        <Box className={classes.testimonialCards}>
+        <MotionBox 
+          className={classes.testimonialCards}
+          variants={containerVariants}
+        >
           {cardTestimonials.map((testimonial, index) => (
-            <Box key={index} className={classes.testimonialCard}>
-              <Typography variant="h6" className={classes.companyLogoSmall}>
+            <MotionBox 
+              key={index} 
+              className={classes.testimonialCard}
+              custom={index}
+              variants={cardVariants}
+             
+            >
+              <MotionTypography 
+                variant="h6" 
+                className={classes.companyLogoSmall}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4 + (index * 0.2), duration: 0.5 }}
+              >
                 {testimonial.company}
-              </Typography>
+              </MotionTypography>
 
-              <Box className={classes.ratingContainer}>
+              <MotionBox 
+                className={classes.ratingContainer}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 + (index * 0.2), duration: 0.5 }}
+              >
                 <Box sx={{ display: 'flex' }}>
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <StarIcon key={i} className={classes.starIcon} />
+                    <MotionStarIcon 
+                      key={i} 
+                      className={classes.starIcon}
+                      custom={i}
+                      variants={starVariants}
+                      initial="hidden"
+                      animate="visible"
+                      
+                    />
                   ))}
                 </Box>
-              </Box>
+              </MotionBox>
 
-              <Typography variant="body1" className={classes.cardTestimony}>
+              <MotionTypography 
+                variant="body1" 
+                className={classes.cardTestimony}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.7 + (index * 0.2), duration: 0.5 }}
+              >
                 {testimonial.testimony}
-              </Typography>
+              </MotionTypography>
 
-              <Box className={classes.cardPersonInfo}>
-                <Typography variant="h6" className={classes.cardPersonName}>
+              <MotionBox 
+                className={classes.cardPersonInfo}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8 + (index * 0.2), duration: 0.5 }}
+              >
+                <MotionTypography 
+                  variant="h6" 
+                  className={classes.cardPersonName}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.9 + (index * 0.2), duration: 0.5 }}
+                >
                   {testimonial.personName}
-                </Typography>
-                <Typography variant="body2" className={classes.cardPersonTitle}>
+                </MotionTypography>
+                <MotionTypography 
+                  variant="body2" 
+                  className={classes.cardPersonTitle}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 1.0 + (index * 0.2), duration: 0.5 }}
+                >
                   {testimonial.personTitle}
-                </Typography>
-              </Box>
-            </Box>
+                </MotionTypography>
+              </MotionBox>
+            </MotionBox>
           ))}
-        </Box>
-      </Container>
-    </Box>
+        </MotionBox>
+      </MotionContainer>
+    </MotionBox>
   );
 }
 
