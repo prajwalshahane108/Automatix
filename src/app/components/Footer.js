@@ -79,14 +79,14 @@ const useStyles = makeStyles(() => ({
   },
   callButton: {
     color: "#E87811",
-    border: "1px solid #E87811",
+    border: "1px solid #000",
     borderRadius: "50px",
     padding: "10px 24px",
     fontSize: "1rem",
     textTransform: "none",
     marginBottom: "80px",
     "&:hover": {
-      backgroundColor: "rgba(255, 158, 44, 0.1)",
+      backgroundColor: "rgba(0, 0, 0, 0.92)",
     },
   },
   buttonIcon: {

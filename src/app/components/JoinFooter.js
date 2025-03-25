@@ -71,18 +71,19 @@ const useStyles = makeStyles(() => ({
     },
   },
   subtitle: {
-    color: "rgba(255, 255, 255, 0.7)",
+    color: "#919191",
     fontSize: "1.1rem",
     marginBottom: "40px",
-    maxWidth: "500px",
+    maxWidth: "400px",
     lineHeight: 1.6,
   },
   callButton: {
     color: "#E87811",
-    border: "1px solid #E87811",
+    border: "1px solid #000",
     borderRadius: "50px",
     padding: "10px 24px",
-    fontSize: "1rem",
+    fontWeight: "300",
+    fontSize: "1.5rem",
     textTransform: "none",
     marginBottom: "80px",
     "&:hover": {
@@ -101,8 +102,8 @@ const useStyles = makeStyles(() => ({
     flexWrap: "wrap",
   },
   navLink: {
-    color: "rgba(255, 255, 255, 0.7)",
-    fontSize: "1rem",
+    color: "#919191",
+    fontSize: "1.2rem",
     textDecoration: "none",
     "&:hover": {
       color: "white",
@@ -258,7 +259,7 @@ function FooterSection() {
           variants={containerVariants}
         >
           <MotionBox 
-            sx={{ mb: 7, mt: 1 }} 
+            sx={{ mb: 7, mt: 4 }} 
             className={classes.heading1}
             variants={logoVariants}
           >
@@ -266,8 +267,8 @@ function FooterSection() {
               objectFit="contain"
               src="https://framerusercontent.com/images/UDSUes4B94lfLzzemyBwC6LQeEA.png?scale-down-to=1024"
               alt="MyFounders.Club"
-              width={400}
-              height={50}
+              width={180}
+              height={30}
               priority
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
@@ -279,9 +280,9 @@ function FooterSection() {
             className={classes.title}
             variants={titleVariants}
           >
-            Building the Future
+           Let’s Turn Your
             <br />
-            in Saudi Arabia
+            Dream Into Reality
           </MotionTypography>
 
           <MotionTypography 
@@ -289,9 +290,7 @@ function FooterSection() {
             className={classes.subtitle}
             variants={itemVariants}
           >
-            Join ambitious founders, partners, and investors to break new
-            ground, expand into emerging markets, and build game-changing
-            ventures across borders in Saudi Arabia.
+           We bring your vision to life with creativity<br/> and precision. Let’s make it happen.
           </MotionTypography>
 
           <MotionButton
@@ -303,7 +302,7 @@ function FooterSection() {
             whileHover="hover"
             whileTap="tap"
           >
-            Explore
+            Book A Call
           </MotionButton>
 
           <MotionBox 
@@ -313,7 +312,7 @@ function FooterSection() {
             {navLinks.map((link, index) => (
               <MotionLink
                 key={index}
-                href={link.href}
+                // href={link.href}
                 className={classes.navLink}
                 underline="none"
                 custom={index}
@@ -330,8 +329,7 @@ function FooterSection() {
             className={classes.copyright}
             variants={copyrightVariants}
           >
-            Copyright MyFoundersClub .Kingdom of Saudi Arabia, 2025. All right
-            reserved.
+            Copyright Automatix. All right reserved.
           </MotionTypography>
         </MotionContainer>
       </MotionBox>

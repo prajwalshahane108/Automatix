@@ -1,358 +1,131 @@
-// components/TestimonialsSection.js
-import React from 'react';
-import { Box, Typography, Grid, Container, Avatar, Rating } from '@mui/material';
-import { makeStyles } from '@mui/styles';
-import BoltIcon from '@mui/icons-material/Bolt';
+import React, { useEffect, useState } from 'react';
+import { Box, Typography, Container, useTheme } from '@mui/material';
+import { motion, useAnimation } from 'framer-motion';
+import { styled } from '@mui/material/styles';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: 'black',
-    backgroundImage: 'radial-gradient(circle, rgba(75, 75, 75, 0.1) 1px, transparent 1px)',
-    backgroundSize: '20px 20px',
-    minHeight: '100vh',
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: '60px 20px',
+// Styled components
+const LogoContainer = styled(Box)(({ theme }) => ({
+  position: 'relative',
+  borderRadius: 20,
+  width: '100%',
+  marginTop: theme.spacing(4),
+  height: 80,
+  overflow: 'hidden',
+  '&::before, &::after': {
+    content: '""',
+    position: 'absolute',
+    top: 0,
+    width: '15%',
+    height: '100%',
+    zIndex: 2,
+    pointerEvents: 'none',
   },
-  sectionTag: {
-    color: 'white',
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-    border: '1px solid rgba(255, 255, 255, 0.1)',
-    borderRadius: '50px',
-    padding: '8px 20px',
-    fontSize: '14px',
-    marginBottom: '30px',
-    display: 'inline-block',
+  '&::before': {
+    left: 0,
+    background: 'linear-gradient(to right, rgba(0, 0, 0, 0.4), transparent)',
   },
-  sectionTitle: {
-    color: 'white',
-    fontSize: '3.5rem',
-    fontWeight: '600',
-    textAlign: 'center',
-    marginBottom: '60px',
-    '@media (max-width: 768px)': {
-      fontSize: '2.5rem',
-    },
-  },
-  featuredTestimonial: {
-    display: 'flex',
-    width: '100%',
-    maxWidth: '1200px',
-    marginBottom: '80px',
-    flexWrap: 'wrap',
-    '@media (max-width: 960px)': {
-      flexDirection: 'column',
-      alignItems: 'center',
-    },
-  },
-  testimonialImage: {
-    width: '100%',
-    maxWidth: '400px',
-    height: '400px',
-    borderRadius: '16px',
-    overflow: 'hidden',
-    marginRight: '40px',
-    '@media (max-width: 960px)': {
-      marginRight: '0',
-      marginBottom: '30px',
-    },
-  },
-  testimonialContent: {
-    flex: 1,
-    minWidth: '300px',
-    '@media (max-width: 960px)': {
-      textAlign: 'center',
-    },
-  },
-  companyLogo: {
-    display: 'flex',
-    alignItems: 'center',
-    marginBottom: '20px',
-  },
-  logoIcon: {
-    backgroundColor: '#E87811',
-    borderRadius: '50%',
-    width: '40px',
-    height: '40px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: '10px',
-    color: 'white',
-  },
-  companyName: {
-    color: 'white',
-    fontSize: '1.5rem',
-    fontWeight: '500',
-  },
-  testimonyText: {
-    color: 'white',
-    fontSize: '1.8rem',
-    fontWeight: '600',
-    marginBottom: '30px',
-    lineHeight: 1.4,
-    '@media (max-width: 768px)': {
-      fontSize: '1.5rem',
-    },
-  },
-  personInfo: {
-    marginBottom: '40px',
-  },
-  personName: {
-    color: 'white',
-    fontSize: '1.3rem',
-    fontWeight: '500',
-  },
-  personTitle: {
-    color: 'rgba(255, 255, 255, 0.7)',
-    fontSize: '1rem',
-  },
-  statsContainer: {
-    display: 'flex',
-    gap: '40px',
-    '@media (max-width: 768px)': {
-      justifyContent: 'center',
-    },
-  },
-  statItem: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  statValue: {
-    color: 'white',
-    fontSize: '2rem',
-    fontWeight: '600',
-  },
-  statLabel: {
-    color: 'rgba(255, 255, 255, 0.7)',
-    fontSize: '0.9rem',
-  },
-  testimonialCards: {
-    display: 'flex',
-    width: '100%',
-    maxWidth: '1200px',
-    justifyContent: 'space-between',
-    gap: '20px',
-    '@media (max-width: 960px)': {
-      flexDirection: 'column',
-      alignItems: 'center',
-    },
-  },
-  testimonialCard: {
-    flex: 1,
-    minWidth: '300px',
-    maxWidth: '380px',
-    padding: '0 20px',
-    borderRight: '1px solid rgba(255, 255, 255, 0.1)',
-    '&:last-child': {
-      borderRight: 'none',
-    },
-    '@media (max-width: 960px)': {
-      borderRight: 'none',
-      borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-      paddingBottom: '30px',
-      marginBottom: '30px',
-      '&:last-child': {
-        borderBottom: 'none',
-      },
-    },
-  },
-  companyLogoSmall: {
-    color: 'rgba(255, 255, 255, 0.7)',
-    fontSize: '1.2rem',
-    fontWeight: '500',
-    marginBottom: '10px',
-    display: 'block',
-    textAlign: 'center',
-  },
-  ratingContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    marginBottom: '20px',
-  },
-  cardTestimony: {
-    color: 'rgba(255, 255, 255, 0.8)',
-    fontSize: '1rem',
-    textAlign: 'center',
-    marginBottom: '20px',
-    lineHeight: 1.6,
-  },
-  cardPersonInfo: {
-    textAlign: 'center',
-  },
-  cardPersonName: {
-    color: 'white',
-    fontSize: '1.1rem',
-    fontWeight: '500',
-  },
-  cardPersonTitle: {
-    color: 'rgba(255, 255, 255, 0.7)',
-    fontSize: '0.9rem',
+  '&::after': {
+    right: 0,
+    background: 'linear-gradient(to left, rgba(0, 0, 0, 0.29), transparent)',
   },
 }));
 
-function TestimonialsSection() {
-  const classes = useStyles();
+const LogoTrack = styled(motion.div)({
+  display: 'flex',
+  position: 'absolute',
+  alignItems: 'center',
+  width: 'max-content',
+});
 
-  // Featured testimonial data
-  const featuredTestimonial = {
-    image: '/testimonial-person.jpg', // Replace with an actual image path
-    company: 'Zapfast',
-    testimony: '"Automatix\'s Fusion Of AI And Innovation Set Our Project Apart. Their Solutions Are Second To None."',
-    personName: 'Zidane Muharto',
-    personTitle: 'Chief Technology Officer',
-    stats: [
-      {
-        value: '73%',
-        label: 'Sales increase in first month.'
-      },
-      {
-        value: '5X',
-        label: 'Faster customer resolutions.'
-      }
-    ]
-  };
+const LogoWrapper = styled(motion.div)(({ theme }) => ({
+  margin: '0 24px',
+  opacity: 0.7,
+  transition: 'opacity 0.3s ease',
+  '&:hover': {
+    opacity: 1,
+  },
+}));
 
-  // Card testimonials data
-  const cardTestimonials = [
-    {
-      company: 'CreativEdge',
-      rating: 5,
-      testimony: '"The creativity and AI expertise from Automatix set a new benchmark for our industry. Highly recommended!"',
-      personName: 'Agus Blimbing',
-      personTitle: 'Tech Manager'
-    },
-    {
-      company: 'BrightNest',
-      rating: 5,
-      testimony: '"Automatix\'s revolutionary AI approach and creative solutions elevated our project. Stellar performance!"',
-      personName: 'Steve Kebalen',
-      personTitle: 'AI Developer'
-    },
-    {
-      company: 'PrimeCore',
-      rating: 5,
-      testimony: '"The blend of AI and creativity at Automatix transformed our vision into reality. Exceptional support!"',
-      personName: 'John Kepanjen',
-      personTitle: 'E-Commerce Stacks'
-    }
+// Main component
+const FeaturedLogos = () => {
+  const theme = useTheme();
+  const [trackWidth, setTrackWidth] = useState(0);
+  
+  // Logos data
+  const logos = [
+    { src: "https://framerusercontent.com/images/tnjkbQJwRbdGkxEcDO0Jqu1aTZM.svg", alt: "Optimal Logo" },
+    { src: "https://framerusercontent.com/images/497xK9DhewPLaDj5d8bkw0cAg.svg", alt: "Zapfast Logo" },
+    { src: "https://framerusercontent.com/images/gtA2k0HxvLgyb2ShavqPh2ut8M.svg", alt: "Grapho Logo" },
+    { src: "https://framerusercontent.com/images/v8pRoXjGv8Kuqg4GJYQjdWqJD0.svg", alt: "Signum Logo" },
+    { src: "https://framerusercontent.com/images/z6DLxkMPmuYBeO3zshpNfjAxLg8.svg", alt: "Vectra Logo" },
   ];
-
-  // Logo component for featured testimonial
-  const CompanyLogo = ({ company }) => {
-    // Custom component for company logo
-    switch (company) {
-      case 'Zapfast':
-        return (
-          <Box className={classes.companyLogo}>
-            <Box className={classes.logoIcon}>
-              <BoltIcon />
-            </Box>
-            <Typography className={classes.companyName}>
-              Zapfast
-            </Typography>
-          </Box>
-        );
-      default:
-        return (
-          <Box className={classes.companyLogo}>
-            <Box className={classes.logoIcon}>
-              <BoltIcon />
-            </Box>
-            <Typography className={classes.companyName}>
-              {company}
-            </Typography>
-          </Box>
-        );
-    }
-  };
-
+  
+  // Duplicate logos for infinite scroll effect
+  const duplicatedLogos = [...logos, ...logos, ...logos];
+  
+  // Calculate the width of all logos for animation
+  useEffect(() => {
+    // Estimate the width of each logo item (logo + margin)
+    const estimatedItemWidth = 120; // Logo width + margins
+    const totalWidth = duplicatedLogos.length * estimatedItemWidth;
+    setTrackWidth(totalWidth);
+  }, [duplicatedLogos.length]);
+  
   return (
-    <Box className={classes.root}>
-      <Typography variant="body1" className={classes.sectionTag}>
-        What Our Users Say
-      </Typography>
-      
-      <Typography variant="h2" className={classes.sectionTitle}>
-        Trusted By Businesses Like Yours
-      </Typography>
-      
-      {/* Featured Testimonial */}
-      <Box className={classes.featuredTestimonial}>
-        <Box 
-          className={classes.testimonialImage}
-          component="img"
-          src={featuredTestimonial.image}
-          alt={featuredTestimonial.personName}
-          sx={{
-            objectFit: 'cover',
-            // Fallback background if image fails to load
-            backgroundColor: '#333',
-          }}
-        />
-        
-        <Box className={classes.testimonialContent}>
-          <CompanyLogo company={featuredTestimonial.company} />
-          
-          <Typography variant="h3" className={classes.testimonyText}>
-            {featuredTestimonial.testimony}
+    <Box sx={{ backgroundColor: 'transparent', color: '#fff', py: 6, width: '100%' }}>
+      <Container maxWidth="md">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <Typography 
+            variant="h6" 
+            component="h2" 
+            align="center" 
+            sx={{ 
+              fontWeight: 400, 
+              fontSize: { xs: '1rem', md: '1.2rem' }, 
+              opacity: 0.8 
+            }}
+          >
+            Our services are featured on
           </Typography>
-          
-          <Box className={classes.personInfo}>
-            <Typography variant="h5" className={classes.personName}>
-              {featuredTestimonial.personName}
-            </Typography>
-            <Typography variant="body2" className={classes.personTitle}>
-              {featuredTestimonial.personTitle}
-            </Typography>
-          </Box>
-          
-          <Box className={classes.statsContainer}>
-            {featuredTestimonial.stats.map((stat, index) => (
-              <Box key={index} className={classes.statItem}>
-                <Typography variant="h4" className={classes.statValue}>
-                  {stat.value}
-                </Typography>
-                <Typography variant="body2" className={classes.statLabel}>
-                  {stat.label}
-                </Typography>
-              </Box>
+        </motion.div>
+        
+        <LogoContainer>
+          <LogoTrack
+            initial={{ x: 0 }}
+            animate={{ 
+              x: [-trackWidth / 3, -trackWidth * 2/3] 
+            }}
+            transition={{ 
+              repeat: Infinity, 
+              duration: 20,
+              ease: "linear"
+            }}
+          >
+            {duplicatedLogos.map((logo, index) => (
+              <LogoWrapper
+                key={`${logo.alt}-${index}`}
+                whileHover={{ scale: 1.05 }}
+              >
+                <Box 
+                  component="img" 
+                  src={logo.src} 
+                  alt={logo.alt}
+                  sx={{ 
+                    height: { xs: 30, md: 40 }, 
+                    filter: 'brightness(0) invert(1)',
+                  }} 
+                />
+              </LogoWrapper>
             ))}
-          </Box>
-        </Box>
-      </Box>
-      
-      {/* Testimonial Cards */}
-      <Box className={classes.testimonialCards}>
-        {cardTestimonials.map((testimonial, index) => (
-          <Box key={index} className={classes.testimonialCard}>
-            <Typography variant="h6" className={classes.companyLogoSmall}>
-              {testimonial.company}
-            </Typography>
-            
-            <Box className={classes.ratingContainer}>
-              <Rating value={testimonial.rating} readOnly />
-            </Box>
-            
-            <Typography variant="body1" className={classes.cardTestimony}>
-              {testimonial.testimony}
-            </Typography>
-            
-            <Box className={classes.cardPersonInfo}>
-              <Typography variant="h6" className={classes.cardPersonName}>
-                {testimonial.personName}
-              </Typography>
-              <Typography variant="body2" className={classes.cardPersonTitle}>
-                {testimonial.personTitle}
-              </Typography>
-            </Box>
-          </Box>
-        ))}
-      </Box>
+          </LogoTrack>
+        </LogoContainer>
+      </Container>
     </Box>
   );
-}
+};
 
-export default TestimonialsSection;
+export default FeaturedLogos;

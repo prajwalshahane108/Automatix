@@ -1,20 +1,26 @@
-'use client';
+"use client";
 import Image from "next/image";
 import {
   Box,
   Typography,
   Button,
   useMediaQuery,
+  TextField,
   useTheme,
+  MenuItem,  
+  TextareaAutosize,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import EmojiTransportationIcon from "@mui/icons-material/EmojiTransportation";
+import CallIcon from "@mui/icons-material/Call";
+import EmailIcon from "@mui/icons-material/Email";
 import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import Footer from "../../components/Footer";
-import Review3 from "../../components/Review3";
-import { Reviews } from "@mui/icons-material";
+import Joinfaq from "../../components/joinFAQ";
+import JoinFooter from "../../components/JoinFooter";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     margin: "15px 20px",
     padding: "0 20px 0px 20px",
     height: "65px",
-    width: "calc(75% - 40px)",
+    width: "calc(65% - 40px)",
     position: "fixed",
     top: 5,
     zIndex: 100,
@@ -52,6 +58,52 @@ const useStyles = makeStyles((theme) => ({
       width: "calc(90% - 20px)",
       padding: "0 10px",
       margin: "10px",
+    },
+  },
+  textField: {
+    width: "100%",
+    "& .MuiInputBase-root": {
+      color: "white",
+    },
+    "& .MuiInput-underline:before": {
+      borderBottomColor: "rgba(255, 255, 255, 0.3)",
+    },
+    "& .MuiInput-underline:after": {
+      borderBottomColor: "#E87811",
+    },
+    "& .MuiInput-underline:hover:not(.Mui-disabled):before": {
+      borderBottomColor: "rgba(255, 255, 255, 0.5)",
+    },
+    "& .MuiFormLabel-root": {
+      color: "#AFAFAF",
+    },
+    "& .MuiFormLabel-root.Mui-focused": {
+      color: "#E87811",
+    },
+    "& .MuiSelect-icon": {
+      color: "#AFAFAF",
+    },
+  },
+  selectField: {
+    width: "100%",
+    "& .MuiSelect-select": {
+      padding: "10px 0",
+    },
+  },
+  textArea: {
+    width: "100%",
+    backgroundColor: "transparent",
+    border: "none",
+    borderBottom: "1px solid rgba(255, 255, 255, 0.3)",
+    color: "white",
+    fontSize: "1rem",
+    padding: "10px 0",
+    resize: "vertical",
+    minHeight: "100px",
+    fontFamily: "inherit",
+    "&:focus": {
+      outline: "none",
+      borderBottomColor: "#E87811",
     },
   },
   logo: {
@@ -66,7 +118,7 @@ const useStyles = makeStyles((theme) => ({
   navItems: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "flex-start",
+    justifyContent: "center",
     flex: "1",
     marginLeft: "20px",
     "@media (max-width: 1024px)": {
@@ -145,7 +197,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   heading3: {
-      
     color: "white",
     fontSize: "3rem",
     fontWeight: "400",
@@ -183,11 +234,28 @@ const useStyles = makeStyles((theme) => ({
       lineHeight: "1.5",
     },
   },
+  navLink: {
+    color: "#AFAFAF",
+    margin: "0 12px",
+    fontSize: "16.5px",
+    fontWeight: "400",
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    whiteSpace: "nowrap",
+    "&:hover": {
+      color: "#E87811",
+    },
+    "@media (max-width: 1200px)": {
+      fontSize: "15px",
+      margin: "0 8px",
+    },
+  },
   formContainer: {
     backgroundColor: "#1A1A1A",
-    borderRadius: "10px",
+    borderRadius: "30px",
     padding: "40px",
-    maxWidth: "800px",
+    maxWidth: "850px",
     width: "100%",
     marginBottom: "60px",
     "@media (max-width: 768px)": {
@@ -233,7 +301,8 @@ const useStyles = makeStyles((theme) => ({
     color: "#999",
     fontSize: "0.9rem",
     appearance: "none",
-    backgroundImage: "url('data:image/svg+xml;utf8,<svg fill=\"%23999\" height=\"24\" viewBox=\"0 0 24 24\" width=\"24\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M7 10l5 5 5-5z\"/></svg>')",
+    backgroundImage:
+      'url(\'data:image/svg+xml;utf8,<svg fill="%23999" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>\')',
     backgroundRepeat: "no-repeat",
     backgroundPosition: "right 10px center",
   },
@@ -249,11 +318,11 @@ const useStyles = makeStyles((theme) => ({
     minHeight: "100px",
   },
   submitButton: {
-    padding: "10px 25px",
+    padding: "14px 25px",
     backgroundColor: "#E87811",
     color: "white",
     border: "none",
-    borderRadius: "5px",
+    borderRadius: "10px",
     fontSize: "1rem",
     fontWeight: "500",
     cursor: "pointer",
@@ -270,7 +339,7 @@ const useStyles = makeStyles((theme) => ({
   },
   contactNote: {
     color: "#AFAFAF",
-    fontSize: "0.9rem",
+    fontSize: "1.1rem",
     textAlign: "right",
     "@media (max-width: 768px)": {
       textAlign: "left",
@@ -321,41 +390,41 @@ const useStyles = makeStyles((theme) => ({
 // Animation variants for Framer Motion
 const fadeIn = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 1 } }
+  visible: { opacity: 1, transition: { duration: 1 } },
 };
 
 const slideUp = {
   hidden: { y: 50, opacity: 0 },
-  visible: (custom) => ({ 
-    y: 0, 
-    opacity: 1, 
-    transition: { 
-      type: "spring", 
-      damping: 15, 
-      stiffness: 100, 
+  visible: (custom) => ({
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: "spring",
+      damping: 15,
+      stiffness: 100,
       duration: 0.8,
-      delay: custom * 0.2
-    } 
-  })
+      delay: custom * 0.2,
+    },
+  }),
 };
 
 const navbarAnimation = {
   hidden: { y: -100, opacity: 0 },
-  visible: { 
-    y: 0, 
-    opacity: 1, 
-    transition: { 
-      type: "spring", 
-      damping: 20, 
-      stiffness: 100, 
-      delay: 0.2 
-    } 
-  }
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: "spring",
+      damping: 20,
+      stiffness: 100,
+      delay: 0.2,
+    },
+  },
 };
 
 const buttonHover = {
   rest: { scale: 1 },
-  hover: { scale: 1.05, transition: { duration: 0.2 } }
+  hover: { scale: 1.05, transition: { duration: 0.2 } },
 };
 
 export default function Home() {
@@ -363,26 +432,43 @@ export default function Home() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [menuOpen, setMenuOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    company: '',
+    service: '',
+    budget: '',
+    details: ''
+  });
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
-
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
   return (
     <>
       <div className={classes.root}>
         {/* Navbar */}
-        <motion.div 
-          className={classes.navbar}
-          variants={navbarAnimation}
-          initial="hidden"
-          animate="visible"
-        >
+        <motion.div className={classes.navbar} variants={navbarAnimation}>
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4, duration: 0.5 }}
+            style={{ display: "flex", alignItems: "center" }}
           >
+            <Image
+              src="/logo.png"
+              alt="Logo"
+              width={40}
+              height={40}
+              style={{ marginRight: "4px" }}
+            />
             <Typography
               variant="h6"
               style={{
@@ -400,8 +486,57 @@ export default function Home() {
             </Typography>
           </motion.div>
 
+          {/* Desktop Navigation */}
+          <Box
+            className={classes.navItems}
+            sx={{ justifyContent: "center", flex: "1" }}
+          >
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.4 }}
+            >
+              <Typography variant="body1" className={classes.navLink}>
+                Founders
+              </Typography>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.4 }}
+            >
+              <Typography variant="body1" className={classes.navLink}>
+                Investors
+              </Typography>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7, duration: 0.4 }}
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              <Typography variant="body1" className={classes.navLink}>
+                Partners
+                <ExpandMoreIcon className={classes.expandIcon} />
+              </Typography>
+            </motion.div>
+          </Box>
+
+          {/* Mobile Menu Icon */}
+          <Box className={classes.mobileMenu}>
+            <motion.div
+              whileHover={{ rotate: 180 }}
+              transition={{ duration: 0.3 }}
+            >
+              <MenuIcon
+                className={classes.mobileMenuIcon}
+                onClick={toggleMenu}
+              />
+            </motion.div>
+          </Box>
+
           {/* Button on right side */}
-          <motion.div 
+          <motion.div
             className={classes.navButtonContainer}
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -410,15 +545,6 @@ export default function Home() {
             variants={buttonHover}
           >
             <Button
-              href="/pages/talk"
-              className={classes.talkButton}
-              disableRipple
-              endIcon={<ArrowOutwardIcon className={classes.arrowIcon} />}
-            >
-              Let's Talk
-            </Button>
-            
-            <Button
               href="/pages/join"
               className={classes.talkButton}
               disableRipple
@@ -426,137 +552,171 @@ export default function Home() {
             >
               Join
             </Button>
-            
-            {/* Mobile Menu Icon */}
-            <Box className={classes.mobileMenu}>
-              <motion.div
-                whileHover={{ rotate: 180 }}
-                transition={{ duration: 0.3 }}
-              >
-                <MenuIcon 
-                  className={classes.mobileMenuIcon} 
-                  onClick={toggleMenu} 
-                />
-              </motion.div>
-            </Box>
           </motion.div>
         </motion.div>
 
         {/* Main Content */}
         <Box className={classes.content}>
-          
-          <motion.div 
+          <motion.div
             initial="hidden"
             animate="visible"
             variants={slideUp}
             custom={0.5}
             className={classes.slideUpContainer}
           >
-            <Typography 
-              variant="body1" 
+            <Typography
+              variant="body1"
               style={{
                 color: "#AFAFAF",
                 fontSize: "1rem",
-                marginBottom: "5px"
+                marginBottom: "5px",
               }}
             >
               Let's Talk
             </Typography>
-            
-            <Typography variant="h2" className={classes.heading3} style={{ marginBottom: 0 }}>
+
+            <Typography
+              variant="h2"
+              className={classes.heading3}
+              style={{ marginBottom: 0 }}
+            >
               We're Here To Help
             </Typography>
-            
-            <Typography variant="body1" className={classes.description} style={{ marginTop: "20px", marginBottom: "10px" }}>
+
+            <Typography
+              variant="body1"
+              className={classes.description}
+              style={{ marginTop: "20px", marginBottom: "10px" }}
+            >
               Our team is ready to support you with expert advice & solutions.
             </Typography>
           </motion.div>
 
-
-
           {/* Contact Form */}
-          <motion.div 
-            initial="hidden"
-            animate="visible"
-            variants={slideUp}
-            custom={3}
-            className={classes.formContainer}
-          >
-            <form>
-              <div className={classes.formRow}>
-                <div className={classes.formField}>
-                  <label className={classes.inputLabel}>Name *</label>
-                  <input 
-                    type="text" 
-                    className={classes.inputField} 
-                    placeholder="David Johnson" 
-                  />
-                </div>
-                <div className={classes.formField}>
-                  <label className={classes.inputLabel}>Email *</label>
-                  <input 
-                    type="email" 
-                    className={classes.inputField} 
-                    placeholder="example@mail.com" 
-                  />
-                </div>
-              </div>
+          {/* Contact Form */}
+<motion.div 
+  initial="hidden"
+  animate="visible"
+  variant="standard"
+  custom={3}
+  className={classes.formContainer}
+>
+  <form>
+    <div className={classes.formRow}>
+      <div className={classes.formField}>
+        <label className={classes.inputLabel}>Name *</label>
+        <TextField
+          variant="standard"
+          name="name"
+          placeholder="David Johnson"
+          fullWidth
+          InputProps={{
+            className: classes.textField
+          }}
+          onChange={handleChange}
+          value={formData.name}
+          className={classes.textField}
+        />
+      </div>
+      <div className={classes.formField}>
+        <label className={classes.inputLabel}>Email *</label>
+        <TextField
+          variant="standard"
+          name="email"
+          placeholder="example@mail.com"
+          fullWidth
+          InputProps={{
+            className: classes.textField
+          }}
+          onChange={handleChange}
+          value={formData.email}
+          className={classes.textField}
+        />
+      </div>
+    </div>
 
-              <div className={classes.formRow}>
-                <div className={classes.formField}>
-                  <label className={classes.inputLabel}>Company Name *</label>
-                  <input 
-                    type="text" 
-                    className={classes.inputField} 
-                    placeholder="Ex. StaticMania" 
-                  />
-                </div>
-              </div>
+    <div className={classes.formRow}>
+      <div className={classes.formField}>
+        <label className={classes.inputLabel}>Company Name *</label>
+        <TextField
+          variant="standard"
+          name="company"
+          placeholder="Ex. StaticMania"
+          fullWidth
+          InputProps={{
+            className: classes.textField
+          }}
+          onChange={handleChange}
+          value={formData.company}
+          className={classes.textField}
+        />
+      </div>
+    </div>
 
-              <div className={classes.formRow}>
-                <div className={classes.formField}>
-                  <label className={classes.inputLabel}>Select Service *</label>
-                  <select className={classes.selectField}>
-                    <option value="">Select Your Service</option>
-                    <option value="web">Web Development</option>
-                    <option value="app">App Development</option>
-                    <option value="design">UI/UX Design</option>
-                  </select>
-                </div>
-                <div className={classes.formField}>
-                  <label className={classes.inputLabel}>Project Budget *</label>
-                  <select className={classes.selectField}>
-                    <option value="">Select Your Range</option>
-                    <option value="small">$5,000 - $10,000</option>
-                    <option value="medium">$10,000 - $50,000</option>
-                    <option value="large">$50,000+</option>
-                  </select>
-                </div>
-              </div>
+    <div className={classes.formRow}>
+      <div className={classes.formField}>
+        <label className={classes.inputLabel}>Select Service *</label>
+        <TextField
+          select
+          variant="standard"
+          name="service"
+          fullWidth
+          onChange={handleChange}
+          value={formData.service}
+          className={`${classes.textField} ${classes.selectField}`}
+        >
+          <MenuItem value="">Select Your Service</MenuItem>
+          <MenuItem value="web">Web Development</MenuItem>
+          <MenuItem value="app">App Development</MenuItem>
+          <MenuItem value="design">UI/UX Design</MenuItem>
+        </TextField>
+      </div>
+      <div className={classes.formField}>
+        <label className={classes.inputLabel}>Project Budget *</label>
+        <TextField
+          select
+          variant="standard"
+          name="budget"
+          fullWidth
+          onChange={handleChange}
+          value={formData.budget}
+          className={`${classes.textField} ${classes.selectField}`}
+        >
+          <MenuItem value="">Select Your Range</MenuItem>
+          <MenuItem value="small">$5,000 - $10,000</MenuItem>
+          <MenuItem value="medium">$10,000 - $50,000</MenuItem>
+          <MenuItem value="large">$50,000+</MenuItem>
+        </TextField>
+      </div>
+    </div>
 
-              <div className={classes.formRow}>
-                <div className={classes.formField}>
-                  <label className={classes.inputLabel}>Project Details</label>
-                  <textarea 
-                    className={classes.textArea} 
-                    placeholder="Tell us more about your project" 
-                  />
-                </div>
-              </div>
+    <div className={classes.formRow}>
+      <div className={classes.formField}>
+        <label className={classes.inputLabel}>Project Details</label>
+        <TextareaAutosize
+          name="details"
+          placeholder="Tell us more about your project"
+          minRows={1}
+          className={classes.textArea}
+          onChange={handleChange}
+          value={formData.details}
+        />
+      </div>
+    </div>
 
-              <div className={classes.submitContainer}>
-                <button className={classes.submitButton}>
-                  Submit <ArrowOutwardIcon style={{ fontSize: 16, marginLeft: 4 }} />
-                </button>
-                <div className={classes.contactNote}>
-                  We will contact you within 24 business hours.
-                </div>
-              </div>
-            </form>
-          </motion.div>
+    <div className={classes.submitContainer}>
+      <button className={classes.submitButton}>
+        Submit <ArrowOutwardIcon style={{ fontSize: 16, marginLeft: 4 }} />
+      </button>
+      <div className={classes.contactNote}>
+        We will contact you within 24 business hours.
+      </div>
+    </div>
+  </form>
+</motion.div>
 
           {/* Contact Information */}
-          <motion.div 
+          <motion.div
             initial="hidden"
             animate="visible"
             variants={slideUp}
@@ -565,40 +725,49 @@ export default function Home() {
           >
             <div className={classes.contactInfoItem}>
               <div className={classes.contactIcon}>
-                <span style={{ fontSize: "20px" }}>🏢</span>
+                <span style={{ fontSize: "20px" }}>
+                  <EmojiTransportationIcon />
+                </span>
               </div>
               <h3 className={classes.contactTitle}>Head Office</h3>
               <p className={classes.contactDetail}>
-                5899 Alexys Highway Suite<br />
+                5899 Alexys Highway Suite
+                <br />
                 678, NR, Nevada, USA
               </p>
             </div>
 
             <div className={classes.contactInfoItem}>
               <div className={classes.contactIcon}>
-                <span style={{ fontSize: "20px" }}>📞</span>
+                <span style={{ fontSize: "20px" }}>
+                  <CallIcon />
+                </span>
               </div>
               <h3 className={classes.contactTitle}>Phone</h3>
               <p className={classes.contactDetail}>
-                +1 234 567 890<br />
+                +1 234 567 890
+                <br />
                 +1 234 567 890
               </p>
             </div>
 
             <div className={classes.contactInfoItem}>
               <div className={classes.contactIcon}>
-                <span style={{ fontSize: "20px" }}>✉️</span>
+                <span style={{ fontSize: "20px" }}>
+                  <EmailIcon />
+                </span>
               </div>
               <h3 className={classes.contactTitle}>Email</h3>
               <p className={classes.contactDetail}>
-                customer@automx.com<br />
+                customer@automx.com
+                <br />
                 client@automx.com
               </p>
             </div>
           </motion.div>
         </Box>
-        <Review3/>
-        <Footer/>
+        <Joinfaq />
+        <JoinFooter />
       </div>
     </>
   );

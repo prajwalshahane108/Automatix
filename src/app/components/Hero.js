@@ -8,14 +8,16 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
+import AnimatedButton from "./AnimatedButton";
 import { makeStyles } from "@mui/styles";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import SouthEastIcon from '@mui/icons-material/SouthEast';
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import Review4 from "../components/Review4";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
     margin: "15px 20px",
     padding: "0 20px 0px 20px",
     height: "65px",
-    width: "calc(75% - 40px)",
+    width: "calc(65% - 40px)",
     position: "fixed",
     top: 5,
     zIndex: 100,
@@ -71,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
   navItems: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "flex-start",
+    justifyContent: "center",
     flex: "1",
     marginLeft: "20px",
     "@media (max-width: 1024px)": {
@@ -125,9 +127,10 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   navLink: {
-    color: "white",
+    color: "#AFAFAF",
     margin: "0 12px",
-    fontSize: "17px",
+    fontSize: "16.5px",
+    fontWeight: "400",
     cursor: "pointer",
     display: "flex",
     alignItems: "center",
@@ -138,6 +141,16 @@ const useStyles = makeStyles((theme) => ({
     "@media (max-width: 1200px)": {
       fontSize: "15px",
       margin: "0 8px",
+    },
+  },
+  navItems: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    flex: "1",
+    marginLeft: "20px",
+    "@media (max-width: 1024px)": {
+      display: "none",
     },
   },
   navButtonContainer: {
@@ -183,7 +196,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "flex-start",
     minHeight: "100vh",
     paddingTop: "50px",
-    paddingBottom: "80px",
+    // paddingBottom: "80px",
     width: "100%",
     maxWidth: "1200px",
     position: "relative",
@@ -340,7 +353,7 @@ const useStyles = makeStyles((theme) => ({
     color: "#FF5B23",
   },
   learnMoreButton: {
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    backgroundColor: "rgba(0, 0, 0, 0.97)",
     color: "white",
     border: "1px solid rgba(255, 255, 255, 0.1)",
     borderRadius: "10px",
@@ -351,7 +364,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "400",
     marginBottom: "1px",
     "&:hover": {
-      backgroundColor: "rgba(255, 255, 255, 0.05)",
+      backgroundColor: "rgba(2, 0, 0, 0.88)",
     },
     "@media (max-width: 600px)": {
       padding: "8px 16px",
@@ -598,8 +611,39 @@ export default function Home() {
           </motion.div>
 
           {/* Desktop Navigation */}
-          <Box className={classes.navItems}>
-            {/* Navigation links are commented out in original code */}
+          <Box
+            className={classes.navItems}
+            sx={{ justifyContent: "center", flex: "1" }}
+          >
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.4 }}
+            >
+              <Typography variant="body1" className={classes.navLink}>
+                Founders
+              </Typography>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.4 }}
+            >
+              <Typography variant="body1" className={classes.navLink}>
+                Investors
+              </Typography>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7, duration: 0.4 }}
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              <Typography variant="body1" className={classes.navLink}>
+                Partners
+                {/* <ExpandMoreIcon className={classes.expandIcon} /> */}
+              </Typography>
+            </motion.div>
           </Box>
 
           {/* Mobile Menu Icon */}
@@ -784,18 +828,21 @@ export default function Home() {
             custom={5}
             whileHover={{ scale: 1.05 }}
           >
-            <Button
+            {/* <Button
               className={classes.learnMoreButton}
               variant="contained"
               disableElevation
-              endIcon={<KeyboardArrowDownIcon className={classes.buttonIcon} />}
+              endIcon={<SouthEastIcon className={classes.buttonIcon} />}
             >
               Join
-            </Button>
+            </Button> */}
+            <AnimatedButton />
+
           </motion.div>
 
           {/* Stats Section - Commented out in original code */}
           {/* Footer Section - Commented out in original code */}
+          <Review4 />
         </Box>
       </div>
     </>

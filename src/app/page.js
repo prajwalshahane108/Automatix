@@ -7,7 +7,7 @@ import Revenue from "./components/Revenue";
 import Review from "./components/Review";
 import Review2 from "./components/Review2";
 import Review25 from "./components/Review25";
-import Review3 from "./components/Review3";
+import Review3 from "./components/Review3"; 
 // import Review4 from "./components/Review4";
 // import Review5 from "./components/Review5";
 import Bar from "./components/Bar";

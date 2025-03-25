@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { Box, Typography, Button, Container, useMediaQuery, useTheme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import SouthIcon from '@mui/icons-material/South';
 import { motion, useAnimation } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
@@ -11,9 +11,10 @@ import { useInView } from 'react-intersection-observer';
 const MotionBox = motion(Box);
 const MotionTypography = motion(Typography);
 const MotionButton = motion(Button);
+const MotionIcon = motion(SouthIcon);
 
 // Word-by-word animation component
-const AnimatedWords = ({ text, className, delay = 0, duration = 0.05, staggerChildren = 0.02 }) => {
+const AnimatedWords = ({ text, className, delay = 0, duration = 0.05, staggerChildren = 0.02, highlightWords = [] }) => {
   // Split the text into words
   const words = text.split(' ');
   
@@ -50,90 +51,33 @@ const AnimatedWords = ({ text, className, delay = 0, duration = 0.05, staggerChi
   
   return (
     <motion.div
-      style={{ display: "inline-block", overflow: "hidden", }}
+      style={{ display: "inline-block", overflow: "hidden" }}
       sx={{pt: 2}}
       variants={container}
       initial="hidden"
       animate="visible"
       className={className}
     >
-      {words.map((word, index) => (
-        <motion.span
-          key={index}
-          variants={child}
-          style={{ 
-            display: "inline-block",
-            marginRight: "8px",
-            marginBottom: "5px",
-            whiteSpace: "nowrap"
-          }}
-        >
-          {word}
-        </motion.span>
-      ))}
+      {words.map((word, index) => {
+        // Check if this word should be highlighted
+        const shouldHighlight = highlightWords.includes(word);
+        
+        return (
+          <motion.span
+            key={index}
+            variants={child}
+            style={{ 
+              display: "inline-block",
+              marginRight: "8px",
+              whiteSpace: "nowrap",
+              color: shouldHighlight ? "#E87811" : "inherit"
+            }}
+          >
+            {word}
+          </motion.span>
+        );
+      })}
     </motion.div>
-  );
-};
-
-// Custom Arrow Component
-const AnimatedArrow = () => {
-  return (
-    <motion.svg
-      width="140"
-      height="260"
-      viewBox="0 0 40 20"
-      initial={{ opacity: 0 }}
-      animate={{ 
-        opacity: 1,
-        y: [0, 10, 0],
-      }}
-      transition={{ 
-        y: {
-          duration: 1.5,
-          repeat: Infinity,
-          repeatType: "reverse",
-          ease: "easeInOut"
-        },
-        opacity: { duration: 0.5, delay: 2.7 }
-      }}
-    >
-      {/* Vertical line */}
-      <motion.line
-        x1="20"
-        y1="0"
-        x2="20"
-        y2="40"
-        stroke="#E87811"
-        strokeWidth="2"
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
-        transition={{ duration: 0.8, delay: 2.8 }}
-      />
-      {/* Left diagonal line */}
-      <motion.line
-        x1="20"
-        y1="40"
-        x2="5"
-        y2="25"
-        stroke="#E87811"
-        strokeWidth="2"
-        initial={{ pathLength: 10 }}
-        animate={{ pathLength: 1 }}
-        transition={{ duration: 0.4, delay: 3.6 }}
-      />
-      {/* Right diagonal line */}
-      <motion.line
-        x1="20"
-        y1="40"
-        x2="35"
-        y2="25"
-        stroke="#E87811"
-        strokeWidth="2"
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
-        transition={{ duration: 0.4, delay: 3.6 }}
-      />
-    </motion.svg>
   );
 };
 
@@ -148,8 +92,11 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: '60px 20px',
+    padding: '10px 20px',
     position: 'relative',
+    '@media (max-width: 1200px)': {
+      padding: '30px 20px',
+    },
     '@media (max-width: 900px)': {
       padding: '50px 15px',
       justifyContent: 'flex-start',
@@ -169,26 +116,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  missionTag: {
-    color: 'white',
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-    border: '1px solid rgba(255, 255, 255, 0.1)',
-    borderRadius: '50px',
-    padding: '8px 20px',
-    fontSize: '14px',
-    marginBottom: '40px',
-    display: 'inline-block',
-    '@media (max-width: 900px)': {
-      marginBottom: '30px',
-      padding: '6px 16px',
-      fontSize: '13px',
-    },
-    '@media (max-width: 600px)': {
-      marginBottom: '25px',
-      padding: '5px 14px',
-      fontSize: '12px',
-    },
-  },
   headingContainer: {
     textAlign: 'center',
     maxWidth: '1100px',
@@ -202,20 +129,20 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   headingLine: {
-    fontSize: '2.6rem',
-    fontWeight: '600',
+    fontSize: '3.8rem',
+    fontWeight: '400',
     lineHeight: 1.2,
-    marginBottom: '15px',
-    '@media (max-width: 1100px)': {
-      fontSize: '2.4rem',
+    marginBottom: '0',
+    '@media (max-width: 1200px)': {
+      fontSize: '3.2rem',
     },
     '@media (max-width: 900px)': {
       fontSize: '2.2rem',
-      marginBottom: '10px',
+      marginBottom: '5px',
     },
     '@media (max-width: 600px)': {
       fontSize: '1.8rem',
-      marginBottom: '8px',
+      marginBottom: '0',
     },
     '@media (max-width: 480px)': {
       fontSize: '1.5rem',
@@ -228,16 +155,16 @@ const useStyles = makeStyles((theme) => ({
   orangeText: {
     color: '#E87811',
   },
-  periodText: {
-    color: '#E87811',
-  },
   questionSpacing: {
-    marginBottom: '30px',
+    marginBottom: '0',
+    '@media (max-width: 1200px)': {
+      marginBottom: '5px',
+    },
     '@media (max-width: 900px)': {
-      marginBottom: '25px',
+      marginBottom: '15px',
     },
     '@media (max-width: 600px)': {
-      marginBottom: '20px',
+      marginBottom: '10px',
     },
   },
   description: {
@@ -246,24 +173,28 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     maxWidth: '800px',
     margin: '0 auto',
-    marginBottom: '50px',
+    marginBottom: '30px',
     lineHeight: 1.6,
     '@media (max-width: 900px)': {
       fontSize: '1.1rem',
-      marginBottom: '40px',
+      marginBottom: '30px',
       maxWidth: '90%',
     },
     '@media (max-width: 600px)': {
       fontSize: '1rem',
-      marginBottom: '30px',
+      marginBottom: '25px',
       lineHeight: 1.5,
     },
     '@media (max-width: 480px)': {
       fontSize: '0.95rem',
+      marginBottom: '20px',
     },
   },
   callButton: {
-    color: '#E87811',
+    color: 'transparent', // Make text transparent to show gradient
+    background: 'linear-gradient(to right, #E87811 90%, #FFFFFF 10%)',
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
     borderRadius: '50px',
     fontWeight: '400',
     padding: '10px 24px',
@@ -286,25 +217,42 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   buttonIcon: {
-    marginLeft: '8px',
+    color: '#E87811',
+    marginLeft: '4px',
     fontSize: '18px',
     '@media (max-width: 600px)': {
       fontSize: '16px',
     },
   },
   arrowContainer: {
-    // marginTop: '40px',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
+    marginTop: '40px',
     '@media (max-width: 900px)': {
       marginTop: '30px',
     },
     '@media (max-width: 600px)': {
       marginTop: '25px',
     },
+    '@media (max-width: 480px)': {
+      marginTop: '20px',
+    },
   },
+  downArrow: {
+    color: '#E87811',
+    fontSize: '60px',
+    '@media (max-width: 1200px)': {
+      fontSize: '50px',
+    },
+    '@media (max-width: 900px)': {
+      fontSize: '40px',
+    },
+    '@media (max-width: 600px)': {
+      fontSize: '32px',
+    },
+  }
 }));
 
 function MissionSection() {
@@ -365,13 +313,43 @@ function MissionSection() {
     }
   };
 
+  // Animation for the down arrow
+  const arrowVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { 
+        delay: 2.7,
+        duration: 0.5 
+      }
+    },
+    bounce: {
+      y: [0, 10, 0],
+      transition: {
+        duration: 1.5,
+        repeat: Infinity,
+        repeatType: "reverse",
+        ease: "easeInOut"
+      }
+    }
+  };
+
   return (
     <MotionBox 
       ref={ref}
       initial="hidden"
       animate={controls}
       variants={containerVariants}
-      sx={{ height: { xs: 'auto', sm: 'auto', md: '160vh' }, minHeight: '100vh' }} 
+      sx={{ 
+        height: { 
+          xs: 'auto', 
+          sm: 'auto', 
+          md: 'auto', 
+          lg: '100vh' 
+        }, 
+        minHeight: '100vh',
+        py: { xs: 8, sm: 10, md: 12, lg: 0 }
+      }} 
       className={classes.root}
     >
       <Container className={classes.contentContainer}>
@@ -383,11 +361,7 @@ function MissionSection() {
             variants={itemVariants}
             className={`${classes.headingLine} ${classes.orangeText}`}
           >
-            <AnimatedWords 
-              text="Why Join?" 
-              delay={0.2}
-              staggerChildren={0.05}
-            />
+            {/* Orange heading is commented out in your changes */}
           </MotionTypography>
           
           <MotionBox 
@@ -395,10 +369,11 @@ function MissionSection() {
             variants={itemVariants}
           >
             <AnimatedWords 
-              text={`Are you Starting a business or Looking for a ${!isMobile ? '': '\n'} Co-founder`}
+              text={`We Empower Startups ${!isMobile ? '' : '\n'} With`}
               className={`${classes.headingLine} ${classes.whiteText}`}
               delay={0.5}
               staggerChildren={0.03}
+              highlightWords={["Startups"]}
             />
           </MotionBox>
           
@@ -407,10 +382,11 @@ function MissionSection() {
             variants={itemVariants}
           >
             <AnimatedWords 
-              text={`Are you Building an MVP/Prototype or Looking for Venture ${!isMobile ? '' : '\n'} Builder?`}
+              text={`Co-founders, MVPs, Venture ${!isMobile ? '' : '\n'} Building,`}
               className={`${classes.headingLine} ${classes.whiteText}`}
               delay={1.1}
               staggerChildren={0.03}
+              highlightWords={["MVPs,"]}
             />
           </MotionBox>
           
@@ -419,10 +395,24 @@ function MissionSection() {
             variants={itemVariants}
           >
             <AnimatedWords 
-              text={`Are you Raising Investment or Learning how to bootstrap ${!isMobile ? '' : '\n'} effectively?`}
+              text={`Smart Investments, And ${!isMobile ? '' : '\n'} Effective`}
               className={`${classes.headingLine} ${classes.whiteText}`}
               delay={1.7}
               staggerChildren={0.03}
+              highlightWords={[]}
+            />
+          </MotionBox>
+
+          <MotionBox 
+            className={classes.questionSpacing}
+            variants={itemVariants}
+          >
+            <AnimatedWords 
+              text={`Bootstrapping ${!isMobile ? '' : '\n'} Strategies.`}
+              className={`${classes.headingLine} ${classes.whiteText}`}
+              delay={2.3}
+              staggerChildren={0.03}
+              highlightWords={["Bootstrapping"]}
             />
           </MotionBox>
         </MotionBox>
@@ -432,9 +422,16 @@ function MissionSection() {
           className={classes.description}
         >
           <AnimatedWords 
-            text="First impressions matter. That's why our mission is to create clean, enduring designs that elevate. First impressions matter. That's why our mission."
-            delay={2.0}
+            text="First impressions matter. That's why our mission is to create clean, enduring"
+            delay={2.6}
             staggerChildren={0.01}
+            highlightWords={[]}
+          />
+          <AnimatedWords 
+            text="designs that elevate. First impressions matter. That's why our mission."
+            delay={2.8}
+            staggerChildren={0.01}
+            highlightWords={[]}
           />
         </MotionTypography>
         
@@ -448,11 +445,16 @@ function MissionSection() {
         >
           Book A Call
         </MotionButton>
-        <Box className={classes.arrowContainer}>
-          <AnimatedArrow />
-        </Box>
         
-        {/* Animated Arrow Container */}
+        {/* Animated Down Arrow with SouthIcon */}
+        <Box className={classes.arrowContainer}>
+          <MotionIcon 
+            className={classes.downArrow}
+            variants={arrowVariants}
+            initial="hidden"
+            animate={["visible", "bounce"]}
+          />
+        </Box>
       </Container>
     </MotionBox>
   );
