@@ -7,7 +7,7 @@ import {
   useMediaQuery,
   TextField,
   useTheme,
-  MenuItem,  
+  MenuItem,
   TextareaAutosize,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
@@ -301,8 +301,6 @@ const useStyles = makeStyles((theme) => ({
     color: "#999",
     fontSize: "0.9rem",
     appearance: "none",
-    backgroundImage:
-      'url(\'data:image/svg+xml;utf8,<svg fill="%23999" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>\')',
     backgroundRepeat: "no-repeat",
     backgroundPosition: "right 10px center",
   },
@@ -433,12 +431,12 @@ export default function Home() {
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [menuOpen, setMenuOpen] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    company: '',
-    service: '',
-    budget: '',
-    details: ''
+    name: "",
+    email: "",
+    company: "",
+    service: "",
+    budget: "",
+    details: "",
   });
 
   const toggleMenu = () => {
@@ -448,7 +446,7 @@ export default function Home() {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
   };
   return (
@@ -594,126 +592,127 @@ export default function Home() {
 
           {/* Contact Form */}
           {/* Contact Form */}
-<motion.div 
-  initial="hidden"
-  animate="visible"
-  variant="standard"
-  custom={3}
-  className={classes.formContainer}
->
-  <form>
-    <div className={classes.formRow}>
-      <div className={classes.formField}>
-        <label className={classes.inputLabel}>Name *</label>
-        <TextField
-          variant="standard"
-          name="name"
-          placeholder="David Johnson"
-          fullWidth
-          InputProps={{
-            className: classes.textField
-          }}
-          onChange={handleChange}
-          value={formData.name}
-          className={classes.textField}
-        />
-      </div>
-      <div className={classes.formField}>
-        <label className={classes.inputLabel}>Email *</label>
-        <TextField
-          variant="standard"
-          name="email"
-          placeholder="example@mail.com"
-          fullWidth
-          InputProps={{
-            className: classes.textField
-          }}
-          onChange={handleChange}
-          value={formData.email}
-          className={classes.textField}
-        />
-      </div>
-    </div>
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variant="standard"
+            custom={3}
+            className={classes.formContainer}
+          >
+            <form>
+              <div className={classes.formRow}>
+                <div className={classes.formField}>
+                  <label className={classes.inputLabel}>Name *</label>
+                  <TextField
+                    variant="standard"
+                    name="name"
+                    placeholder="David Johnson"
+                    fullWidth
+                    InputProps={{
+                      className: classes.textField,
+                    }}
+                    onChange={handleChange}
+                    value={formData.name}
+                    className={classes.textField}
+                  />
+                </div>
+                <div className={classes.formField}>
+                  <label className={classes.inputLabel}>Email *</label>
+                  <TextField
+                    variant="standard"
+                    name="email"
+                    placeholder="example@mail.com"
+                    fullWidth
+                    InputProps={{
+                      className: classes.textField,
+                    }}
+                    onChange={handleChange}
+                    value={formData.email}
+                    className={classes.textField}
+                  />
+                </div>
+              </div>
 
-    <div className={classes.formRow}>
-      <div className={classes.formField}>
-        <label className={classes.inputLabel}>Company Name *</label>
-        <TextField
-          variant="standard"
-          name="company"
-          placeholder="Ex. StaticMania"
-          fullWidth
-          InputProps={{
-            className: classes.textField
-          }}
-          onChange={handleChange}
-          value={formData.company}
-          className={classes.textField}
-        />
-      </div>
-    </div>
+              <div className={classes.formRow}>
+                <div className={classes.formField}>
+                  <label className={classes.inputLabel}>Company Name *</label>
+                  <TextField
+                    variant="standard"
+                    name="company"
+                    placeholder="Ex. StaticMania"
+                    fullWidth
+                    InputProps={{
+                      className: classes.textField,
+                    }}
+                    onChange={handleChange}
+                    value={formData.company}
+                    className={classes.textField}
+                  />
+                </div>
+              </div>
 
-    <div className={classes.formRow}>
-      <div className={classes.formField}>
-        <label className={classes.inputLabel}>Select Service *</label>
-        <TextField
-          select
-          variant="standard"
-          name="service"
-          fullWidth
-          onChange={handleChange}
-          value={formData.service}
-          className={`${classes.textField} ${classes.selectField}`}
-        >
-          <MenuItem value="">Select Your Service</MenuItem>
-          <MenuItem value="web">Web Development</MenuItem>
-          <MenuItem value="app">App Development</MenuItem>
-          <MenuItem value="design">UI/UX Design</MenuItem>
-        </TextField>
-      </div>
-      <div className={classes.formField}>
-        <label className={classes.inputLabel}>Project Budget *</label>
-        <TextField
-          select
-          variant="standard"
-          name="budget"
-          fullWidth
-          onChange={handleChange}
-          value={formData.budget}
-          className={`${classes.textField} ${classes.selectField}`}
-        >
-          <MenuItem value="">Select Your Range</MenuItem>
-          <MenuItem value="small">$5,000 - $10,000</MenuItem>
-          <MenuItem value="medium">$10,000 - $50,000</MenuItem>
-          <MenuItem value="large">$50,000+</MenuItem>
-        </TextField>
-      </div>
-    </div>
+              <div className={classes.formRow}>
+                <div className={classes.formField}>
+                  <label className={classes.inputLabel}>Select Service *</label>
+                  <TextField
+                    select
+                    variant="standard"
+                    name="service"
+                    fullWidth
+                    onChange={handleChange}
+                    value={formData.service}
+                    className={`${classes.textField} ${classes.selectField}`}
+                  >
+                    <MenuItem value="">Select Your Service</MenuItem>
+                    <MenuItem value="web">Web Development</MenuItem>
+                    <MenuItem value="app">App Development</MenuItem>
+                    <MenuItem value="design">UI/UX Design</MenuItem>
+                  </TextField>
+                </div>
+                <div className={classes.formField}>
+                  <label className={classes.inputLabel}>Project Budget *</label>
+                  <TextField
+                    select
+                    variant="standard"
+                    name="budget"
+                    fullWidth
+                    onChange={handleChange}
+                    value={formData.budget}
+                    className={`${classes.textField} ${classes.selectField}`}
+                  >
+                    <MenuItem value="">Select Your Range</MenuItem>
+                    <MenuItem value="small">$5,000 - $10,000</MenuItem>
+                    <MenuItem value="medium">$10,000 - $50,000</MenuItem>
+                    <MenuItem value="large">$50,000+</MenuItem>
+                  </TextField>
+                </div>
+              </div>
 
-    <div className={classes.formRow}>
-      <div className={classes.formField}>
-        <label className={classes.inputLabel}>Project Details</label>
-        <TextareaAutosize
-          name="details"
-          placeholder="Tell us more about your project"
-          minRows={1}
-          className={classes.textArea}
-          onChange={handleChange}
-          value={formData.details}
-        />
-      </div>
-    </div>
+              <div className={classes.formRow}>
+                <div className={classes.formField}>
+                  <label className={classes.inputLabel}>Project Details</label>
+                  <TextareaAutosize
+                    name="details"
+                    placeholder="Tell us more about your project"
+                    minRows={1}
+                    className={classes.textArea}
+                    onChange={handleChange}
+                    value={formData.details}
+                  />
+                </div>
+              </div>
 
-    <div className={classes.submitContainer}>
-      <button className={classes.submitButton}>
-        Submit <ArrowOutwardIcon style={{ fontSize: 16, marginLeft: 4 }} />
-      </button>
-      <div className={classes.contactNote}>
-        We will contact you within 24 business hours.
-      </div>
-    </div>
-  </form>
-</motion.div>
+              <div className={classes.submitContainer}>
+                <button className={classes.submitButton}>
+                  Submit{" "}
+                  <ArrowOutwardIcon style={{ fontSize: 16, marginLeft: 4 }} />
+                </button>
+                <div className={classes.contactNote}>
+                  We will contact you within 24 business hours.
+                </div>
+              </div>
+            </form>
+          </motion.div>
 
           {/* Contact Information */}
           <motion.div
