@@ -1,7 +1,8 @@
-// components/FooterSection.js
+'use client';
+
 import React, { useEffect } from "react";
 import { Box, Typography, Button, Container, Link } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
@@ -13,117 +14,125 @@ const MotionButton = motion(Button);
 const MotionLink = motion(Link);
 const MotionContainer = motion(Container);
 
-const useStyles = makeStyles(() => ({
-  boot: {
-    backgroundColor: "#000",
-    width: "auto",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: "60px 20px",
-    position: "relative",
-    overflow: "hidden",
+// Replace makeStyles with styled components
+const BootBox = styled(Box)({
+  backgroundColor: "#000",
+  width: "auto",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  padding: "60px 20px",
+  position: "relative",
+  overflow: "hidden",
+});
+
+const RootBox = styled(MotionBox)({
+  backgroundColor: "black",
+  backgroundImage:
+    "radial-gradient(circle, rgba(75, 75, 75, 0.6) 1px, transparent 1.5px)",
+  backgroundSize: "10px 10px",
+  minHeight: "100vh",
+  width: "1240px",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  padding: "60px 20px",
+  position: "relative",
+  borderRadius: "20px",
+  border: "1px solid rgba(255, 255, 255, 0.1)",
+  margin: "20px",
+  boxSizing: "border-box",
+  overflow: "hidden",
+});
+
+const StyledContainer = styled(MotionContainer)({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  textAlign: "center",
+  maxWidth: "800px",
+});
+
+const BrandName = styled(MotionTypography)({
+  color: "#E87811",
+  fontSize: "1.2rem",
+  fontWeight: "500",
+  marginBottom: "20px",
+});
+
+const Title = styled(MotionTypography)(({ theme }) => ({
+  color: "white",
+  fontSize: "4rem",
+  fontWeight: "400",
+  lineHeight: 1.2,
+  marginBottom: "20px",
+  [theme.breakpoints.down("md")]: {
+    fontSize: "3rem",
   },
-  root: {
-    backgroundColor: "black",
-    backgroundImage:
-      "radial-gradient(circle, rgba(75, 75, 75, 0.6) 1px, transparent 1.5px)",
-    backgroundSize: "10px 10px",
-    minHeight: "100vh",
-    width: "1240px",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: "60px 20px",
-    position: "relative",
-    borderRadius: "20px",
-    border: "1px solid rgba(255, 255, 255, 0.1)",
-    margin: "20px",
-    boxSizing: "border-box",
-    overflow: "hidden",
-  },
-  container: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    textAlign: "center",
-    maxWidth: "800px",
-  },
-  brandName: {
-    color: "#E87811",
-    fontSize: "1.2rem",
-    fontWeight: "500",
-    marginBottom: "20px",
-  },
-  title: {
-    color: "white",
-    fontSize: "4rem",
-    fontWeight: "400",
-    lineHeight: 1.2,
-    marginBottom: "20px",
-    "@media (max-width: 768px)": {
-      fontSize: "3rem",
-    },
-    "@media (max-width: 480px)": {
-      fontSize: "2.5rem",
-    },
-  },
-  subtitle: {
-    color: "#919191",
-    fontSize: "1.1rem",
-    marginBottom: "40px",
-    maxWidth: "400px",
-    lineHeight: 1.6,
-  },
-  callButton: {
-    color: "#E87811",
-    border: "1px solid #000",
-    borderRadius: "50px",
-    padding: "10px 24px",
-    fontWeight: "300",
-    fontSize: "1.5rem",
-    textTransform: "none",
-    marginBottom: "80px",
-    "&:hover": {
-      backgroundColor: "rgba(255, 158, 44, 0.1)",
-    },
-  },
-  buttonIcon: {
-    marginLeft: "8px",
-    fontSize: "18px",
-  },
-  navigation: {
-    display: "flex",
-    justifyContent: "center",
-    gap: "30px",
-    marginBottom: "25px",
-    flexWrap: "wrap",
-  },
-  navLink: {
-    color: "#919191",
-    fontSize: "1.2rem",
-    textDecoration: "none",
-    "&:hover": {
-      color: "white",
-    },
-  },
-  copyright: {
-    color: "rgba(255, 255, 255, 0.5)",
-    fontSize: "1.1rem",
-  },
-  heading1: {
-    position: "relative",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
+  [theme.breakpoints.down("sm")]: {
+    fontSize: "2.5rem",
   },
 }));
 
+const Subtitle = styled(MotionTypography)({
+  color: "#919191",
+  fontSize: "1.1rem",
+  marginBottom: "40px",
+  maxWidth: "400px",
+  lineHeight: 1.6,
+});
+
+const CallButton = styled(MotionButton)({
+  color: "#E87811",
+  border: "1px solid #000",
+  borderRadius: "50px",
+  padding: "10px 24px",
+  fontWeight: "300",
+  fontSize: "1.5rem",
+  textTransform: "none",
+  marginBottom: "80px",
+  "&:hover": {
+    backgroundColor: "rgba(255, 158, 44, 0.1)",
+  },
+});
+
+const ButtonIcon = styled(ArrowOutwardIcon)({
+  marginLeft: "8px",
+  fontSize: "18px",
+});
+
+const Navigation = styled(MotionBox)({
+  display: "flex",
+  justifyContent: "center",
+  gap: "30px",
+  marginBottom: "25px",
+  flexWrap: "wrap",
+});
+
+const NavLink = styled(MotionLink)({
+  color: "#919191",
+  fontSize: "1.2rem",
+  textDecoration: "none",
+  "&:hover": {
+    color: "white",
+  },
+});
+
+const Copyright = styled(MotionTypography)({
+  color: "rgba(255, 255, 255, 0.5)",
+  fontSize: "1.1rem",
+});
+
+const Heading1 = styled(MotionBox)({
+  position: "relative",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+});
+
 function FooterSection() {
-  const classes = useStyles();
-  
   // Animation controls
   const controls = useAnimation();
   const [ref, inView] = useInView({
@@ -246,94 +255,80 @@ function FooterSection() {
   ];
 
   return (
-    <Box className={classes.boot}>
-      <MotionBox 
-        className={classes.root}
+    <BootBox>
+      <RootBox 
         ref={ref}
         initial="hidden"
         animate={controls}
         variants={containerVariants}
       >
-        <MotionContainer 
-          className={classes.container}
-          variants={containerVariants}
-        >
-          <MotionBox 
-            sx={{ mb: 7, mt: 4 }} 
-            className={classes.heading1}
+        <StyledContainer variants={containerVariants}>
+          <Heading1
+            sx={{ mb: 7, mt: 4 }}
             variants={logoVariants}
           >
             <motion.img
-              objectFit="contain"
               src="https://framerusercontent.com/images/UDSUes4B94lfLzzemyBwC6LQeEA.png?scale-down-to=1024"
               alt="MyFounders.Club"
               width={180}
               height={30}
-              priority
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
+              style={{ objectFit: "contain" }}
             />
-          </MotionBox>
+          </Heading1>
           
-          <MotionTypography 
-            variant="h1" 
-            className={classes.title}
+          <Title
+            variant="h1"
             variants={titleVariants}
           >
-           Let’s Turn Your
+           Let's Turn Your
             <br />
             Dream Into Reality
-          </MotionTypography>
+          </Title>
 
-          <MotionTypography 
-            variant="body1" 
-            className={classes.subtitle}
+          <Subtitle
+            variant="body1"
             variants={itemVariants}
           >
-           We bring your vision to life with creativity<br/> and precision. Let’s make it happen.
-          </MotionTypography>
+           We bring your vision to life with creativity<br/> and precision. Let's make it happen.
+          </Subtitle>
 
-          <MotionButton
+          <CallButton
             variant="outlined"
-            className={classes.callButton}
-            endIcon={<ArrowOutwardIcon className={classes.buttonIcon} />}
+            endIcon={<ButtonIcon />}
             disableRipple
             variants={buttonVariants}
             whileHover="hover"
             whileTap="tap"
           >
             Book A Call
-          </MotionButton>
+          </CallButton>
 
-          <MotionBox 
-            className={classes.navigation}
-            variants={containerVariants}
-          >
+          <Navigation variants={containerVariants}>
             {navLinks.map((link, index) => (
-              <MotionLink
+              <NavLink
                 key={index}
                 // href={link.href}
-                className={classes.navLink}
                 underline="none"
                 custom={index}
                 variants={linkVariants}
                 whileHover="hover"
               >
                 {link.name}
-              </MotionLink>
+              </NavLink>
             ))}
-          </MotionBox>
+          </Navigation>
 
-          <MotionTypography 
-            variant="body2" 
-            className={classes.copyright}
+          <Copyright
+            variant="body2"
             variants={copyrightVariants}
           >
             Copyright Automatix. All right reserved.
-          </MotionTypography>
-        </MotionContainer>
-      </MotionBox>
-    </Box>
+          </Copyright>
+        </StyledContainer>
+      </RootBox>
+    </BootBox>
   );
 }
 

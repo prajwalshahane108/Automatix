@@ -669,7 +669,7 @@ export default function Home() {
             variants={buttonHover}
           >
             <Button
-              href="/pages/join"
+              href="/pages/NewJoin"
               className={classes.talkButton}
               disableRipple
               endIcon={<ArrowOutwardIcon className={classes.arrowIcon} />}

@@ -1,4 +1,5 @@
 // components/FAQSection.js
+'use client';
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -8,7 +9,7 @@ import {
   AccordionDetails,
   Container,
 } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
@@ -17,81 +18,82 @@ import { useInView } from "react-intersection-observer";
 const MotionBox = motion(Box);
 const MotionTypography = motion(Typography);
 const MotionAccordion = motion(Accordion);
-const MotionAccordionSummary = motion(AccordionSummary);
-const MotionAccordionDetails = motion(AccordionDetails);
 const MotionExpandMoreIcon = motion(ExpandMoreIcon);
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: "black",
-    backgroundImage:
-      "radial-gradient(circle, rgba(75, 75, 75, 0.1) 1px, transparent 1px)",
-    backgroundSize: "20px 20px",
-    minHeight: "100vh",
-    width: "100%",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    padding: "60px 20px",
-  },
-  sectionTag: {
-    color: "rgba(255, 255, 255, 0.5)",
-    backgroundColor: "rgb(0, 0, 0)",
-    border: "1px solid rgba(255, 255, 255, 0.1)",
-    borderRadius: "50px",
-    padding: "4px 20px",
-    fontSize: "14px",
-    marginBottom: "30px",
-    display: "inline-block",
-  },
-  sectionTitle: {
-    color: "white",
-    fontSize: "2.9rem",
-    fontWeight: "400",
-    textAlign: "center",
-    marginBottom: "60px",
-    "@media (max-width: 768px)": {
-      fontSize: "2.5rem",
-    },
-  },
-  faqContainer: {
-    width: "100%",
-    maxWidth: "780px",
-    display: "flex",
-    flexDirection: "column",
-  },
-  accordionRoot: {
-    backgroundColor: "transparent !important",
-    boxShadow: "none !important",
-    "&:before": {
-      display: "none",
-    },
-  },
-  accordionBorder: {
-    // borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-  },
-  accordionSummary: {
-    padding: "0 !important",
-  },
-  expandIcon: {
-    color: "rgba(255, 255, 255, 0.5)",
-  },
-  question: {
-    color: "rgba(255, 255, 255, 0.7)",
-    fontSize: "1.5rem",
-    fontWeight: "400",
-    padding: "15px 0",
-  },
-  answer: {
-    color: "rgba(255, 255, 255, 0.6)",
-    fontSize: "1rem",
-    lineHeight: 1.6,
-    paddingBottom: "20px",
+// Styled components
+const RootBox = styled(MotionBox)(({ theme }) => ({
+  backgroundColor: "black",
+  backgroundImage:
+    "radial-gradient(circle, rgba(75, 75, 75, 0.1) 1px, transparent 1px)",
+  backgroundSize: "20px 20px",
+  minHeight: "100vh",
+  width: "100%",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  padding: "60px 20px",
+}));
+
+const SectionTag = styled(MotionTypography)({
+  color: "rgba(255, 255, 255, 0.5)",
+  backgroundColor: "rgb(0, 0, 0)",
+  border: "1px solid rgba(255, 255, 255, 0.1)",
+  borderRadius: "50px",
+  padding: "4px 20px",
+  fontSize: "14px",
+  marginBottom: "30px",
+  display: "inline-block",
+});
+
+const SectionTitle = styled(MotionTypography)(({ theme }) => ({
+  color: "white",
+  fontSize: "2.9rem",
+  fontWeight: "400",
+  textAlign: "center",
+  marginBottom: "60px",
+  [theme.breakpoints.down("md")]: {
+    fontSize: "2.5rem",
   },
 }));
 
+const FaqContainer = styled(MotionBox)({
+  width: "100%",
+  maxWidth: "780px",
+  display: "flex",
+  flexDirection: "column",
+});
+
+const StyledAccordion = styled(MotionAccordion)({
+  backgroundColor: "transparent !important",
+  boxShadow: "none !important",
+  "&:before": {
+    display: "none",
+  },
+});
+
+const StyledAccordionSummary = styled(AccordionSummary)({
+  padding: "0 !important",
+});
+
+const QuestionTypography = styled(MotionTypography)({
+  color: "rgba(255, 255, 255, 0.7)",
+  fontSize: "1.5rem",
+  fontWeight: "400",
+  padding: "15px 0",
+});
+
+const AnswerTypography = styled(Typography)({
+  color: "rgba(255, 255, 255, 0.6)",
+  fontSize: "1rem",
+  lineHeight: 1.6,
+  paddingBottom: "20px",
+});
+
+const StyledExpandIcon = styled(MotionExpandMoreIcon)({
+  color: "rgba(255, 255, 255, 0.5)",
+});
+
 function FAQSection() {
-  const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
   
   // Animation controls
@@ -192,42 +194,34 @@ function FAQSection() {
   ];
 
   return (
-    <MotionBox 
+    <RootBox 
       ref={ref}
-      className={classes.root}
       initial="hidden"
       animate={controls}
       variants={containerVariants}
     >
-      <MotionTypography 
+      <SectionTag 
         variant="body1" 
-        className={classes.sectionTag}
         variants={itemVariants}
       >
         Need to Know
-      </MotionTypography>
+      </SectionTag>
 
-      <MotionTypography 
+      <SectionTitle 
         variant="h2" 
-        className={classes.sectionTitle}
         variants={itemVariants}
       >
         Frequently Asked Questions
-      </MotionTypography>
+      </SectionTitle>
 
-      <MotionBox 
-        className={classes.faqContainer}
+      <FaqContainer 
         variants={containerVariants}
       >
         {faqItems.map((item, index) => (
-          <MotionAccordion
+          <StyledAccordion
             key={item.id}
             expanded={expanded === item.id}
             onChange={handleChange(item.id)}
-            classes={{
-              root: classes.accordionRoot,
-            }}
-            className={classes.accordionBorder}
             disableGutters
             elevation={0}
             custom={index}
@@ -239,10 +233,9 @@ function FAQSection() {
               transition: { duration: 0.2 } 
             }}
           >
-            <AccordionSummary
+            <StyledAccordionSummary
               expandIcon={
-                <MotionExpandMoreIcon 
-                  className={classes.expandIcon}
+                <StyledExpandIcon 
                   animate={expanded === item.id ? "expanded" : "collapsed"}
                   variants={expandIconVariants}
                   transition={{ duration: 0.3 }}
@@ -250,31 +243,29 @@ function FAQSection() {
               }
               aria-controls={`${item.id}-content`}
               id={`${item.id}-header`}
-              className={classes.accordionSummary}
             >
-              <MotionTypography 
-                className={classes.question}
+              <QuestionTypography 
                 animate={{ 
                   color: expanded === item.id ? "#FF5B23" : "rgba(255, 255, 255, 0.7)" 
                 }}
                 transition={{ duration: 0.3 }}
               >
                 {item.question}
-              </MotionTypography>
-            </AccordionSummary>
+              </QuestionTypography>
+            </StyledAccordionSummary>
             <AccordionDetails>
               <motion.div
                 initial="collapsed"
                 animate={expanded === item.id ? "expanded" : "collapsed"}
                 variants={answerVariants}
               >
-                <Typography className={classes.answer}>{item.answer}</Typography>
+                <AnswerTypography>{item.answer}</AnswerTypography>
               </motion.div>
             </AccordionDetails>
-          </MotionAccordion>
+          </StyledAccordion>
         ))}
-      </MotionBox>
-    </MotionBox>
+      </FaqContainer>
+    </RootBox>
   );
 }
 

@@ -8,7 +8,7 @@ import {
   Avatar,
   Rating,
   useMediaQuery,
-  useTheme
+  useTheme,
 } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import { makeStyles } from "@mui/styles";
@@ -34,12 +34,12 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     padding: "60px 20px",
-    '@media (max-width: 960px)': {
+    "@media (max-width: 960px)": {
       padding: "50px 15px",
     },
-    '@media (max-width: 600px)': {
+    "@media (max-width: 600px)": {
       padding: "40px 15px",
-    }
+    },
   },
   sectionTag: {
     color: "#AFAFAF",
@@ -50,16 +50,16 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "14px",
     marginBottom: "30px",
     display: "inline-block",
-    '@media (max-width: 768px)': {
+    "@media (max-width: 768px)": {
       fontSize: "13px",
       padding: "4px 16px",
       marginBottom: "25px",
     },
-    '@media (max-width: 480px)': {
+    "@media (max-width: 480px)": {
       fontSize: "12px",
       padding: "3px 15px",
       marginBottom: "20px",
-    }
+    },
   },
   sectionTitle: {
     color: "#AFAFAF",
@@ -67,19 +67,19 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "600",
     textAlign: "center",
     marginBottom: "60px",
-    '@media (max-width: 960px)': {
+    "@media (max-width: 960px)": {
       fontSize: "2.7rem",
       marginBottom: "50px",
     },
-    '@media (max-width: 768px)': {
+    "@media (max-width: 768px)": {
       fontSize: "2.3rem",
       marginBottom: "40px",
     },
-    '@media (max-width: 480px)': {
+    "@media (max-width: 480px)": {
       fontSize: "1.8rem",
       marginBottom: "35px",
       lineHeight: 1.3,
-    }
+    },
   },
   featuredTestimonial: {
     display: "flex",
@@ -87,14 +87,14 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "1010px",
     marginBottom: "80px",
     flexWrap: "wrap",
-    '@media (max-width: 960px)': {
+    "@media (max-width: 960px)": {
       flexDirection: "column",
       alignItems: "center",
       marginBottom: "60px",
     },
-    '@media (max-width: 480px)': {
+    "@media (max-width: 480px)": {
       marginBottom: "40px",
-    }
+    },
   },
   testimonialImage: {
     width: "100%",
@@ -103,41 +103,41 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "16px",
     overflow: "hidden",
     marginRight: "40px",
-    '@media (max-width: 960px)': {
+    "@media (max-width: 960px)": {
       marginRight: "0",
       marginBottom: "30px",
       height: "350px",
     },
-    '@media (max-width: 600px)': {
+    "@media (max-width: 600px)": {
       maxWidth: "100%",
       height: "300px",
     },
-    '@media (max-width: 480px)': {
+    "@media (max-width: 480px)": {
       height: "250px",
       borderRadius: "12px",
-    }
+    },
   },
   testimonialContent: {
     flex: 1,
     minWidth: "300px",
-    '@media (max-width: 960px)': {
+    "@media (max-width: 960px)": {
       textAlign: "center",
       minWidth: "100%",
     },
-    '@media (max-width: 480px)': {
+    "@media (max-width: 480px)": {
       minWidth: "0",
-    }
+    },
   },
   companyLogo: {
     display: "flex",
     alignItems: "center",
     marginBottom: "20px",
-    '@media (max-width: 960px)': {
+    "@media (max-width: 960px)": {
       justifyContent: "center",
     },
-    '@media (max-width: 480px)': {
+    "@media (max-width: 480px)": {
       marginBottom: "15px",
-    }
+    },
   },
   logoIcon: {
     backgroundColor: "#E87811",
@@ -149,19 +149,19 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     marginRight: "10px",
     color: "white",
-    '@media (max-width: 480px)': {
+    "@media (max-width: 480px)": {
       width: "35px",
       height: "35px",
       marginRight: "8px",
-    }
+    },
   },
   companyName: {
     color: "white",
     fontSize: "1.5rem",
     fontWeight: "500",
-    '@media (max-width: 480px)': {
+    "@media (max-width: 480px)": {
       fontSize: "1.3rem",
-    }
+    },
   },
   testimonyText: {
     color: "#AFAFAF",
@@ -169,18 +169,18 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "500",
     marginBottom: "30px",
     lineHeight: 1.4,
-    '@media (max-width: 960px)': {
+    "@media (max-width: 960px)": {
       fontSize: "1.8rem",
       marginBottom: "25px",
     },
-    '@media (max-width: 768px)': {
+    "@media (max-width: 768px)": {
       fontSize: "1.5rem",
     },
-    '@media (max-width: 480px)': {
+    "@media (max-width: 480px)": {
       fontSize: "1.3rem",
       lineHeight: 1.3,
       marginBottom: "20px",
-    }
+    },
   },
   personInfo: {
     marginBottom: "40px",
@@ -189,44 +189,44 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "flex-start",
     alignContent: "center",
     gap: "20px",
-    '@media (max-width: 960px)': {
+    "@media (max-width: 960px)": {
       justifyContent: "center",
       marginBottom: "30px",
     },
-    '@media (max-width: 480px)': {
+    "@media (max-width: 480px)": {
       flexDirection: "column",
       gap: "5px",
       marginBottom: "25px",
-    }
+    },
   },
   personName: {
     color: "white",
     fontSize: "1.3rem",
     fontWeight: "500",
-    '@media (max-width: 480px)': {
+    "@media (max-width: 480px)": {
       fontSize: "1.1rem",
-    }
+    },
   },
   personTitle: {
     color: "rgba(255, 255, 255, 0.7)",
     fontSize: "1rem",
     marginTop: "3px",
-    '@media (max-width: 480px)': {
+    "@media (max-width: 480px)": {
       fontSize: "0.9rem",
       marginTop: "0",
-    }
+    },
   },
   statsContainer: {
     display: "flex",
     gap: "40px",
     borderTop: "1px solid rgba(255, 255, 255, 0.1)",
     paddingTop: "20px",
-    '@media (max-width: 960px)': {
+    "@media (max-width: 960px)": {
       justifyContent: "center",
     },
-    '@media (max-width: 480px)': {
+    "@media (max-width: 480px)": {
       gap: "30px",
-    }
+    },
   },
   statItem: {
     display: "flex",
@@ -237,19 +237,19 @@ const useStyles = makeStyles((theme) => ({
     color: "#fff",
     fontSize: "2rem",
     fontWeight: "600",
-    '@media (max-width: 768px)': {
+    "@media (max-width: 768px)": {
       fontSize: "1.8rem",
     },
-    '@media (max-width: 480px)': {
+    "@media (max-width: 480px)": {
       fontSize: "1.6rem",
-    }
+    },
   },
   statLabel: {
     color: "rgba(255, 255, 255, 0.7)",
     fontSize: "0.9rem",
-    '@media (max-width: 480px)': {
+    "@media (max-width: 480px)": {
       fontSize: "0.8rem",
-    }
+    },
   },
   testimonialCards: {
     display: "flex",
@@ -257,11 +257,11 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "1200px",
     justifyContent: "space-between",
     gap: "20px",
-    '@media (max-width: 960px)': {
+    "@media (max-width: 960px)": {
       flexDirection: "column",
       alignItems: "center",
       gap: "30px",
-    }
+    },
   },
   testimonialCard: {
     flex: 1,
@@ -272,7 +272,7 @@ const useStyles = makeStyles((theme) => ({
     "&:last-child": {
       borderRight: "none",
     },
-    '@media (max-width: 960px)': {
+    "@media (max-width: 960px)": {
       borderRight: "none",
       borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
       paddingBottom: "30px",
@@ -285,11 +285,11 @@ const useStyles = makeStyles((theme) => ({
       maxWidth: "600px",
       width: "100%",
     },
-    '@media (max-width: 480px)': {
+    "@media (max-width: 480px)": {
       minWidth: "100%",
       padding: "0 10px",
       paddingBottom: "25px",
-    }
+    },
   },
   companyLogoSmall: {
     color: "rgba(255, 255, 255, 0.7)",
@@ -298,24 +298,24 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "10px",
     display: "block",
     textAlign: "center",
-    '@media (max-width: 480px)': {
+    "@media (max-width: 480px)": {
       fontSize: "1.1rem",
-    }
+    },
   },
   ratingContainer: {
     display: "flex",
     justifyContent: "center",
     marginBottom: "20px",
-    '@media (max-width: 480px)': {
+    "@media (max-width: 480px)": {
       marginBottom: "15px",
-    }
+    },
   },
   starIcon: {
     color: "#FF5B23",
     fontSize: "24px",
-    '@media (max-width: 480px)': {
+    "@media (max-width: 480px)": {
       fontSize: "20px",
-    }
+    },
   },
   cardTestimony: {
     color: "rgba(255, 255, 255, 0.8)",
@@ -323,11 +323,11 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     marginBottom: "20px",
     lineHeight: 1.6,
-    '@media (max-width: 480px)': {
+    "@media (max-width: 480px)": {
       fontSize: "0.95rem",
       lineHeight: 1.5,
       marginBottom: "15px",
-    }
+    },
   },
   cardPersonInfo: {
     textAlign: "center",
@@ -336,32 +336,32 @@ const useStyles = makeStyles((theme) => ({
     color: "#ff5B23",
     fontSize: "1.1rem",
     fontWeight: "500",
-    '@media (max-width: 480px)': {
+    "@media (max-width: 480px)": {
       fontSize: "1rem",
-    }
+    },
   },
   cardPersonTitle: {
     color: "rgba(255, 255, 255, 0.7)",
     fontSize: "0.9rem",
-    '@media (max-width: 480px)': {
+    "@media (max-width: 480px)": {
       fontSize: "0.85rem",
-    }
+    },
   },
 }));
 
 function TestimonialsSection() {
   const classes = useStyles();
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const isTablet = useMediaQuery(theme.breakpoints.down('md'));
-  
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isTablet = useMediaQuery(theme.breakpoints.down("md"));
+
   // Animation controls
   const controls = useAnimation();
   const [ref, inView] = useInView({
     threshold: 0.1,
     triggerOnce: true,
   });
-  
+
   // Animate when section comes into view
   useEffect(() => {
     if (inView) {
@@ -423,7 +423,7 @@ function TestimonialsSection() {
       opacity: 1,
       y: 0,
       transition: {
-        delay: 0.3 + (i * 0.2),
+        delay: 0.3 + i * 0.2,
         duration: 0.8,
         ease: "easeOut",
       },
@@ -436,7 +436,7 @@ function TestimonialsSection() {
       opacity: 1,
       scale: 1,
       transition: {
-        delay: 0.6 + (i * 0.1),
+        delay: 0.6 + i * 0.1,
         duration: 0.4,
         type: "spring",
         stiffness: 300,
@@ -451,7 +451,7 @@ function TestimonialsSection() {
       opacity: 1,
       y: 0,
       transition: {
-        delay: 0.5 + (i * 0.1),
+        delay: 0.5 + i * 0.1,
         duration: 0.5,
       },
     }),
@@ -511,22 +511,22 @@ function TestimonialsSection() {
     switch (company) {
       case "Zapfast":
         return (
-          <MotionBox 
+          <MotionBox
             className={classes.companyLogo}
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3, duration: 0.5 }}
           >
-            <MotionBox 
+            <MotionBox
               className={classes.logoIcon}
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              transition={{ 
-                delay: 0.4, 
-                duration: 0.5, 
+              transition={{
+                delay: 0.4,
+                duration: 0.5,
                 type: "spring",
                 stiffness: 200,
-                damping: 10 
+                damping: 10,
               }}
             >
               <BoltIcon />
@@ -536,22 +536,22 @@ function TestimonialsSection() {
         );
       default:
         return (
-          <MotionBox 
+          <MotionBox
             className={classes.companyLogo}
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3, duration: 0.5 }}
           >
-            <MotionBox 
+            <MotionBox
               className={classes.logoIcon}
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              transition={{ 
-                delay: 0.4, 
-                duration: 0.5, 
+              transition={{
+                delay: 0.4,
+                duration: 0.5,
                 type: "spring",
                 stiffness: 200,
-                damping: 10 
+                damping: 10,
               }}
             >
               <BoltIcon />
@@ -566,20 +566,20 @@ function TestimonialsSection() {
   const StatCounter = ({ value, className, index }) => {
     // Parse numeric part from string like "73%" or "5X"
     const getNumericValue = () => {
-      if (value.includes('%')) {
+      if (value.includes("%")) {
         return parseFloat(value);
-      } else if (value.includes('X')) {
+      } else if (value.includes("X")) {
         return parseFloat(value);
       }
       return parseFloat(value);
     };
 
     const numericValue = getNumericValue();
-    const suffix = value.includes('%') ? '%' : value.includes('X') ? 'X' : '';
-    
+    const suffix = value.includes("%") ? "%" : value.includes("X") ? "X" : "";
+
     return (
-      <MotionTypography 
-        variant="h4" 
+      <MotionTypography
+        variant="h4"
         className={className}
         custom={index}
         variants={statNumberVariants}
@@ -590,28 +590,28 @@ function TestimonialsSection() {
   };
 
   return (
-    <MotionBox 
+    <MotionBox
       ref={ref}
       className={classes.root}
       initial="hidden"
       animate={controls}
       variants={containerVariants}
     >
-      <MotionContainer 
-        maxWidth="lg" 
-        sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+      <MotionContainer
+        maxWidth="lg"
+        sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
         variants={containerVariants}
       >
-        <MotionTypography 
-          variant="body1" 
+        <MotionTypography
+          variant="body1"
           className={classes.sectionTag}
           variants={itemVariants}
         >
           Insider
         </MotionTypography>
 
-        <MotionTypography 
-          variant="h2" 
+        <MotionTypography
+          variant="h2"
           className={classes.sectionTitle}
           variants={itemVariants}
         >
@@ -621,7 +621,7 @@ function TestimonialsSection() {
         </MotionTypography>
 
         {/* Featured Testimonial */}
-        <MotionBox 
+        <MotionBox
           className={classes.featuredTestimonial}
           variants={containerVariants}
         >
@@ -635,34 +635,34 @@ function TestimonialsSection() {
               backgroundColor: "#333",
             }}
             variants={imageVariants}
-            whileHover={{ 
-              scale: 1.02, 
-              transition: { duration: 0.3 } 
+            whileHover={{
+              scale: 1.02,
+              transition: { duration: 0.3 },
             }}
           />
 
-          <MotionBox 
+          <MotionBox
             className={classes.testimonialContent}
             variants={containerVariants}
           >
             <CompanyLogo company={featuredTestimonial.company} />
 
-            <MotionTypography 
-              variant="h3" 
+            <MotionTypography
+              variant="h3"
               className={classes.testimonyText}
               variants={textVariants}
             >
               {featuredTestimonial.testimony}
             </MotionTypography>
 
-            <MotionBox 
+            <MotionBox
               className={classes.personInfo}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6, duration: 0.6 }}
             >
-              <MotionTypography 
-                variant="h5" 
+              <MotionTypography
+                variant="h5"
                 className={classes.personName}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -670,8 +670,8 @@ function TestimonialsSection() {
               >
                 {featuredTestimonial.personName}
               </MotionTypography>
-              <MotionTypography 
-                variant="h5" 
+              <MotionTypography
+                variant="h5"
                 className={classes.personTitle}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -681,33 +681,33 @@ function TestimonialsSection() {
               </MotionTypography>
             </MotionBox>
 
-            <MotionBox 
+            <MotionBox
               className={classes.statsContainer}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8, duration: 0.5 }}
             >
               {featuredTestimonial.stats.map((stat, index) => (
-                <MotionBox 
-                  key={index} 
+                <MotionBox
+                  key={index}
                   className={classes.statItem}
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.9 + (index * 0.1), duration: 0.5 }}
+                  transition={{ delay: 0.9 + index * 0.1, duration: 0.5 }}
                 >
-                  <Typography 
-                    value={stat.value} 
-                    className={classes.statValue} 
+                  <Typography
+                    value={stat.value}
+                    className={classes.statValue}
                     index={index}
                   >
                     {stat.value}
-                  </Typography> 
-                  <MotionTypography 
-                    variant="body2" 
+                  </Typography>
+                  <MotionTypography
+                    variant="body2"
                     className={classes.statLabel}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ delay: 1.0 + (index * 0.1), duration: 0.5 }}
+                    transition={{ delay: 1.0 + index * 0.1, duration: 0.5 }}
                   >
                     {stat.label}
                   </MotionTypography>
@@ -718,80 +718,78 @@ function TestimonialsSection() {
         </MotionBox>
 
         {/* Testimonial Cards */}
-        <MotionBox 
+        <MotionBox
           className={classes.testimonialCards}
           variants={containerVariants}
         >
           {cardTestimonials.map((testimonial, index) => (
-            <MotionBox 
-              key={index} 
+            <MotionBox
+              key={index}
               className={classes.testimonialCard}
               custom={index}
               variants={cardVariants}
-             
             >
-              <MotionTypography 
-                variant="h6" 
+              <MotionTypography
+                variant="h6"
                 className={classes.companyLogoSmall}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.4 + (index * 0.2), duration: 0.5 }}
+                transition={{ delay: 0.4 + index * 0.2, duration: 0.5 }}
               >
                 {testimonial.company}
               </MotionTypography>
 
-              <MotionBox 
+              <MotionBox
                 className={classes.ratingContainer}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 + (index * 0.2), duration: 0.5 }}
+                transition={{ delay: 0.5 + index * 0.2, duration: 0.5 }}
               >
-                <Box sx={{ display: 'flex' }}>
+                <Box sx={{ display: "flex" }}>
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <MotionStarIcon 
-                      key={i} 
+                    <MotionStarIcon
+                      key={i}
                       className={classes.starIcon}
                       custom={i}
                       variants={starVariants}
                       initial="hidden"
                       animate="visible"
-                      
                     />
                   ))}
                 </Box>
               </MotionBox>
 
-              <MotionTypography 
-                variant="body1" 
+              <MotionTypography
+                variant="body1"
                 className={classes.cardTestimony}
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.7 + (index * 0.2), duration: 0.5 }}
+                transition={{ delay: 0.7 + index * 0.2, duration: 0.5 }}
               >
                 {testimonial.testimony}
               </MotionTypography>
 
-              <MotionBox 
+              <MotionBox
                 className={classes.cardPersonInfo}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8 + (index * 0.2), duration: 0.5 }}
+                transition={{ delay: 0.8 + index * 0.2, duration: 0.5 }}
               >
-                <MotionTypography 
-                  variant="h6" 
+                <MotionTypography
+                  variant="h6"
                   className={classes.cardPersonName}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ delay: 0.9 + (index * 0.2), duration: 0.5 }}
+                  transition={{ delay: 0.9 + index * 0.2, duration: 0.5 }}
                 >
                   {testimonial.personName}
                 </MotionTypography>
-                <MotionTypography 
-                  variant="body2" 
+                <MotionTypography
+                  variant="body2"
                   className={classes.cardPersonTitle}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ delay: 1.0 + (index * 0.2), duration: 0.5 }}
+                  transition={{ delay: 1.0 + index * 0.2, duration: 0.5 }}
                 >
                   {testimonial.personTitle}
                 </MotionTypography>
