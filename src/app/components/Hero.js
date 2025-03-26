@@ -18,7 +18,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Review4 from "../components/Review4";
-
+import Navbar from "../components/Navbar";
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "#000",
@@ -579,142 +579,10 @@ export default function Home() {
     <>
       <div className={classes.root}>
         {/* Navbar */}
-        <motion.div className={classes.navbar} variants={navbarAnimation}>
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4, duration: 0.5 }}
-            style={{ display: "flex", alignItems: "center" }}
-          >
-            <Image
-              src="/logo.png"
-              alt="Logo"
-              width={40}
-              height={40}
-              style={{ marginRight: "4px" }}
-            />
-            <Typography
-              variant="h6"
-              style={{
-                background: "linear-gradient(90deg, #E87811 0%, white 200%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-                color: "transparent",
-                fontWeight: 600,
-                fontSize: "1.2rem",
-                marginRight: "auto",
-              }}
-            >
-              MyFounders.Club
-            </Typography>
-          </motion.div>
-
-          {/* Desktop Navigation */}
-          <Box
-            className={classes.navItems}
-            sx={{ justifyContent: "center", flex: "1" }}
-          >
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.4 }}
-            >
-              <Typography variant="body1" className={classes.navLink}>
-                Founders
-              </Typography>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.4 }}
-            >
-              <Typography variant="body1" className={classes.navLink}>
-                Investors
-              </Typography>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.7, duration: 0.4 }}
-              style={{ display: "flex", alignItems: "center" }}
-            >
-              <Typography variant="body1" className={classes.navLink}>
-                Partners
-                {/* <ExpandMoreIcon className={classes.expandIcon} /> */}
-              </Typography>
-            </motion.div>
-          </Box>
-
-          {/* Mobile Menu Icon */}
-          <Box className={classes.mobileMenu}>
-            <motion.div
-              whileHover={{ rotate: 180 }}
-              transition={{ duration: 0.3 }}
-            >
-              <MenuIcon
-                className={classes.mobileMenuIcon}
-                onClick={toggleMenu}
-              />
-            </motion.div>
-          </Box>
-
-          {/* Button on right side */}
-          <motion.div
-            className={classes.navButtonContainer}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.5, duration: 0.5 }}
-            whileHover="hover"
-            variants={buttonHover}
-          >
-            <Button
-              href="/pages/NewJoin"
-              className={classes.talkButton}
-              disableRipple
-              endIcon={<ArrowOutwardIcon className={classes.arrowIcon} />}
-            >
-              Join
-            </Button>
-          </motion.div>
-        </motion.div>
+        <Navbar/>
 
         {/* Mobile Navigation Dropdown */}
-        {menuOpen && (
-          <motion.div
-            className={classes.mobileNavItems}
-            variants={mobileMenuAnimation}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-          >
-            <motion.div variants={slideUp}>
-              <Typography variant="body2" className={classes.mobileNavLink}>
-                Founders
-              </Typography>
-            </motion.div>
-            <motion.div variants={slideUp}>
-              <Typography variant="body2" className={classes.mobileNavLink}>
-                Investors
-              </Typography>
-            </motion.div>
-            <motion.div variants={slideUp}>
-              <Typography variant="body2" className={classes.mobileNavLink}>
-                Partners
-              </Typography>
-            </motion.div>
-            <motion.div variants={slideUp}>
-              <Typography variant="body2" className={classes.mobileNavLink}>
-                Our Ecosystem
-              </Typography>
-            </motion.div>
-            <motion.div variants={slideUp}>
-              <Typography variant="body2" className={classes.mobileNavLink}>
-                About Us
-              </Typography>
-            </motion.div>
-          </motion.div>
-        )}
+        
 
         {/* Main Content */}
         <Box className={classes.content}>

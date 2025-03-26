@@ -8,13 +8,22 @@ import {
   TextField,
   useTheme,
   MenuItem,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
   TextareaAutosize,
+  Drawer,
+  List,
+  ListItem,
+  IconButton,
+  Divider,
 } from "@mui/material";
 import EmojiTransportationIcon from "@mui/icons-material/EmojiTransportation";
 import CallIcon from "@mui/icons-material/Call";
 import EmailIcon from "@mui/icons-material/Email";
 import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 import { motion } from "framer-motion";
 // import Joinfaq from "../../components/joinFAQ";
@@ -96,7 +105,7 @@ const StyledTextArea = styled(TextareaAutosize)({
   fontSize: "1rem",
   padding: "10px 0",
   resize: "vertical",
-  minHeight: "100px",
+  minHeight: "80px",
   fontFamily: "inherit",
   "&:focus": {
     outline: "none",
@@ -124,11 +133,14 @@ const StyledMobileMenu = styled(Box)(({ theme }) => ({
   },
 }));
 
-const StyledNavButtonContainer = styled(motion.div)({
+const StyledNavButtonContainer = styled(motion.div)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   marginLeft: "auto",
-});
+  [theme.breakpoints.down("sm")]: {
+    display: "none",
+  },
+}));
 
 const StyledTalkButton = styled(Button)(({ theme }) => ({
   backgroundColor: "#161616",
@@ -149,6 +161,63 @@ const StyledTalkButton = styled(Button)(({ theme }) => ({
     marginRight: "5px",
   },
 }));
+
+// Mobile Drawer styles
+const StyledDrawer = styled(Drawer)({
+  "& .MuiDrawer-paper": {
+    width: "75%",
+    maxWidth: "300px",
+    backgroundColor: "#111111",
+    color: "white",
+    boxSizing: "border-box",
+    padding: "20px",
+  },
+});
+
+const StyledDrawerHeader = styled(Box)({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  padding: "10px 0",
+  marginBottom: "20px",
+});
+
+const StyledDrawerList = styled(List)({
+  padding: 0,
+});
+
+const StyledDrawerItem = styled(ListItem)({
+  padding: "15px 0",
+  borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
+  "&:last-child": {
+    borderBottom: "none",
+  },
+});
+
+const StyledDrawerLink = styled(Typography)({
+  color: "white",
+  fontSize: "1.1rem",
+  display: "flex",
+  alignItems: "center",
+  width: "100%",
+  "&:hover": {
+    color: "#E87811",
+  },
+});
+
+const StyledDrawerButton = styled(Button)({
+  backgroundColor: "#E87811",
+  color: "white",
+  borderRadius: "8px",
+  padding: "10px 25px",
+  textTransform: "none",
+  fontSize: "1rem",
+  marginTop: "20px",
+  width: "100%",
+  "&:hover": {
+    backgroundColor: "#D16700",
+  },
+});
 
 const StyledContent = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -229,6 +298,17 @@ const StyledNavLink = styled(Typography)({
   },
 });
 
+// const StyledFormContainer = styled(motion.div)(({ theme }) => ({
+//   backgroundColor: "#1A1A1A",
+//   borderRadius: "30px",
+//   padding: "40px",
+//   maxWidth: "850px",
+//   width: "100%",
+//   marginBottom: "60px",
+//   [theme.breakpoints.down("md")]: {
+//     padding: "30px 20px",
+//   },
+// }));
 const StyledFormContainer = styled(motion.div)(({ theme }) => ({
   backgroundColor: "#1A1A1A",
   borderRadius: "30px",
@@ -236,14 +316,41 @@ const StyledFormContainer = styled(motion.div)(({ theme }) => ({
   maxWidth: "850px",
   width: "100%",
   marginBottom: "60px",
+  position: "relative",
+  overflow: "hidden",
+  
+  // Add this for the circular glow effect in the top-left corner
+  "&::before": {
+    content: '""',
+    position: "absolute",
+    top: "-100px",
+    left: "-100px",
+    width: "250px",
+    height: "250px",
+    borderRadius: "50%",
+    background: "radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 70%)",
+    pointerEvents: "none",
+  },
+  "&::after": {
+  content: '""',
+  position: "absolute",
+  top: "-50px",
+  left: "-50px",
+  width: "350px",
+  height: "350px",
+  borderRadius: "50%",
+  background: "radial-gradient(circle, rgba(255, 255, 255, 0.13) -50%, rgba(255, 255, 255, 0) 60%)",
+  pointerEvents: "none",
+  zIndex: 0,
+},
   [theme.breakpoints.down("md")]: {
     padding: "30px 20px",
   },
 }));
-
 const StyledFormRow = styled(Box)(({ theme }) => ({
   display: "flex",
-  justifyContent: "space-between",
+  justifyContent: "center",
+  alignItems: "center",
   gap: "20px",
   marginBottom: "20px",
   [theme.breakpoints.down("md")]: {
@@ -349,7 +456,9 @@ const fadeIn = {
 };
 
 const slideUp = {
-  hidden: { y: 50, opacity: 0 },
+  // hidden: { y: 50, opacity
+
+    hidden: { y: 50, opacity: 0 },
   visible: (custom) => ({
     y: 0,
     opacity: 1,
@@ -382,10 +491,22 @@ const buttonHover = {
   hover: { scale: 1.05, transition: { duration: 0.2 } },
 };
 
+const StyledRadio = styled(Radio)({
+  color: "rgba(255, 255, 255, 0.5)",
+  "&.Mui-checked": {
+    color: "#E87811",
+  },
+});
+
+const StyledRadioLabel = styled(Typography)({
+  color: "white",
+  fontSize: "0.95rem",
+});
 export default function Home() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [menuOpen, setMenuOpen] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -393,10 +514,21 @@ export default function Home() {
     service: "",
     budget: "",
     details: "",
+    role: "founder",
   });
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
+  };
+
+  const toggleDrawer = (open) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+    setDrawerOpen(open);
   };
 
   const handleChange = (e) => {
@@ -415,7 +547,7 @@ export default function Home() {
           initial="hidden"
           animate="visible"
           variants={navbarAnimation}
-        >
+         >
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -447,7 +579,7 @@ export default function Home() {
           </motion.div>
 
           {/* Desktop Navigation */}
-          <StyledNavItems sx={{ justifyContent: "center", flex: "1" }}>
+          {/* <StyledNavItems sx={{ justifyContent: "center", flex: "1" }}>
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -473,7 +605,7 @@ export default function Home() {
                 <ExpandMoreIcon style={{ fontSize: 16, marginLeft: 4 }} />
               </StyledNavLink>
             </motion.div>
-          </StyledNavItems>
+          </StyledNavItems> */}
 
           {/* Mobile Menu Icon */}
           <StyledMobileMenu>
@@ -482,11 +614,79 @@ export default function Home() {
               transition={{ duration: 0.3 }}
             >
               <MenuIcon
-                style={{ color: "white", fontSize: "24px", cursor: "pointer" }}
-                onClick={toggleMenu}
+                style={{ color: "white", fontSize: "24px", cursor: "pointer", marginRight: "8px" }}
+                onClick={toggleDrawer(true)}
               />
             </motion.div>
           </StyledMobileMenu>
+
+          {/* Mobile Drawer */}
+          <StyledDrawer
+            anchor="right"
+            open={drawerOpen}
+            onClose={toggleDrawer(false)}
+           >
+            <StyledDrawerHeader>
+              <Box display="flex" alignItems="center">
+                <Image
+                  src="/logo.png"
+                  alt="Logo"
+                  width={35}
+                  height={35}
+                  style={{ marginRight: "8px" }}
+                />
+                <Typography
+                  variant="h6"
+                  style={{
+                    background: "linear-gradient(90deg, #E87811 0%, white 200%)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                    color: "transparent",
+                    fontWeight: 600,
+                    fontSize: "1.1rem",
+                  }}
+                >
+                  MyFounders.Club
+                </Typography>
+              </Box>
+              <IconButton
+                onClick={toggleDrawer(false)}
+                sx={{ color: "white", padding: "8px" }}
+              >
+                <CloseIcon />
+              </IconButton>
+            </StyledDrawerHeader>
+            
+            <Divider sx={{ backgroundColor: "rgba(255,255,255,0.1)", my: 1 }} />
+            
+            {/* <StyledDrawerList>
+              <StyledDrawerItem>
+                <StyledDrawerLink>
+                  Founders
+                </StyledDrawerLink>
+              </StyledDrawerItem>
+              <StyledDrawerItem>
+                <StyledDrawerLink>
+                  Investors
+                </StyledDrawerLink>
+              </StyledDrawerItem>
+              <StyledDrawerItem>
+                <StyledDrawerLink>
+                  Partners <ExpandMoreIcon style={{ fontSize: 20, marginLeft: 4 }} />
+                </StyledDrawerLink>
+              </StyledDrawerItem>
+            </StyledDrawerList> */}
+            
+            <Box sx={{ mt: 3, px: 1 }}>
+              <StyledDrawerButton
+                disableRipple
+                endIcon={<ArrowOutwardIcon style={{ fontSize: 16 }} />}
+              >
+                Join
+              </StyledDrawerButton>
+            </Box>
+          </StyledDrawer>
 
           {/* Button on right side */}
           <StyledNavButtonContainer
@@ -497,7 +697,7 @@ export default function Home() {
             variants={buttonHover}
           >
             <StyledTalkButton
-              href="/pages/join"
+              // href="/pages/NewJoin"
               disableRipple
               endIcon={
                 <ArrowOutwardIcon style={{ fontSize: 14, marginLeft: 4 }} />
@@ -547,9 +747,93 @@ export default function Home() {
             custom={3}
           >
             <form>
-              <StyledFormRow>
+              {/* New Radio Options Section */}
+              <StyledFormRow sx={{ marginBottom: "30px" }}>
                 <StyledFormField>
-                  <StyledInputLabel>Name *</StyledInputLabel>
+                  {/* <StyledInputLabel sx={{ fontSize: "1.1rem", marginBottom: "32px" }}>I am a </StyledInputLabel> */}
+                  <RadioGroup
+                    row
+                    name="role"
+                    value={formData.role}
+                    onChange={handleChange}
+                    sx={{ marginTop: "12px" }}
+                  >
+                    <FormControlLabel
+                      value="founder"
+                      control={
+                        <Radio
+                          sx={{
+                            color: "rgba(255, 255, 255, 0.5)",
+                            "&.Mui-checked": {
+                              color: "#E87811",
+                            },
+                            '& .MuiSvgIcon-root': {
+                              fontSize: 24,
+                            },
+                          }}
+                        />
+                      }
+                      label={
+                        <Typography
+                          sx={{ color: "white", fontSize: "1.1rem" }}
+                        >
+                          Founder
+                        </Typography>
+                      }
+                    />
+                    <FormControlLabel
+                      value="investor"
+                      control={
+                        <Radio
+                          sx={{
+                            color: "rgba(255, 255, 255, 0.5)",
+                            "&.Mui-checked": {
+                              color: "#E87811",
+                            },
+                            '& .MuiSvgIcon-root': {
+                              fontSize: 24,
+                            },
+                          }}
+                        />
+                      }
+                      label={
+                        <Typography
+                          sx={{ color: "white", fontSize: "1.1rem" }}
+                        >
+                          Investor
+                        </Typography>
+                      }
+                    />
+                    <FormControlLabel
+                      value="partner"
+                      control={
+                        <Radio
+                          sx={{
+                            color: "rgba(255, 255, 255, 0.5)",
+                            "&.Mui-checked": {
+                              color: "#E87811",
+                            },
+                            '& .MuiSvgIcon-root': {
+                              fontSize: 24,
+                            },
+                          }}
+                        />
+                      }
+                      label={
+                        <Typography
+                          sx={{ color: "white", fontSize: "1.1rem" }}
+                        >
+                          Partner
+                        </Typography>
+                      }
+                    />
+                  </RadioGroup>
+                </StyledFormField>
+              </StyledFormRow>
+
+              <StyledFormRow sx={{ marginBottom: "80px" }}>
+                <StyledFormField>
+                  <StyledInputLabel sx={{ fontSize: "1.1rem", marginBottom: "12px" }}>Name *</StyledInputLabel>
                   <StyledTextField
                     variant="standard"
                     name="name"
@@ -557,10 +841,21 @@ export default function Home() {
                     fullWidth
                     onChange={handleChange}
                     value={formData.name}
+                    InputProps={{
+                      style: { fontSize: '1.1rem', paddingBottom: '8px' },
+                    }}
+                    sx={{
+                      '& .MuiInputBase-root': {
+                        fontSize: '1.1rem',
+                      },
+                      '& .MuiInputBase-input::placeholder': {
+                        fontSize: '1.1rem',
+                      },
+                    }}
                   />
                 </StyledFormField>
                 <StyledFormField>
-                  <StyledInputLabel>Email *</StyledInputLabel>
+                  <StyledInputLabel sx={{ fontSize: "1.1rem", marginBottom: "12px" }}>Email *</StyledInputLabel>
                   <StyledTextField
                     variant="standard"
                     name="email"
@@ -568,13 +863,25 @@ export default function Home() {
                     fullWidth
                     onChange={handleChange}
                     value={formData.email}
+                    InputProps={{
+                      style: { fontSize: '1.1rem', paddingBottom: '8px' },
+                    }}
+                    sx={{
+                      '& .MuiInputBase-root': {
+                        fontSize: '1.1rem',
+                      },
+                      '& .MuiInputBase-input::placeholder': {
+                        fontSize: '1.1rem',
+                      },
+                    }}
                   />
                 </StyledFormField>
               </StyledFormRow>
 
-              <StyledFormRow>
+              {/* Rest of the form remains unchanged */}
+              <StyledFormRow sx={{ marginBottom: "80px" }}>
                 <StyledFormField>
-                  <StyledInputLabel>Company Name *</StyledInputLabel>
+                  <StyledInputLabel sx={{ fontSize: "1.1rem", marginBottom: "12px" }}>Company Name *</StyledInputLabel>
                   <StyledTextField
                     variant="standard"
                     name="company"
@@ -582,13 +889,24 @@ export default function Home() {
                     fullWidth
                     onChange={handleChange}
                     value={formData.company}
+                    InputProps={{
+                      style: { fontSize: '1.1rem', paddingBottom: '8px' },
+                    }}
+                    sx={{
+                      '& .MuiInputBase-root': {
+                        fontSize: '1.1rem',
+                      },
+                      '& .MuiInputBase-input::placeholder': {
+                        fontSize: '1.1rem',
+                      },
+                    }}
                   />
                 </StyledFormField>
               </StyledFormRow>
 
-              <StyledFormRow>
+              <StyledFormRow sx={{ marginBottom: "80px" }}>
                 <StyledFormField>
-                  <StyledInputLabel>Select Service *</StyledInputLabel>
+                  <StyledInputLabel sx={{ fontSize: "1.1rem", marginBottom: "12px" }}>Select Service *</StyledInputLabel>
                   <StyledTextField
                     select
                     variant="standard"
@@ -596,6 +914,28 @@ export default function Home() {
                     fullWidth
                     onChange={handleChange}
                     value={formData.service}
+                    InputProps={{
+                      style: { fontSize: '1.1rem', paddingBottom: '8px' },
+                    }}
+                    SelectProps={{
+                      MenuProps: {
+                        PaperProps: {
+                          sx: {
+                            '& .MuiMenuItem-root': {
+                              fontSize: '1.1rem',
+                            },
+                          },
+                        },
+                      },
+                    }}
+                    sx={{
+                      '& .MuiInputBase-root': {
+                        fontSize: '1.1rem',
+                      },
+                      '& .MuiSelect-select': {
+                        fontSize: '1.1rem',
+                      },
+                    }}
                   >
                     <MenuItem value="">Select Your Service</MenuItem>
                     <MenuItem value="web">Web Development</MenuItem>
@@ -604,7 +944,7 @@ export default function Home() {
                   </StyledTextField>
                 </StyledFormField>
                 <StyledFormField>
-                  <StyledInputLabel>Project Budget *</StyledInputLabel>
+                  <StyledInputLabel sx={{ fontSize: "1.1rem", marginBottom: "12px" }}>Project Budget *</StyledInputLabel>
                   <StyledTextField
                     select
                     variant="standard"
@@ -612,6 +952,28 @@ export default function Home() {
                     fullWidth
                     onChange={handleChange}
                     value={formData.budget}
+                    InputProps={{
+                      style: { fontSize: '1.1rem', paddingBottom: '8px' },
+                    }}
+                    SelectProps={{
+                      MenuProps: {
+                        PaperProps: {
+                          sx: {
+                            '& .MuiMenuItem-root': {
+                              fontSize: '1.1rem',
+                            },
+                          },
+                        },
+                      },
+                    }}
+                    sx={{
+                      '& .MuiInputBase-root': {
+                        fontSize: '1.1rem',
+                      },
+                      '& .MuiSelect-select': {
+                        fontSize: '1.1rem',
+                      },
+                    }}
                   >
                     <MenuItem value="">Select Your Range</MenuItem>
                     <MenuItem value="small">$5,000 - $10,000</MenuItem>
@@ -621,25 +983,34 @@ export default function Home() {
                 </StyledFormField>
               </StyledFormRow>
 
-              <StyledFormRow>
+              <StyledFormRow sx={{ marginBottom: "35px" }}>
                 <StyledFormField>
-                  <StyledInputLabel>Project Details</StyledInputLabel>
+                  <StyledInputLabel sx={{ fontSize: "1.1rem", marginBottom: "12px" }}>Project Details</StyledInputLabel>
                   <StyledTextArea
                     name="details"
                     placeholder="Tell us more about your project"
                     minRows={1}
                     onChange={handleChange}
                     value={formData.details}
+                    style={{
+                      fontSize: '1.1rem',
+                      padding: '10px 0',
+                      minHeight: '100px',
+                    }}
                   />
                 </StyledFormField>
               </StyledFormRow>
 
-              <StyledSubmitContainer>
-                <StyledSubmitButton>
+              <StyledSubmitContainer sx={{ marginTop: "40px" }}>
+                <StyledSubmitButton style={{
+                  padding: '16px 30px',
+                  fontSize: '1.15rem',
+                  fontWeight: '500',
+                }}>
                   Submit{" "}
-                  <ArrowOutwardIcon style={{ fontSize: 16, marginLeft: 4 }} />
+                  <ArrowOutwardIcon style={{ fontSize: 18, marginLeft: 6 }} />
                 </StyledSubmitButton>
-                <StyledContactNote>
+                <StyledContactNote sx={{ fontSize: '1.15rem' }}>
                   We will contact you within 24 business hours.
                 </StyledContactNote>
               </StyledSubmitContainer>
@@ -671,7 +1042,7 @@ export default function Home() {
               <StyledContactIcon>
                 <span style={{ fontSize: "20px" }}>
                   <CallIcon />
-                </span>
+                  </span>
               </StyledContactIcon>
               <StyledContactTitle>Phone</StyledContactTitle>
               <StyledContactDetail>
@@ -695,7 +1066,7 @@ export default function Home() {
               </StyledContactDetail>
             </StyledContactInfoItem>
           </StyledContactInfoSection>
-      {/* <Joinfaq />
+          {/* <Joinfaq />
       <JoinFooter /> */}
         </StyledContent>
       </StyledRoot>

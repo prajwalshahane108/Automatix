@@ -101,7 +101,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundImage:
       "radial-gradient(circle, rgba(75, 75, 75, 0.1) 1px, transparent 1px)",
     backgroundSize: "20px 20px",
-    minHeight: "100vh",
+    minHeight: "110vh",
     width: "100%",
     display: "flex",
     flexDirection: "column",
@@ -109,6 +109,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     padding: "10px 20px",
     position: "relative",
+    overflow: "hidden", // Prevent flash of white background
     "@media (max-width: 1200px)": {
       padding: "30px 20px",
     },
@@ -257,7 +258,7 @@ const useStyles = makeStyles((theme) => ({
   },
   downArrow: {
     color: "#E87811",
-    fontSize: "60px",
+    fontSize: "120px",
     "@media (max-width: 1200px)": {
       fontSize: "50px",
     },
@@ -289,7 +290,8 @@ function MissionSection() {
     }
   }, [controls, inView]);
 
-  const containerVariants = {
+  // We'll only apply animation to the content, not the container
+  const contentVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -300,7 +302,7 @@ function MissionSection() {
     },
   };
 
-  const itemVariants = {
+  const lineVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
@@ -319,7 +321,7 @@ function MissionSection() {
       scale: 1,
       transition: {
         duration: 0.5,
-        delay: 2.2, // Delay button animation until after text
+        delay: 1.8, // Adjusted delay to come after all text animations
       },
     },
     hover: {
@@ -334,7 +336,7 @@ function MissionSection() {
     visible: {
       opacity: 1,
       transition: {
-        delay: 2.7,
+        delay: 2.0, // Adjusted delay
         duration: 0.5,
       },
     },
@@ -349,12 +351,76 @@ function MissionSection() {
     },
   };
 
+  // Sequential line animation with appropriate delays
+  const line1Variants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+        delay: 0.1, // First line appears immediately
+      },
+    },
+  };
+
+  const line2Variants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+        delay: 0.5, // Second line appears after first
+      },
+    },
+  };
+
+  const line3Variants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+        delay: 0.9, // Third line appears after second
+      },
+    },
+  };
+
+  const line4Variants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+        delay: 1.3, // Fourth line appears after third
+      },
+    },
+  };
+
+  const descriptionVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+        delay: 1.7, // Description appears after all heading lines
+      },
+    },
+  };
+
   return (
-    <MotionBox
-      ref={ref}
-      initial="hidden"
-      animate={controls}
-      variants={containerVariants}
+    // Main container is NOT animated to prevent background flash
+    <Box
+      className={classes.root}
       sx={{
         height: {
           xs: "auto",
@@ -364,29 +430,27 @@ function MissionSection() {
         },
         minHeight: "100vh",
         py: { xs: 8, sm: 10, md: 12, lg: 0 },
+        backgroundColor: "black", // Ensure background is black
       }}
-      className={classes.root}
     >
       <Container className={classes.contentContainer}>
+        {/* Only content is animated and observed for inView */}
         <MotionBox
+          ref={ref}
+          initial="hidden"
+          animate={controls}
+          variants={contentVariants}
           className={classes.headingContainer}
-          variants={containerVariants}
         >
-          <MotionTypography
-            variants={itemVariants}
-            className={`${classes.headingLine} ${classes.orangeText}`}
-          >
-            {/* Orange heading is commented out in your changes */}
-          </MotionTypography>
-
+          {/* Sequential Line Animation */}
           <MotionBox
             className={classes.questionSpacing}
-            variants={itemVariants}
+            variants={line1Variants}
           >
             <AnimatedWords
               text={`We Empower Startups ${!isMobile ? "" : "\n"} With`}
               className={`${classes.headingLine} ${classes.whiteText}`}
-              delay={0.5}
+              delay={0.1}
               staggerChildren={0.03}
               highlightWords={["Startups"]}
             />
@@ -394,14 +458,14 @@ function MissionSection() {
 
           <MotionBox
             className={classes.questionSpacing}
-            variants={itemVariants}
+            variants={line2Variants}
           >
             <AnimatedWords
               text={`Co-founders, MVPs, Venture ${
                 !isMobile ? "" : "\n"
               } Building,`}
               className={`${classes.headingLine} ${classes.whiteText}`}
-              delay={1.1}
+              delay={0.1}
               staggerChildren={0.03}
               highlightWords={["MVPs,"]}
             />
@@ -409,12 +473,12 @@ function MissionSection() {
 
           <MotionBox
             className={classes.questionSpacing}
-            variants={itemVariants}
+            variants={line3Variants}
           >
             <AnimatedWords
               text={`Smart Investments, And ${!isMobile ? "" : "\n"} Effective`}
               className={`${classes.headingLine} ${classes.whiteText}`}
-              delay={1.7}
+              delay={0.1}
               staggerChildren={0.03}
               highlightWords={[]}
             />
@@ -422,36 +486,37 @@ function MissionSection() {
 
           <MotionBox
             className={classes.questionSpacing}
-            variants={itemVariants}
+            variants={line4Variants}
           >
             <AnimatedWords
               text={`Bootstrapping ${!isMobile ? "" : "\n"} Strategies.`}
               className={`${classes.headingLine} ${classes.whiteText}`}
-              delay={2.3}
+              delay={0.1}
               staggerChildren={0.03}
               highlightWords={["Bootstrapping"]}
             />
           </MotionBox>
         </MotionBox>
-
+        {/* Description section with proper delay */}
         <MotionTypography
-          variants={itemVariants}
+          variants={descriptionVariants}
           className={classes.description}
         >
           <AnimatedWords
             text="First impressions matter. That's why our mission is to create clean, enduring"
-            delay={2.6}
+            delay={0.1}
             staggerChildren={0.01}
             highlightWords={[]}
           />
           <AnimatedWords
             text="designs that elevate. First impressions matter. That's why our mission."
-            delay={2.8}
+            delay={0.2}
             staggerChildren={0.01}
             highlightWords={[]}
           />
         </MotionTypography>
 
+        {/* Button appears after all text animations */}
         <MotionButton
           className={classes.callButton}
           endIcon={<ArrowOutwardIcon className={classes.buttonIcon} />}
@@ -468,12 +533,14 @@ function MissionSection() {
           <MotionIcon
             className={classes.downArrow}
             variants={arrowVariants}
+            animate={controls}
             initial="hidden"
-            animate={["visible", "bounce"]}
+            whileInView={["visible", "bounce"]}
+            viewport={{ once: true }}
           />
         </Box>
       </Container>
-    </MotionBox>
+    </Box>
   );
 }
 

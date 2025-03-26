@@ -7,7 +7,6 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  Container,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -19,6 +18,14 @@ const MotionBox = motion(Box);
 const MotionTypography = motion(Typography);
 const MotionAccordion = motion(Accordion);
 const MotionExpandMoreIcon = motion(ExpandMoreIcon);
+
+// Section wrapper to contain the black background within this component
+const SectionWrapper = styled('div')({
+  backgroundColor: "black",
+  width: "100%",
+  isolation: "isolate", // Creates a new stacking context
+  position: "relative",
+});
 
 // Styled components
 const RootBox = styled(MotionBox)(({ theme }) => ({
@@ -34,6 +41,7 @@ const RootBox = styled(MotionBox)(({ theme }) => ({
   padding: "60px 20px",
 }));
 
+// Rest of your styled components remain unchanged
 const SectionTag = styled(MotionTypography)({
   color: "rgba(255, 255, 255, 0.5)",
   backgroundColor: "rgb(0, 0, 0)",
@@ -114,7 +122,7 @@ function FAQSection() {
     setExpanded(isExpanded ? panel : false);
   };
 
-  // Animation variants
+  // Animation variants remain unchanged
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -194,78 +202,80 @@ function FAQSection() {
   ];
 
   return (
-    <RootBox 
-      ref={ref}
-      initial="hidden"
-      animate={controls}
-      variants={containerVariants}
-    >
-      <SectionTag 
-        variant="body1" 
-        variants={itemVariants}
-      >
-        Need to Know
-      </SectionTag>
-
-      <SectionTitle 
-        variant="h2" 
-        variants={itemVariants}
-      >
-        Frequently Asked Questions
-      </SectionTitle>
-
-      <FaqContainer 
+    <SectionWrapper>
+      <RootBox 
+        ref={ref}
+        initial="hidden"
+        animate={controls}
         variants={containerVariants}
       >
-        {faqItems.map((item, index) => (
-          <StyledAccordion
-            key={item.id}
-            expanded={expanded === item.id}
-            onChange={handleChange(item.id)}
-            disableGutters
-            elevation={0}
-            custom={index}
-            variants={accordionVariants}
-            initial="hidden"
-            animate="visible"
-            whileHover={{ 
-              backgroundColor: "rgba(255, 255, 255, 0.03)",
-              transition: { duration: 0.2 } 
-            }}
-          >
-            <StyledAccordionSummary
-              expandIcon={
-                <StyledExpandIcon 
-                  animate={expanded === item.id ? "expanded" : "collapsed"}
-                  variants={expandIconVariants}
-                  transition={{ duration: 0.3 }}
-                />
-              }
-              aria-controls={`${item.id}-content`}
-              id={`${item.id}-header`}
+        <SectionTag 
+          variant="body1" 
+          variants={itemVariants}
+        >
+          Need to Know
+        </SectionTag>
+
+        <SectionTitle 
+          variant="h2" 
+          variants={itemVariants}
+        >
+          Frequently Asked Questions
+        </SectionTitle>
+
+        <FaqContainer 
+          variants={containerVariants}
+        >
+          {faqItems.map((item, index) => (
+            <StyledAccordion
+              key={item.id}
+              expanded={expanded === item.id}
+              onChange={handleChange(item.id)}
+              disableGutters
+              elevation={0}
+              custom={index}
+              variants={accordionVariants}
+              initial="hidden"
+              animate="visible"
+              whileHover={{ 
+                backgroundColor: "rgba(255, 255, 255, 0.03)",
+                transition: { duration: 0.2 } 
+              }}
             >
-              <QuestionTypography 
-                animate={{ 
-                  color: expanded === item.id ? "#FF5B23" : "rgba(255, 255, 255, 0.7)" 
-                }}
-                transition={{ duration: 0.3 }}
+              <StyledAccordionSummary
+                expandIcon={
+                  <StyledExpandIcon 
+                    animate={expanded === item.id ? "expanded" : "collapsed"}
+                    variants={expandIconVariants}
+                    transition={{ duration: 0.3 }}
+                  />
+                }
+                aria-controls={`${item.id}-content`}
+                id={`${item.id}-header`}
               >
-                {item.question}
-              </QuestionTypography>
-            </StyledAccordionSummary>
-            <AccordionDetails>
-              <motion.div
-                initial="collapsed"
-                animate={expanded === item.id ? "expanded" : "collapsed"}
-                variants={answerVariants}
-              >
-                <AnswerTypography>{item.answer}</AnswerTypography>
-              </motion.div>
-            </AccordionDetails>
-          </StyledAccordion>
-        ))}
-      </FaqContainer>
-    </RootBox>
+                <QuestionTypography 
+                  animate={{ 
+                    color: expanded === item.id ? "#FF5B23" : "rgba(255, 255, 255, 0.7)" 
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {item.question}
+                </QuestionTypography>
+              </StyledAccordionSummary>
+              <AccordionDetails>
+                <motion.div
+                  initial="collapsed"
+                  animate={expanded === item.id ? "expanded" : "collapsed"}
+                  variants={answerVariants}
+                >
+                  <AnswerTypography>{item.answer}</AnswerTypography>
+                </motion.div>
+              </AccordionDetails>
+            </StyledAccordion>
+          ))}
+        </FaqContainer>
+      </RootBox>
+    </SectionWrapper>
   );
 }
 
